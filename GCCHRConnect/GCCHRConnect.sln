@@ -1,11 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GCCHRConnect_Visual", "GCCHRConnect\GCCHRConnect_Visual.csproj", "{ADE0DC30-44A7-4B47-B6BC-9CAF387D1A7E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GCCHRMachinery", "GCCHRMachinery\GCCHRMachinery.csproj", "{6230DD14-FACB-4060-8E2B-82DF38C53441}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GCCHRMachineryTest", "GCCHRMachineryTest\GCCHRMachineryTest.csproj", "{C1DF732F-2470-49AC-A3B3-F5ACD3962487}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{6230DD14-FACB-4060-8E2B-82DF38C53441}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6230DD14-FACB-4060-8E2B-82DF38C53441}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6230DD14-FACB-4060-8E2B-82DF38C53441}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C1DF732F-2470-49AC-A3B3-F5ACD3962487}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C1DF732F-2470-49AC-A3B3-F5ACD3962487}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C1DF732F-2470-49AC-A3B3-F5ACD3962487}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C1DF732F-2470-49AC-A3B3-F5ACD3962487}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
