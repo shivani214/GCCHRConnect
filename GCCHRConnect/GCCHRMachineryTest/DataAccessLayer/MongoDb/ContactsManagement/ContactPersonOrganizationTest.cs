@@ -14,23 +14,33 @@ namespace GCCHRMachineryTest.DataAccessLayer.MongoDb
         {
             ContactPersonOrganization contactToCreate = new ContactPersonOrganization();
             //contactToCreate.Id = "Try#7";
-            UniversalEntities.PersonName name;
-            name.Title = "Dr.";
-            name.First = "Gaurang";
-            name.Middle = "Friend";
-            name.Last = "Gupta";
-            contactToCreate.Name = name;
+            contactToCreate.Name = new UniversalEntities.PersonName();
+            //UniversalEntities.PersonName name;
+            contactToCreate.Name.Title = "Dr.";
+            contactToCreate.Name.First = "Gaurang";
+            contactToCreate.Name.Middle = "Friend";
+            contactToCreate.Name.Last = "Gupta";
 
             contactToCreate.Addresses = new List<UniversalEntities.Address>();
-            UniversalEntities.Address address;
-            address.Line1 = "Lucknow";
-            address.Line2 = "Lucknow";
-            address.Line3 = "Lucknow";
-            address.City = "Lucknow";
-            address.PinCode = "226021";
-            address.State = "UP";
-            address.Country= "Country";
-            contactToCreate.Addresses.Add(address);
+            UniversalEntities.Address address1 = new UniversalEntities.Address();
+            address1.Line1 = "Lucknow";
+            address1.Line2 = "Lucknow";
+            address1.Line3 = "Lucknow";
+            address1.City = "Lucknow";
+            address1.PinCode = "226021";
+            address1.State = "UP";
+            address1.Country= "Country";
+            contactToCreate.Addresses.Add(address1);
+
+            UniversalEntities.Address address2 = new UniversalEntities.Address();
+            address2.Line1 = "Lucknow";
+            address2.Line2 = "Lucknow";
+            address2.Line3 = "Lucknow";
+            address2.City = "Lucknow";
+            address2.PinCode = "226021";
+            address2.State = "UP";
+            address2.Country = "Country";
+            contactToCreate.Addresses.Add(address2);
 
             contactToCreate.Phones = new List<string>();
             contactToCreate.Phones.Add("+915222326464");
@@ -55,7 +65,7 @@ namespace GCCHRMachineryTest.DataAccessLayer.MongoDb
         public void GetContact()
         {
             ContactPersonOrganization contact;
-            contact = ContactPersonOrganizationDB.GetContact("569b452249894919945f7ca7");
+            contact = ContactPersonOrganizationDB.GetContact("569b64cf49894904107c2680");
             System.Diagnostics.Debug.Write("<<<<<<<<<<<<<<<<<");
             System.Diagnostics.Debug.WriteLine(contact.Name.Title + " " + contact.Name.First);
         }
