@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UniversalEntities;
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace GCCHRMachinery.Entities
 {
@@ -11,9 +12,10 @@ namespace GCCHRMachinery.Entities
     {
         #region Fields
         public const string TableOrCollectionName = "Contacts";
-
-        public string Id { get; set; }
         #endregion
+
+        [BsonRepresentation(MongoDB.Bson.BsonType.ObjectId)]
+        public string Id { get; set; }
 
         public List<string> Tags { get; set; }
 

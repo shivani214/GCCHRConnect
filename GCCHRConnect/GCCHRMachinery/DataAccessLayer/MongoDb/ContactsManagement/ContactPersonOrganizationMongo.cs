@@ -24,5 +24,17 @@ namespace GCCHRMachinery.DataAccessLayer.MongoDb
             collection1.InsertOne(TestDoc);
             return newContact.Id;
         }
+
+        public static ContactPersonOrganization GetContact(string id)
+        {
+            ContactPersonOrganization contactToRetrieve;
+            MongoClient client = new MongoClient();
+            IMongoDatabase database = client.GetDatabase("GCCHRConnectDB");
+            IMongoCollection<ContactPersonOrganization> collection = database.GetCollection<ContactPersonOrganization>(ContactPersonOrganization.TableOrCollectionName);
+            var filterBuild = Builders<ContactPersonOrganization>.Filter;
+            var filter = filterBuild.Eq(c => c.Id, "569b452249894919945f7ca7");
+            contactToRetrieve = collection.Find(filter).Single();
+            return contactToRetrieve;
+        }
     }
 }
