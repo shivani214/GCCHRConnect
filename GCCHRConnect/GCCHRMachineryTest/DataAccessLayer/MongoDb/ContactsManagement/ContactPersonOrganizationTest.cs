@@ -13,6 +13,7 @@ namespace GCCHRMachineryTest.DataAccessLayer.MongoDb
         public void CreateContactTest()
         {
             ContactPersonOrganization contactToCreate = new ContactPersonOrganization();
+            contactToCreate.Id = "Try#6";
             UniversalEntities.PersonName name;
             name.Title = "Dr.";
             name.First = "Gaurang";
@@ -31,31 +32,19 @@ namespace GCCHRMachineryTest.DataAccessLayer.MongoDb
             address.Country= "Country";
             contactToCreate.Addresses.Add(address);
 
-            contactToCreate.Phones = new List<UniversalEntities.Phone>();
-            UniversalEntities.Phone phone1;
-            phone1.CountryCode = "+91";
-            phone1.StdCode = "0522";
-            phone1.Number = "2326464";
-            contactToCreate.Phones.Add(phone1);
+            contactToCreate.Phones = new List<string>();
+            contactToCreate.Phones.Add("+915222326464");
+            contactToCreate.Phones.Add("+915222326565");
+            contactToCreate.Phones.Add("+915224060310");
 
-            UniversalEntities.Phone phone2;
-            phone2.CountryCode = "+91";
-            phone2.StdCode = "0522";
-            phone2.Number = "2326565";
-            contactToCreate.Phones.Add(phone2);
+            contactToCreate.Mobiles = new List<string>();
+            contactToCreate.Mobiles.Add("+919005120111");
+            contactToCreate.Mobiles.Add("+919919992181");
 
-            contactToCreate.Emails = new List<UniversalEntities.Email>();
-            UniversalEntities.Email email1;
-            email1.EmailAddress = "gaurangfgupta@gmail.com";
-            contactToCreate.Emails.Add(email1);
-
-            UniversalEntities.Email email2;
-            email2.EmailAddress = "gaurang_gupta@hotmail.com";
-            contactToCreate.Emails.Add(email2);
-
-            UniversalEntities.Email email3;
-            email3.EmailAddress = "gaurang_gupta@yahoo.com";
-            contactToCreate.Emails.Add(email3);
+            contactToCreate.Emails = new List<string>();
+            contactToCreate.Emails.Add("gaurangfgupta@gmail.com");
+            contactToCreate.Emails.Add("gaurang_gupta@hotmail.com");
+            contactToCreate.Emails.Add("gaurang_gupta@yahoo.com");
 
             string idOfNewContact = ContactPersonOrganizationDB.CreateContact(contactToCreate);
             System.Diagnostics.Debug.Write("<<<<<<<<<<<<<<<<<");

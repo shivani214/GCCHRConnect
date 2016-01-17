@@ -11,9 +11,9 @@ namespace GCCHRMachinery.Entities
     {
         #region Fields
         public const string TableOrCollectionName = "Contacts";
+        #endregion
 
         public string Id { get; set; }
-        #endregion
 
         public List<string> Tags { get; set; }
 
