@@ -13,7 +13,7 @@ namespace GCCHRMachineryTest.DataAccessLayer.MongoDb
         public void CreateContactTest()
         {
             ContactPersonOrganization contactToCreate = new ContactPersonOrganization();
-            contactToCreate.Id = "Try#6";
+            //contactToCreate.Id = "Try#7";
             UniversalEntities.PersonName name;
             name.Title = "Dr.";
             name.First = "Gaurang";
