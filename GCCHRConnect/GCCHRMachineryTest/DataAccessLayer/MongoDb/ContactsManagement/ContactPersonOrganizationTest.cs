@@ -50,5 +50,14 @@ namespace GCCHRMachineryTest.DataAccessLayer.MongoDb
             System.Diagnostics.Debug.Write("<<<<<<<<<<<<<<<<<");
             System.Diagnostics.Debug.WriteLine(idOfNewContact);
         }
+
+        [TestMethod]
+        public void GetContact()
+        {
+            ContactPersonOrganization contact;
+            contact = ContactPersonOrganizationDB.GetContact("569b452249894919945f7ca7");
+            System.Diagnostics.Debug.Write("<<<<<<<<<<<<<<<<<");
+            System.Diagnostics.Debug.WriteLine(contact.Name.Title + " " + contact.Name.First);
+        }
     }
 }
