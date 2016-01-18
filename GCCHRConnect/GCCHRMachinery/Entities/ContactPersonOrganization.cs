@@ -23,7 +23,19 @@ namespace GCCHRMachinery.Entities
         public override string ToString()
         {
             StringBuilder contact = new StringBuilder();
-            contact.AppendFormat("Name: {0} {1} {2} {3}", this.Name.Title, this.Name.First , this.Name.Middle , this.Name.Last);
+            int i = 1;
+            contact.AppendFormat("Name: {0} {1} {2} {3}", Name.Title, Name.First, Name.Middle, Name.Last);
+            contact.AppendLine();
+            if (Tags != null)
+            {
+                contact.AppendLine(" Tags:");
+                foreach (string tag in Tags)
+                {
+                    contact.AppendFormat("{0}. {1}", i++, tag);
+                    contact.AppendLine();
+                }
+            }
+            contact.AppendLine("*****************");
             return contact.ToString();
         }
         #endregion
