@@ -32,9 +32,21 @@ namespace GCCHRMachinery.DataAccessLayer.MongoDb
             IMongoDatabase database = client.GetDatabase("GCCHRConnectDB");
             IMongoCollection<ContactPersonOrganization> collection = database.GetCollection<ContactPersonOrganization>(ContactPersonOrganization.TableOrCollectionName);
             var filterBuild = Builders<ContactPersonOrganization>.Filter;
-            var filter = filterBuild.Eq(c => c.Id, "569b452249894919945f7ca7");
+            var filter = filterBuild.Eq(c => c.Id, id);
             contactToRetrieve = collection.Find(filter).Single();
             return contactToRetrieve;
+        }
+
+        public static List<ContactPersonOrganization> GetAllContacts()
+        {
+            List<ContactPersonOrganization> allContacts;
+            MongoClient client = new MongoClient();
+            IMongoDatabase database = client.GetDatabase("GCCHRConnectDB");
+            IMongoCollection<ContactPersonOrganization> collection = database.GetCollection<ContactPersonOrganization>(ContactPersonOrganization.TableOrCollectionName);
+            var filterBuild = Builders<ContactPersonOrganization>.Filter;
+            var filter = filterBuild.Empty;
+            allContacts= collection.Find(filter).ToList();
+            return allContacts;
         }
     }
 }

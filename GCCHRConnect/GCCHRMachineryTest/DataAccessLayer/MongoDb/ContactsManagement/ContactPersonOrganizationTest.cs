@@ -10,7 +10,7 @@ namespace GCCHRMachineryTest.DataAccessLayer.MongoDb
     public class ContactPersonOrganizationDB_Test
     {
         [TestMethod]
-        public void CreateContactTest()
+        public void CreateContact()
         {
             ContactPersonOrganization contactToCreate = new ContactPersonOrganization();
             //contactToCreate.Id = "Try#7";
@@ -65,9 +65,20 @@ namespace GCCHRMachineryTest.DataAccessLayer.MongoDb
         public void GetContact()
         {
             ContactPersonOrganization contact;
-            contact = ContactPersonOrganizationDB.GetContact("569b64cf49894904107c2680");
+            contact = ContactPersonOrganizationDB.GetContact("569c93c44989491f542704c2");
             System.Diagnostics.Debug.Write("<<<<<<<<<<<<<<<<<");
+            System.Diagnostics.Debug.WriteLine(contact.ToString());
             System.Diagnostics.Debug.WriteLine(contact.Name.Title + " " + contact.Name.First);
+        }
+
+        [TestMethod]
+        public void GetAllContacts()
+        {
+            List<ContactPersonOrganization> allContacts = ContactPersonOrganizationDB.GetAllContacts();
+            foreach (ContactPersonOrganization contact in allContacts)
+            {
+                System.Diagnostics.Debug.WriteLine(contact.ToString());
+            }
         }
     }
 }

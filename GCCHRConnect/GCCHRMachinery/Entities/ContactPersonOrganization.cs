@@ -20,7 +20,13 @@ namespace GCCHRMachinery.Entities
         public List<string> Tags { get; set; }
 
         #region Constructors and Methods
-        
+        public override string ToString()
+        {
+            StringBuilder contact = new StringBuilder();
+            contact.Append("Name: ");
+            contact.AppendLine(this.Name.Title + this.Name.First + this.Name.Middle + this.Name.Last);
+            return contact.ToString();
+        }
         #endregion
     }
 

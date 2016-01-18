@@ -56,7 +56,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DataAccessLayer\MongoDb\ContactsManagement\ContactPersonOrganizationMongo.cs" />
+    <Compile Include="DataAccessLayer\MongoDb\ContactPersonOrganizationDB.cs" />
     <Compile Include="Entities\ContactPersonOrganization.cs" />
     <Compile Include="Entities\MaintainInMongoDb.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
