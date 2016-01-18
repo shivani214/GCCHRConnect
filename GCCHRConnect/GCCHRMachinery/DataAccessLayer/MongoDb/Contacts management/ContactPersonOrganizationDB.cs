@@ -17,11 +17,6 @@ namespace GCCHRMachinery.DataAccessLayer.MongoDb
             IMongoDatabase database = client.GetDatabase("GCCHRConnectDB");
             IMongoCollection<ContactPersonOrganization> collection = database.GetCollection<ContactPersonOrganization>(ContactPersonOrganization.TableOrCollectionName);
             collection.InsertOne(newContact);
-
-            IMongoDatabase database1 = client.GetDatabase("TestDB");
-            IMongoCollection<BsonDocument> collection1 = database1.GetCollection<BsonDocument>(ContactPersonOrganization.TableOrCollectionName);
-            BsonDocument TestDoc = new BsonDocument("SampleKey", 12);
-            collection1.InsertOne(TestDoc);
             return newContact.Id;
         }
 
