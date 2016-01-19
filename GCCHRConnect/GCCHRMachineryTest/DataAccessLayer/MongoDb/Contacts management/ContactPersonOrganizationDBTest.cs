@@ -7,7 +7,7 @@ using GCCHRMachinery.DataAccessLayer.MongoDb;
 namespace GCCHRMachineryTest.DataAccessLayer.MongoDb
 {
     [TestClass]
-    public class ContactPersonOrganizationDB_Test
+    public class ContactPersonOrganizationDBTest
     {
         [TestMethod]
         public void CreateContact()

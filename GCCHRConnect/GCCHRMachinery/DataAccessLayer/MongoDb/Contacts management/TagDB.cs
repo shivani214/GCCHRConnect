@@ -8,12 +8,15 @@ using System.Threading.Tasks;
 
 namespace GCCHRMachinery.DataAccessLayer.MongoDb
 {
-    class TagDB
+    public static class TagDB
     {
-        public string CreateTag(Tag tag)
+        public static string CreateTag(Entities.Tag tag)
         {
             MongoClient client = new MongoClient();
-
+            IMongoDatabase database = client.GetDatabase("GCCHRConnectDB");
+            IMongoCollection<Entities.Tag> collection = database.GetCollection<Entities.Tag>(Entities.Tag.TableOrCollectionName);
+            collection.InsertOne(tag);
+            return tag.Id;
         }
     }
 }

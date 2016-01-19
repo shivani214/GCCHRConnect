@@ -57,6 +57,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="DataAccessLayer\MongoDb\Contacts management\ContactPersonOrganizationDBTest.cs" />
+    <Compile Include="DataAccessLayer\MongoDb\Contacts management\TagDBTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
