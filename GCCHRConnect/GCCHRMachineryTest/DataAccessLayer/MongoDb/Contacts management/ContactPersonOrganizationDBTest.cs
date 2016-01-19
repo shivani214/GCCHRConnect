@@ -7,10 +7,10 @@ using GCCHRMachinery.DataAccessLayer.MongoDb;
 namespace GCCHRMachineryTest.DataAccessLayer.MongoDb
 {
     [TestClass]
-    public class ContactPersonOrganizationDB_Test
+    public class ContactPersonOrganizationDBTest
     {
         [TestMethod]
-        public void CreateContactTest()
+        public void CreateContact()
         {
             ContactPersonOrganization contactToCreate = new ContactPersonOrganization();
             //contactToCreate.Id = "Try#7";
@@ -56,6 +56,11 @@ namespace GCCHRMachineryTest.DataAccessLayer.MongoDb
             contactToCreate.Emails.Add("gaurang_gupta@hotmail.com");
             contactToCreate.Emails.Add("gaurang_gupta@yahoo.com");
 
+            contactToCreate.Tags = new List<string>();
+            contactToCreate.Tags.Add("Self");
+            contactToCreate.Tags.Add("Doctor");
+            contactToCreate.Tags.AddRange(new string[] { "Homoeopathic", "Relative" });
+
             string idOfNewContact = ContactPersonOrganizationDB.CreateContact(contactToCreate);
             System.Diagnostics.Debug.Write("<<<<<<<<<<<<<<<<<");
             System.Diagnostics.Debug.WriteLine(idOfNewContact);
@@ -65,9 +70,20 @@ namespace GCCHRMachineryTest.DataAccessLayer.MongoDb
         public void GetContact()
         {
             ContactPersonOrganization contact;
-            contact = ContactPersonOrganizationDB.GetContact("569b64cf49894904107c2680");
+            contact = ContactPersonOrganizationDB.GetContact("569c93c44989491f542704c2");
             System.Diagnostics.Debug.Write("<<<<<<<<<<<<<<<<<");
+            System.Diagnostics.Debug.WriteLine(contact.ToString());
             System.Diagnostics.Debug.WriteLine(contact.Name.Title + " " + contact.Name.First);
+        }
+
+        [TestMethod]
+        public void GetAllContacts()
+        {
+            List<ContactPersonOrganization> allContacts = ContactPersonOrganizationDB.GetAllContacts();
+            foreach (ContactPersonOrganization contact in allContacts)
+            {
+                System.Diagnostics.Debug.WriteLine(contact.ToString());
+            }
         }
     }
 }
