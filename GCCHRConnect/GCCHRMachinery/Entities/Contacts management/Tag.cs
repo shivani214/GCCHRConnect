@@ -17,5 +17,12 @@ namespace GCCHRMachinery.Entities
 
         [BsonRepresentation(MongoDB.Bson.BsonType.ObjectId)]
         public string Id { get; set; }
+
+        #region Constructors and methods
+        public override string ToString()
+        {
+            return string.Format("Id: {0}\tTag name: {1}", Id, TagName);
+        }
+        #endregion
     }
 }
