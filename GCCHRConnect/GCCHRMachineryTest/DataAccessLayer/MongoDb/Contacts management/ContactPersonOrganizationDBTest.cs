@@ -56,10 +56,10 @@ namespace GCCHRMachineryTest.DataAccessLayer.MongoDb
             contactToCreate.Emails.Add("gaurang_gupta@hotmail.com");
             contactToCreate.Emails.Add("gaurang_gupta@yahoo.com");
 
-            contactToCreate.Tags = new List<string>();
+            contactToCreate.Tags = new HashSet<string>();
             contactToCreate.Tags.Add("Self");
             contactToCreate.Tags.Add("Doctor");
-            contactToCreate.Tags.AddRange(new string[] { "Homoeopathic", "Relative" });
+            contactToCreate.Tags.Add("Doctor");
 
             string idOfNewContact = ContactPersonOrganizationDB.CreateContact(contactToCreate);
             System.Diagnostics.Debug.Write("<<<<<<<<<<<<<<<<<");

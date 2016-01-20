@@ -13,7 +13,7 @@ namespace GCCHRMachineryTest.DataAccessLayer.MongoDb.Contacts_management
         public void CreateTag()
         {
             Tag newTag = new Tag();
-            newTag.TagName= "Relative";
+            newTag.TagName= "Family";
             string IdofnewTag = TagDB.CreateTag(newTag);
             System.Diagnostics.Debug.Write("<<<<<<<<<<<<<<<<<");
             System.Diagnostics.Debug.WriteLine(IdofnewTag);

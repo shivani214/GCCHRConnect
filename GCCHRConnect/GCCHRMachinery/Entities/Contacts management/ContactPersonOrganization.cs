@@ -17,7 +17,7 @@ namespace GCCHRMachinery.Entities
         [BsonRepresentation(MongoDB.Bson.BsonType.ObjectId)]
         public string Id { get; set; }
 
-        public List<string> Tags { get; set; }
+        public HashSet<string> Tags { get; set; }
 
         #region Constructors and Methods
         public override string ToString()
