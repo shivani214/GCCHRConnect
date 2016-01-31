@@ -9,8 +9,15 @@ using MongoDB.Bson;
 
 namespace GCCHRMachinery.DataAccessLayer.MongoDb
 {
-    public static class ContactPersonOrganizationDB
+    public class ContactPersonOrganizationDB : MongoTask<ContactPersonOrganization>
     {
+        public ContactPersonOrganizationDB(string collectionName) : base(collectionName)
+        {
+
+        }
+
+
+
         public static string CreateContact(ContactPersonOrganization newContact)
         {
             MongoClient client = new MongoClient();
@@ -40,7 +47,7 @@ namespace GCCHRMachinery.DataAccessLayer.MongoDb
             IMongoCollection<ContactPersonOrganization> collection = database.GetCollection<ContactPersonOrganization>(ContactPersonOrganization.TableOrCollectionName);
             var filterBuild = Builders<ContactPersonOrganization>.Filter;
             var filter = filterBuild.Empty;
-            allContacts= collection.Find(filter).ToList();
+            allContacts = collection.Find(filter).ToList();
             return allContacts;
         }
     }

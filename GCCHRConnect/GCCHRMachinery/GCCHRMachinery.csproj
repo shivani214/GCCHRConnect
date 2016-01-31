@@ -58,9 +58,11 @@
   <ItemGroup>
     <Compile Include="DataAccessLayer\MongoDb\Contacts management\ContactPersonOrganizationDB.cs" />
     <Compile Include="DataAccessLayer\MongoDb\Contacts management\TagDB.cs" />
+    <Compile Include="DataAccessLayer\MongoDb\IMongoTask.cs" />
+    <Compile Include="DataAccessLayer\MongoDb\MongoConnector.cs" />
     <Compile Include="Entities\Contacts management\ContactPersonOrganization.cs" />
     <Compile Include="Entities\Contacts management\Tag.cs" />
-    <Compile Include="Entities\MaintainInMongoDb.cs" />
+    <Compile Include="Entities\IMongoEntity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utilities\Formatter.cs" />
   </ItemGroup>

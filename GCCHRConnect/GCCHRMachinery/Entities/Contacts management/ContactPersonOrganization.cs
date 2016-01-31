@@ -8,10 +8,18 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace GCCHRMachinery.Entities
 {
-    public class ContactPersonOrganization : Contact, IMaintainInMongoDb
+    public class ContactPersonOrganization : Contact, IMongoEntity
     {
         #region Fields
         public const string TableOrCollectionName = "Contacts";
+
+        public string CollectionName
+        {
+            get
+            {
+                return "Contacts";
+            }
+        }
         #endregion
 
         [BsonRepresentation(MongoDB.Bson.BsonType.ObjectId)]
