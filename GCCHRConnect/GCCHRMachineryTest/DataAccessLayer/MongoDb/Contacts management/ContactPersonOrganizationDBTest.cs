@@ -137,8 +137,14 @@ namespace GCCHRMachineryTest.DataAccessLayer.MongoDb
             contactToCreate.Tags.Add("Self");
             contactToCreate.Tags.Add("Doctor");
             contactToCreate.Tags.Add("Doctor");
+            
+            ContactPersonOrganizationDB db;
+            //Pro:
+            //The collectionName must be provided
+            db = new ContactPersonOrganizationDB(contactToCreate.CollectionName);
 
-            ContactPersonOrganizationDB db = new ContactPersonOrganizationDB(contactToCreate.CollectionName);
+            db.CollectionName = contactToCreate.CollectionName;
+
             string idOfNewContact = db.Create(contactToCreate);
             System.Diagnostics.Debug.Write("<<<<<<<<<<<<<<<<<");
             System.Diagnostics.Debug.WriteLine(idOfNewContact);

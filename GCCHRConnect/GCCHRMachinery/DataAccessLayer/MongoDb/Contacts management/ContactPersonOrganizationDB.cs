@@ -11,12 +11,12 @@ namespace GCCHRMachinery.DataAccessLayer.MongoDb
 {
     public class ContactPersonOrganizationDB : MongoTask<ContactPersonOrganization>
     {
-        public ContactPersonOrganizationDB(string collectionName) : base(collectionName)
+        public string CollectionName { set; }
+
+        public ContactPersonOrganizationDB(string collectionNameForDB) : base(collectionNameForDB)
         {
-
+            
         }
-
-
 
         public static string CreateContact(ContactPersonOrganization newContact)
         {

@@ -20,9 +20,9 @@ namespace GCCHRMachinery.DataAccessLayer.MongoDb
     {
         MongoConnector<T> connector;
 
-        public MongoTask(string collectionName)
+        public MongoTask(string collectionNameForTask)
         {
-            connector = new MongoConnector<T>(collectionName);
+            connector = new MongoConnector<T>(collectionNameForTask);
         }
         public string Create(T document)
         {
