@@ -12,6 +12,5 @@ namespace GCCHRMachinery.Entities
     public interface IMongoEntity
     {
         string Id { get; set; }
-        string CollectionName { get; }
     }
 }

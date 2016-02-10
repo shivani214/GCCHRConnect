@@ -8,26 +8,11 @@ using System.Threading.Tasks;
 
 namespace GCCHRMachinery.DataAccessLayer.MongoDb
 {
-    public static class TagDB
+    public class TagDB : MongoTask<Entities.Tag>
     {
-        public static string CreateTag(Entities.Tag tag)
+        public TagDB():base(Entities.Tag.TableOrCollectionName)
         {
-            MongoClient client = new MongoClient();
-            IMongoDatabase database = client.GetDatabase("GCCHRConnectDB");
-            IMongoCollection<Entities.Tag> collection = database.GetCollection<Entities.Tag>(Entities.Tag.TableOrCollectionName);
-            collection.InsertOne(tag);
-            return tag.Id;
-        }
-public static List<Entities.Tag> GetAllTags()
-        {
-            List<Entities.Tag> allTags;
-            MongoClient client = new MongoClient();
-            IMongoDatabase database = client.GetDatabase("GCCHRConnectDB");
-            IMongoCollection<Entities.Tag> collection = database.GetCollection<Entities.Tag>(Entities.Tag.TableOrCollectionName);
-            var filterBuild = Builders<Entities.Tag>.Filter;
-            var filter = filterBuild.Empty;
-            allTags = collection.Find(filter).ToList();
-            return allTags;
+
         }
     }
 }

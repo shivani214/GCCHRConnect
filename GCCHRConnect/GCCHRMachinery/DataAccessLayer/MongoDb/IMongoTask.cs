@@ -9,31 +9,44 @@ using MongoDB.Driver;
 
 namespace GCCHRMachinery.DataAccessLayer.MongoDb
 {
-    interface IMongoTask<T> where T : IMongoEntity
+    interface IMongoTask<TEntity> where TEntity : IMongoEntity
     {
-        string Create(T entity);
+        string Create(TEntity entity);
 
-        T GetById(string id);
+        TEntity GetById(string id);
+
+        IEnumerable<TEntity> GetAll();
     }
 
-    public abstract class MongoTask<T>: IMongoTask<T> where T : IMongoEntity
+    public abstract class MongoTask<TEntity>: IMongoTask<TEntity> where TEntity : IMongoEntity
     {
-        MongoConnector<T> connector;
-
+        protected MongoConnector<TEntity> connector;
+        
         public MongoTask(string collectionNameForTask)
         {
-            connector = new MongoConnector<T>(collectionNameForTask);
+            connector = new MongoConnector<TEntity>(collectionNameForTask);
         }
-        public string Create(T document)
+
+
+        public string Create(TEntity document)
         {
             connector.Collection.InsertOne(document);
             return document.Id;
         }
 
-        public T GetById(string id)
+        public IEnumerable<TEntity> GetAll()
         {
-            T document;
-            var filterBuild = Builders<T>.Filter;
+            IEnumerable<TEntity> allRecords;
+            var filterBuild = Builders<TEntity>.Filter;
+            var filter = filterBuild.Empty;
+            allRecords = connector.Collection.Find(filter).ToEnumerable();
+            return allRecords;
+        }
+
+        public TEntity GetById(string id)
+        {
+            TEntity document;
+            var filterBuild = Builders<TEntity>.Filter;
             var filter = filterBuild.Eq(c => c.Id, id);
             document = connector.Collection.Find(filter).Single();
             return document;

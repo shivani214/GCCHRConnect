@@ -12,14 +12,6 @@ namespace GCCHRMachinery.Entities
     {
         #region Fields
         public const string TableOrCollectionName = "Contacts";
-
-        public string CollectionName
-        {
-            get
-            {
-                return "Contacts";
-            }
-        }
         #endregion
 
         [BsonRepresentation(MongoDB.Bson.BsonType.ObjectId)]

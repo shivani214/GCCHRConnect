@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace GCCHRMachinery.Entities
 {
-    public class Tag: IMongoEntity
+    public class Tag : IMongoEntity
     {
         #region Fields
         public const string TableOrCollectionName = "Tag";
@@ -17,14 +17,6 @@ namespace GCCHRMachinery.Entities
 
         [BsonRepresentation(MongoDB.Bson.BsonType.ObjectId)]
         public string Id { get; set; }
-
-        public string CollectionName
-        {
-            get
-            {
-                return "Tags";
-            }
-        }
 
         #region Constructors and methods
         public override string ToString()
