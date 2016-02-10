@@ -13,8 +13,9 @@ namespace GCCHRMachineryTest.DataAccessLayer.MongoDb.Contacts_management
         public void CreateTag()
         {
             Tag newTag = new Tag();
-            newTag.TagName= "Relative";
-            string IdofnewTag = TagDB.CreateTag(newTag);
+            TagDB dbOp = new TagDB();
+            newTag.TagName= "brother";
+            string IdofnewTag = dbOp.Create(newTag);
             System.Diagnostics.Debug.Write("<<<<<<<<<<<<<<<<<");
             System.Diagnostics.Debug.WriteLine(IdofnewTag);
         }
@@ -22,7 +23,8 @@ namespace GCCHRMachineryTest.DataAccessLayer.MongoDb.Contacts_management
         [TestMethod]
         public void GetAllTags()
         {
-            List<Tag> allTags = TagDB.GetAllTags();
+            TagDB dbOp = new TagDB();
+            IEnumerable<Tag> allTags = dbOp.GetAll();
             foreach (Tag tag in allTags)
             {
                 System.Diagnostics.Debug.WriteLine(tag.ToString());

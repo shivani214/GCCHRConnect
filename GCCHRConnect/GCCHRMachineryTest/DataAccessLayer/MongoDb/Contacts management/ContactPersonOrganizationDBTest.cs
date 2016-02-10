@@ -10,6 +10,30 @@ namespace GCCHRMachineryTest.DataAccessLayer.MongoDb
     public class ContactPersonOrganizationDBTest
     {
         [TestMethod]
+        public void GetContact()
+        {
+            ContactPersonOrganization contact = new ContactPersonOrganization();
+            ContactPersonOrganizationDB dbOp = new ContactPersonOrganizationDB();
+            contact = dbOp.GetById("569cc58b2e4487187893b3f7");
+            
+            System.Diagnostics.Debug.Write("<<<<<<<<<<<<<<<<<");
+            System.Diagnostics.Debug.WriteLine(contact.ToString());
+        }
+
+        [TestMethod]
+        public void GetAllContacts()
+        {
+            ContactPersonOrganizationDB dbOp = new ContactPersonOrganizationDB();
+
+            IEnumerable<ContactPersonOrganization> allContacts = dbOp.GetAll();
+            
+            foreach (ContactPersonOrganization contact in allContacts)
+            {
+                System.Diagnostics.Debug.WriteLine(contact.ToString());
+            }
+        }
+
+        [TestMethod]
         public void CreateContact()
         {
             ContactPersonOrganization contactToCreate = new ContactPersonOrganization();
@@ -29,7 +53,7 @@ namespace GCCHRMachineryTest.DataAccessLayer.MongoDb
             address1.City = "Lucknow";
             address1.PinCode = "226021";
             address1.State = "UP";
-            address1.Country= "Country";
+            address1.Country = "Country";
             contactToCreate.Addresses.Add(address1);
 
             UniversalEntities.Address address2 = new UniversalEntities.Address();
@@ -56,34 +80,20 @@ namespace GCCHRMachineryTest.DataAccessLayer.MongoDb
             contactToCreate.Emails.Add("gaurang_gupta@hotmail.com");
             contactToCreate.Emails.Add("gaurang_gupta@yahoo.com");
 
-            contactToCreate.Tags = new List<string>();
+            contactToCreate.Tags = new HashSet<string>();
             contactToCreate.Tags.Add("Self");
             contactToCreate.Tags.Add("Doctor");
-            contactToCreate.Tags.AddRange(new string[] { "Homoeopathic", "Relative" });
+            contactToCreate.Tags.Add("Doctor");
+            
+            ContactPersonOrganizationDB db;
+            //Pro:
+            //The collectionName must be provided
+            db = new ContactPersonOrganizationDB();
 
-            string idOfNewContact = ContactPersonOrganizationDB.CreateContact(contactToCreate);
+
+            string idOfNewContact = db.Create(contactToCreate);
             System.Diagnostics.Debug.Write("<<<<<<<<<<<<<<<<<");
             System.Diagnostics.Debug.WriteLine(idOfNewContact);
-        }
-
-        [TestMethod]
-        public void GetContact()
-        {
-            ContactPersonOrganization contact;
-            contact = ContactPersonOrganizationDB.GetContact("569c93c44989491f542704c2");
-            System.Diagnostics.Debug.Write("<<<<<<<<<<<<<<<<<");
-            System.Diagnostics.Debug.WriteLine(contact.ToString());
-            System.Diagnostics.Debug.WriteLine(contact.Name.Title + " " + contact.Name.First);
-        }
-
-        [TestMethod]
-        public void GetAllContacts()
-        {
-            List<ContactPersonOrganization> allContacts = ContactPersonOrganizationDB.GetAllContacts();
-            foreach (ContactPersonOrganization contact in allContacts)
-            {
-                System.Diagnostics.Debug.WriteLine(contact.ToString());
-            }
         }
     }
 }
