@@ -14,11 +14,10 @@ namespace GCCHRMachineryTest.DataAccessLayer.MongoDb
         {
             ContactPersonOrganization contact = new ContactPersonOrganization();
             ContactPersonOrganizationDB dbOp = new ContactPersonOrganizationDB();
-            contact = dbOp.GetById("569c93c44989491f542704c2");
+            contact = dbOp.GetById("569cc58b2e4487187893b3f7");
             
             System.Diagnostics.Debug.Write("<<<<<<<<<<<<<<<<<");
             System.Diagnostics.Debug.WriteLine(contact.ToString());
-            System.Diagnostics.Debug.WriteLine(contact.Name.Title + " " + contact.Name.First);
         }
 
         [TestMethod]

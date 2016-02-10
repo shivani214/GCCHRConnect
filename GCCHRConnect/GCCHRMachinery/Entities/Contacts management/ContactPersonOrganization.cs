@@ -40,5 +40,4 @@ namespace GCCHRMachinery.Entities
         }
         #endregion
     }
-
 }

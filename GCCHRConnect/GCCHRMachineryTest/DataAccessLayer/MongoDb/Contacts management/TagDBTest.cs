@@ -14,7 +14,7 @@ namespace GCCHRMachineryTest.DataAccessLayer.MongoDb.Contacts_management
         {
             Tag newTag = new Tag();
             TagDB dbOp = new TagDB();
-            newTag.TagName= "Family";
+            newTag.TagName= "brother";
             string IdofnewTag = dbOp.Create(newTag);
             System.Diagnostics.Debug.Write("<<<<<<<<<<<<<<<<<");
             System.Diagnostics.Debug.WriteLine(IdofnewTag);

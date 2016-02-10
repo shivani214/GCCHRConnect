@@ -8,7 +8,8 @@ namespace GCCHRMachinery.DataAccessLayer.MongoDb
         
         public ContactPersonOrganizationDB() : base(ContactPersonOrganization.TableOrCollectionName)
         {
-            
+
         }
+        
     }
 }

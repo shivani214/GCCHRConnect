@@ -21,7 +21,11 @@ namespace GCCHRMachinery.DataAccessLayer.MongoDb
     public abstract class MongoTask<TEntity>: IMongoTask<TEntity> where TEntity : IMongoEntity
     {
         protected MongoConnector<TEntity> connector;
-        
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="collectionNameForTask">Corresponding name of the entity in the table/collection. To be obtained from TableOrCollectionName which is a const string field in each entity. If the field has not been provided for the entity, do it now!</param>
         public MongoTask(string collectionNameForTask)
         {
             connector = new MongoConnector<TEntity>(collectionNameForTask);
