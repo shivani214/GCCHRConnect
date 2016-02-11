@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using GCCHRMachinery.Entities;
-using GCCHRMachinery.DataAccessLayer.MongoDb;
 using MongoDB.Driver;
 
 namespace GCCHRMachinery.DataAccessLayer.MongoDb
@@ -23,9 +19,9 @@ namespace GCCHRMachinery.DataAccessLayer.MongoDb
         protected MongoConnector<TEntity> connector;
 
         /// <summary>
-        /// 
+        /// To be obtained from TableOrCollectionName which is a const string field in each entity. If the field has not been provided for the entity, do it now!
         /// </summary>
-        /// <param name="collectionNameForTask">Corresponding name of the entity in the table/collection. To be obtained from TableOrCollectionName which is a const string field in each entity. If the field has not been provided for the entity, do it now!</param>
+        /// <param name="collectionNameForTask">Corresponding name of the entity in the table/collection.</param>
         public MongoTask(string collectionNameForTask)
         {
             connector = new MongoConnector<TEntity>(collectionNameForTask);
