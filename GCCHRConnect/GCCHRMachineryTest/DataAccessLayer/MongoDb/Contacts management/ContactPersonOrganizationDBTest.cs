@@ -85,10 +85,7 @@ namespace GCCHRMachineryTest.DataAccessLayer.MongoDb
             contactToCreate.Tags.Add("Doctor");
             contactToCreate.Tags.Add("Doctor");
             
-            ContactPersonOrganizationDB db;
-            //Pro:
-            //The collectionName must be provided
-            db = new ContactPersonOrganizationDB();
+            ContactPersonOrganizationDB db = new ContactPersonOrganizationDB();
 
 
             string idOfNewContact = db.Create(contactToCreate);
