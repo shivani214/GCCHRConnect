@@ -12,9 +12,10 @@ namespace GCCHRMachinery.DataAccessLayer.MongoDb
         TEntity GetById(string id);
 
         IEnumerable<TEntity> GetAll();
+        void DeleteById(string id);
     }
 
-    public abstract class MongoTask<TEntity>: IMongoTask<TEntity> where TEntity : IMongoEntity
+    public abstract class MongoTask<TEntity> : IMongoTask<TEntity> where TEntity : IMongoEntity
     {
         protected MongoConnector<TEntity> connector;
 
@@ -50,6 +51,13 @@ namespace GCCHRMachinery.DataAccessLayer.MongoDb
             var filter = filterBuild.Eq(c => c.Id, id);
             document = connector.Collection.Find(filter).Single();
             return document;
+        }
+        public void DeleteById(string id)
+        {
+            var filterBuild = Builders<TEntity>.Filter;
+            var filter = filterBuild.Eq(c => c.Id, id);
+            connector.Collection.DeleteOne(filter);
+            
         }
     }
 

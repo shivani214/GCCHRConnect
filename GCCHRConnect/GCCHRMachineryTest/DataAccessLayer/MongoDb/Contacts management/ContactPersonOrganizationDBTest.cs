@@ -92,5 +92,12 @@ namespace GCCHRMachineryTest.DataAccessLayer.MongoDb
             System.Diagnostics.Debug.Write("<<<<<<<<<<<<<<<<<");
             System.Diagnostics.Debug.WriteLine(idOfNewContact);
         }
+        [TestMethod]
+        public void DeleteById()
+        {
+
+            ContactPersonOrganizationDB dbOp = new ContactPersonOrganizationDB();
+            dbOp.DeleteById("569cc58b2e4487187893b3f7");
+        }
     }
 }
