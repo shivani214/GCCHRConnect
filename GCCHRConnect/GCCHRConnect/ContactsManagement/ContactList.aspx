@@ -13,9 +13,9 @@
     <form id="form1" runat="server">
         <div class="container-fluid">
                 <a href="http://localhost:19008/ContactsManagement/">http://localhost:19008/ContactsManagement/</a>
-            <div class="jumbotron">
+            <div class="page-header">
                 <h1>Contact list</h1>
-                <p>A list of all the contacts</p>
+                <p class="lead">A list of all the contacts</p>
                 </div>
                 <asp:ObjectDataSource runat="server" ID="ContactsDataSource" SelectMethod="GetAllRecords" TypeName="GCCHRMachinery.BusinessLogicLayer.ContactPersonOrganizationService"></asp:ObjectDataSource>
                 <asp:GridView ID="GridViewContacts" runat="server" AutoGenerateColumns="False" DataSourceID="ContactsDataSource" CssClass="table table-bordered table-striped table-condensed">
