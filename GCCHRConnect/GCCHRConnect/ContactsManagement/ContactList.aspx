@@ -12,10 +12,11 @@
 <body>
     <form id="form1" runat="server">
         <div class="container-fluid">
-            <%--<div class="jumbotron">--%>
-                <h1>Contact list</h1>
                 <a href="http://localhost:19008/ContactsManagement/">http://localhost:19008/ContactsManagement/</a>
-
+            <div class="jumbotron">
+                <h1>Contact list</h1>
+                <p>A list of all the contacts</p>
+                </div>
                 <asp:ObjectDataSource runat="server" ID="ContactsDataSource" SelectMethod="GetAllRecords" TypeName="GCCHRMachinery.BusinessLogicLayer.ContactPersonOrganizationService"></asp:ObjectDataSource>
                 <asp:GridView ID="GridViewContacts" runat="server" AutoGenerateColumns="False" DataSourceID="ContactsDataSource" CssClass="table table-bordered table-striped table-condensed">
                     <Columns>
@@ -66,7 +67,7 @@
 
                     </Columns>
                 </asp:GridView>
-            <%--</div>--%>
+            
         </div>
     </form>
 </body>
