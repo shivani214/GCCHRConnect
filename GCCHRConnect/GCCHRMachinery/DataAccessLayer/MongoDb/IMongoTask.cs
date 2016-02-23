@@ -5,13 +5,36 @@ using MongoDB.Driver;
 
 namespace GCCHRMachinery.DataAccessLayer.MongoDb
 {
+    /// <summary>
+    /// All the basic and common database operations
+    /// </summary>
+    /// <typeparam name="TEntity">The type of entity</typeparam>
     interface IMongoTask<TEntity> where TEntity : IMongoEntity
     {
-        string Create(TEntity entity);
+        /// <summary>
+        /// Inserts a document in the database
+        /// </summary>
+        /// <param name="document">The document to insert</param>
+        /// <returns>The id of the inserted document</returns>
+        string Create(TEntity document);
 
+        /// <summary>
+        /// Searches and returns a document from the database based on the specified id
+        /// </summary>
+        /// <param name="id">The id to be searched</param>
+        /// <returns>A single document</returns>
         TEntity GetById(string id);
 
+        /// <summary>
+        /// Returns all documents from a collection
+        /// </summary>
+        /// <returns>All documents</returns>
         IEnumerable<TEntity> GetAll();
+
+        /// <summary>
+        /// Deletes a document
+        /// </summary>
+        /// <param name="id">The id of the document which is to be deleted</param>
         void DeleteById(string id);
     }
 
@@ -28,13 +51,21 @@ namespace GCCHRMachinery.DataAccessLayer.MongoDb
             connector = new MongoConnector<TEntity>(collectionNameForTask);
         }
 
-
+        /// <summary>
+        /// Inserts a document in the database
+        /// </summary>
+        /// <param name="document">The document to insert</param>
+        /// <returns>The id of the inserted document</returns>
         public string Create(TEntity document)
         {
             connector.Collection.InsertOne(document);
             return document.Id;
         }
 
+        /// <summary>
+        /// Returns all documents from a collection
+        /// </summary>
+        /// <returns>All documents</returns>
         public IEnumerable<TEntity> GetAll()
         {
             IEnumerable<TEntity> allRecords;
@@ -44,6 +75,11 @@ namespace GCCHRMachinery.DataAccessLayer.MongoDb
             return allRecords;
         }
 
+        /// <summary>
+        /// Searches and returns a document from the database based on the specified id
+        /// </summary>
+        /// <param name="id">The id to be searched</param>
+        /// <returns>A single document</returns>
         public TEntity GetById(string id)
         {
             TEntity document;
@@ -52,6 +88,11 @@ namespace GCCHRMachinery.DataAccessLayer.MongoDb
             document = connector.Collection.Find(filter).Single();
             return document;
         }
+
+        /// <summary>
+        /// Deletes a document
+        /// </summary>
+        /// <param name="id">The id of the document which is to be deleted</param>
         public void DeleteById(string id)
         {
             var filterBuild = Builders<TEntity>.Filter;

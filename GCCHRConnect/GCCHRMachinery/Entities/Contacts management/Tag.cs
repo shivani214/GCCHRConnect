@@ -7,14 +7,23 @@ using System.Threading.Tasks;
 
 namespace GCCHRMachinery.Entities
 {
+    /// <summary>
+    /// Represents a single Tag which may be assigned to multiple <see cref="Contact"/>
+    /// </summary>
     public class Tag : IMongoEntity
     {
         #region Fields
         public const string TableOrCollectionName = "Tag";
         #endregion
 
+        /// <summary>
+        /// The name of the Tag. Try to avoid acronyms.
+        /// </summary>
         public string TagName { get; set; }
 
+        /// <summary>
+        /// The unique id of the <see cref="Tag"/>
+        /// </summary>
         [BsonRepresentation(MongoDB.Bson.BsonType.ObjectId)]
         public string Id { get; set; }
 

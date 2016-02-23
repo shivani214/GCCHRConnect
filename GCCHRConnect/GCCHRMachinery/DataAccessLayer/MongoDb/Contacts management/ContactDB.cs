@@ -2,10 +2,14 @@
 
 namespace GCCHRMachinery.DataAccessLayer.MongoDb
 {
+    /// <summary>
+    /// The datalayer for <see cref="Contact"/>
+    /// </summary>
     public class ContactDB : MongoTask<Contact>
     {
-        //private static string col = ContactPersonOrganization.TableOrCollectionName;
-        
+        /// <summary>
+        /// Default Constructor
+        /// </summary>
         public ContactDB() : base(Contact.TableOrCollectionName)
         {
 
