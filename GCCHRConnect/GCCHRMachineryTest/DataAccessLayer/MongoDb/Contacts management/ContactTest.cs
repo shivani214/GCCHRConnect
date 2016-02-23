@@ -7,13 +7,13 @@ using GCCHRMachinery.DataAccessLayer.MongoDb;
 namespace GCCHRMachineryTest.DataAccessLayer.MongoDb
 {
     [TestClass]
-    public class ContactPersonOrganizationDBTest
+    public class ContactDBTest
     {
         [TestMethod]
         public void GetContact()
         {
-            ContactPersonOrganization contact = new ContactPersonOrganization();
-            ContactPersonOrganizationDB dbOp = new ContactPersonOrganizationDB();
+            Contact contact = new Contact();
+            ContactDB dbOp = new ContactDB();
             contact = dbOp.GetById("569cc58b2e4487187893b3f7");
             
             System.Diagnostics.Debug.Write("<<<<<<<<<<<<<<<<<");
@@ -23,11 +23,11 @@ namespace GCCHRMachineryTest.DataAccessLayer.MongoDb
         [TestMethod]
         public void GetAllContacts()
         {
-            ContactPersonOrganizationDB dbOp = new ContactPersonOrganizationDB();
+            ContactDB dbOp = new ContactDB();
 
-            IEnumerable<ContactPersonOrganization> allContacts = dbOp.GetAll();
+            IEnumerable<Contact> allContacts = dbOp.GetAll();
             
-            foreach (ContactPersonOrganization contact in allContacts)
+            foreach (Contact contact in allContacts)
             {
                 System.Diagnostics.Debug.WriteLine(contact.ToString());
             }
@@ -36,7 +36,7 @@ namespace GCCHRMachineryTest.DataAccessLayer.MongoDb
         [TestMethod]
         public void CreateContact()
         {
-            ContactPersonOrganization contactToCreate = new ContactPersonOrganization();
+            Contact contactToCreate = new Contact();
             //contactToCreate.Id = "Try#7";
             contactToCreate.Name = new UniversalEntities.PersonName();
             //UniversalEntities.PersonName name;
@@ -85,7 +85,7 @@ namespace GCCHRMachineryTest.DataAccessLayer.MongoDb
             contactToCreate.Tags.Add("Doctor");
             contactToCreate.Tags.Add("Doctor");
             
-            ContactPersonOrganizationDB db = new ContactPersonOrganizationDB();
+            ContactDB db = new ContactDB();
 
 
             string idOfNewContact = db.Create(contactToCreate);
@@ -96,7 +96,7 @@ namespace GCCHRMachineryTest.DataAccessLayer.MongoDb
         public void DeleteById()
         {
 
-            ContactPersonOrganizationDB dbOp = new ContactPersonOrganizationDB();
+            ContactDB dbOp = new ContactDB();
             dbOp.DeleteById("569cc58b2e4487187893b3f7");
         }
     }

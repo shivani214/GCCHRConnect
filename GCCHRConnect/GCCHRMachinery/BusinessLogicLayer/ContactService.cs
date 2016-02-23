@@ -4,11 +4,11 @@ using System.Collections;
 
 namespace GCCHRMachinery.BusinessLogicLayer
 {
-    public class  ContactPersonOrganizationService
+    public class  ContactService
     {
-        ContactPersonOrganizationDB db = new ContactPersonOrganizationDB();
+        ContactDB db = new ContactDB();
 
-        public string CreateContact(ContactPersonOrganization contactToCreate)
+        public string CreateContact(Contact contactToCreate)
         {
             string createdId;
             createdId = db.Create(contactToCreate);
@@ -20,9 +20,9 @@ namespace GCCHRMachinery.BusinessLogicLayer
             allRecords = db.GetAll();
             return allRecords;
         }
-        public ContactPersonOrganization GetRecordsById(string id)
+        public Contact GetRecordsById(string id)
         {
-            ContactPersonOrganization c;
+            Contact c;
             c = db.GetById(id);
             return c;
         }

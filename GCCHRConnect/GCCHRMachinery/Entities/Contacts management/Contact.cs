@@ -8,7 +8,7 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace GCCHRMachinery.Entities
 {
-    public class ContactPersonOrganization : Contact, IMongoEntity
+    public class Contact : ContactPersonOrganization, IMongoEntity
     {
         #region Fields
         public const string TableOrCollectionName = "Contacts";

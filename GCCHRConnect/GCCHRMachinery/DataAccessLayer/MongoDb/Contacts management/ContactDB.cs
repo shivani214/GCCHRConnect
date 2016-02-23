@@ -2,11 +2,11 @@
 
 namespace GCCHRMachinery.DataAccessLayer.MongoDb
 {
-    public class ContactPersonOrganizationDB : MongoTask<ContactPersonOrganization>
+    public class ContactDB : MongoTask<Contact>
     {
         //private static string col = ContactPersonOrganization.TableOrCollectionName;
         
-        public ContactPersonOrganizationDB() : base(ContactPersonOrganization.TableOrCollectionName)
+        public ContactDB() : base(Contact.TableOrCollectionName)
         {
 
         }
