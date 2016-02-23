@@ -58,12 +58,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BusinessLogicLayer\ContactPersonOrganizationService.cs" />
-    <Compile Include="DataAccessLayer\MongoDb\Contacts management\ContactPersonOrganizationDB.cs" />
+    <Compile Include="BusinessLogicLayer\ContactService.cs" />
+    <Compile Include="DataAccessLayer\MongoDb\Contacts management\ContactDB.cs" />
     <Compile Include="DataAccessLayer\MongoDb\Contacts management\TagDB.cs" />
     <Compile Include="DataAccessLayer\MongoDb\IMongoTask.cs" />
     <Compile Include="DataAccessLayer\MongoDb\MongoConnector.cs" />
-    <Compile Include="Entities\Contacts management\ContactPersonOrganization.cs" />
+    <Compile Include="Entities\Contacts management\Contact.cs" />
     <Compile Include="Entities\Contacts management\Tag.cs" />
     <Compile Include="Entities\IMongoEntity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
