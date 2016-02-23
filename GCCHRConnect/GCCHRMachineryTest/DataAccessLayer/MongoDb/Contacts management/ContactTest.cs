@@ -3,6 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using GCCHRMachinery.Entities;
 using System.Collections.Generic;
 using GCCHRMachinery.DataAccessLayer.MongoDb;
+using UniversalEntities;
 
 namespace GCCHRMachineryTest.DataAccessLayer.MongoDb
 {
@@ -98,6 +99,38 @@ namespace GCCHRMachineryTest.DataAccessLayer.MongoDb
 
             ContactDB dbOp = new ContactDB();
             dbOp.DeleteById("569cc58b2e4487187893b3f7");
+        }
+
+        [TestMethod]
+        public void GetContactsByName()
+        {
+            PersonName searchCriteria = new PersonName();
+            //searchCriteria.Id = "569c93c44989491f542704c2";
+            //searchCriteria.First = "Gaurang";
+            //searchCriteria.Middle = "Friend";
+            //searchCriteria.Last = "Gupta";
+            //searchCriteria.Title = "Dr.";
+
+            List<Contact> cList = new List<Contact>();
+            ContactDB dbOp = new ContactDB();
+            cList = dbOp.SearchContacts(searchCriteria);
+            foreach (Contact contact in cList)
+            {
+                System.Diagnostics.Debug.WriteLine(contact.ToString());
+            }
+        }
+
+        [TestMethod]
+        public void GetContactsByString()
+        {
+            List<Contact> filteredList = new List<Contact>();
+            string universalFilter = "1978";
+            ContactDB dbOp = new ContactDB();
+            filteredList = dbOp.SearchContacts(universalFilter);
+            foreach (Contact contact in filteredList)
+            {
+                System.Diagnostics.Debug.WriteLine(contact.ToString());
+            }
         }
     }
 }
