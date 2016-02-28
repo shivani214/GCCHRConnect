@@ -63,7 +63,7 @@ namespace GCCHRMachinery.DataAccessLayer.MongoDb
             string regExFilter = "/" + universalFilter + "/i";
             List<Contact> searchedContacts = new List<Contact>();
             FilterDefinitionBuilder<Contact> filterBuild = Builders<Contact>.Filter;
-
+            
             FilterDefinition<Contact> filter;
             filter = filterBuild.Regex(c => c.Name.Title, new BsonRegularExpression(regExFilter));
             filter = filter | filterBuild.Regex(c => c.Name.First, new BsonRegularExpression(regExFilter));

@@ -17,7 +17,7 @@
                 <h1>Contact list</h1>
                 <p class="lead">A list of all the contacts</p>
                 </div>
-                <asp:ObjectDataSource runat="server" ID="ContactsDataSource" SelectMethod="GetAllRecords" TypeName="GCCHRMachinery.BusinessLogicLayer.ContactPersonOrganizationService"></asp:ObjectDataSource>
+                <asp:ObjectDataSource runat="server" ID="ContactsDataSource" SelectMethod="GetAllRecords" TypeName="GCCHRMachinery.BusinessLogicLayer.ContactService"></asp:ObjectDataSource>
                 <asp:GridView ID="GridViewContacts" runat="server" AutoGenerateColumns="False" DataSourceID="ContactsDataSource" CssClass="table table-bordered table-striped table-condensed">
                     <Columns>
                         <asp:TemplateField HeaderText="Title">
@@ -27,7 +27,7 @@
                             </ItemTemplate>
                         </asp:TemplateField>
 
-                        <%--<asp:BoundField DataField="Name.Title" HeaderText="Title" />--%>
+                        <asp:BoundField DataField="Name.Full" HeaderText="Title" />
                         <asp:BoundField DataField="Name.First" HeaderText="First" />
                         <asp:BoundField DataField="Name.Middle" HeaderText="Middle" />
                         <asp:BoundField DataField="Name.Last" HeaderText="Last" />
