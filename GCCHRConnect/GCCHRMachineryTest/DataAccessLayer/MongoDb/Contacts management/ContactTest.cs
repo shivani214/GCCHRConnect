@@ -31,7 +31,13 @@ namespace GCCHRMachineryTest.DataAccessLayer.MongoDb
             foreach (Contact contact in allContacts)
             {
                 System.Diagnostics.Debug.WriteLine(contact.ToString());
+                foreach (Address address in contact.Addresses)
+                {
+                    System.Diagnostics.Debug.WriteLine(address.ToString());
+                }
             }
+
+
         }
 
         [TestMethod]
