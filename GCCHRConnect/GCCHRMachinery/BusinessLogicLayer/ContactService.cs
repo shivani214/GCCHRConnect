@@ -1,13 +1,15 @@
 ﻿using GCCHRMachinery.Entities;
 using GCCHRMachinery.DataAccessLayer.MongoDb;
 using System.Collections;
+using UniversalEntities;
+using System.Text.RegularExpressions;
 
 namespace GCCHRMachinery.BusinessLogicLayer
 {
     /// <summary>
     /// The logic layer for <see cref="Contact"/>
     /// </summary>
-    public class  ContactService
+    public class ContactService
     {
         ContactDB db = new ContactDB();
 
@@ -18,9 +20,59 @@ namespace GCCHRMachinery.BusinessLogicLayer
         /// <returns>Id of the inserted <see cref="Contact"/></returns>
         public string CreateContact(Contact contactToCreate)
         {
-            string createdId;
+            string createdId = "";
+            Validate(contactToCreate);
+
             createdId = db.Create(contactToCreate);
+
             return createdId;
+        }
+
+        public void Validate(Contact contactToValidate)
+        {
+            #region RequiredValidation
+            if (string.IsNullOrWhiteSpace(contactToValidate.Name.Title))
+            {
+                throw new System.ArgumentNullException("Title");
+            }
+            if (string.IsNullOrWhiteSpace(contactToValidate.Name.First))
+            {
+                throw new System.ArgumentNullException("First");
+            }
+            foreach (Address address in contactToValidate.Addresses)
+            {
+                if (string.IsNullOrWhiteSpace(address.City))
+                {
+                    throw new System.ArgumentNullException("City");
+                }
+            }
+            #endregion
+
+            #region ValueTypes
+            foreach (string phone in contactToValidate.Phones)
+            {
+                if (!Regex.IsMatch(phone, @"/^\+?[0-9]+$/g"))
+                {
+                    throw new System.ArgumentException("Phone number is not in the correct format. Only numbers allowed, optionally beginning with a '+' sign.");
+                }
+            }
+
+            foreach (string mobile in contactToValidate.Mobiles)
+            {
+                if (!Regex.IsMatch(mobile, @"/^(\+91)?([0-9]{10})$/g"))
+                {
+                    throw new System.ArgumentException(@"Mobile number must be 10 digit number, optionally beginning from '+91' (excluding 10 digits) matching the regular expression /^(\+91)?([0-9]{10})$/g");
+                }
+            }
+
+            foreach (string email in contactToValidate.Emails)
+            {
+                if (!Regex.IsMatch(email, @"/^[a-z0-9!#$%&*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/g"))
+                {
+                    throw new System.ArgumentException(@"Invalid email format. It must match the regular expression /^[a-z0-9!#$%&*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/g");
+                }
+            }
+            #endregion
         }
 
         /// <summary>
