@@ -99,6 +99,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="ContactsManagement\ContactList.aspx" />
+    <Content Include="ContactsManagement\CreateContact.aspx" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\OriginalBootstrap\bootstrap.css" />
@@ -143,6 +144,13 @@
     </Compile>
     <Compile Include="ContactsManagement\ContactList.aspx.designer.cs">
       <DependentUpon>ContactList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ContactsManagement\CreateContact.aspx.cs">
+      <DependentUpon>CreateContact.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ContactsManagement\CreateContact.aspx.designer.cs">
+      <DependentUpon>CreateContact.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

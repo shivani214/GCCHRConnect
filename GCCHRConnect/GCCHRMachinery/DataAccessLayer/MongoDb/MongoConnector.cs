@@ -31,7 +31,7 @@ namespace GCCHRMachinery.DataAccessLayer.MongoDb
             }
             const string connectionString = "";
             MongoClient client = new MongoClient();
-            const string databaseName = "GCCHRConnectDB";
+            const string databaseName = "GCCHRConnectDB"; // should be a private class constant
             IMongoDatabase database = client.GetDatabase(databaseName);
             Collection = database.GetCollection<TEntity>(collectionNameForConnector);
         }
