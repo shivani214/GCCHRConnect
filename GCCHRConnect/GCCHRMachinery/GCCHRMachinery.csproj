@@ -68,6 +68,7 @@
     <Compile Include="Entities\IMongoEntity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utilities\Formatter.cs" />
+    <Compile Include="Utilities\PasswordStorage.cs" />
     <Compile Include="Utilities\StringCipher.cs" />
   </ItemGroup>
   <ItemGroup>
