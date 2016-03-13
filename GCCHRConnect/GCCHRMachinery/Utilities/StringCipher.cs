@@ -9,15 +9,11 @@ using Microsoft.Win32;
 namespace Utilities
 {
     /// <summary>
-    /// This class provides encryption and decryption capabilities.
-    /// Encryption steps:-
-    /// 1. Any sensitive information should not be held in memory in the form of <see cref="string"/>. Hence it is recommended to convert it to <see cref="SecureString"/>immediately after it is received from input. <see cref="ToInsecureString(SecureString)"/> does this for you.
-    /// 2. Actual encryption is then performed by <see cref="Encrypt(SecureString, string)"/>.
-    /// 
-    /// Decryption steps:-
-    /// 1. Follow reverse steps of Encryption. The encrypted value must first be decrypted by <see cref="Decrypt(string, string)"/>
-    /// 2. The decrypted <see cref="SecureString"/> must be hopped around and its conversion to <see cref="string"/> by <see cref="ToInsecureString(SecureString)"/>must be delayed as much as possible
+    /// This class provides Hashing + Encryption/Decryption capabilities.
     /// </summary>
+    /// <see href="http://stackoverflow.com/questions/10168240/encrypting-decrypting-a-string-in-c-sharp"/>
+    /// <see href="http://stackoverflow.com/questions/202011/encrypt-and-decrypt-a-string"/>
+    /// <see href="https://crackstation.net/hashing-security.htm"/>
     public static class StringCipher
     {
         // This constant is used to determine the keysize of the encryption algorithm in bits.
