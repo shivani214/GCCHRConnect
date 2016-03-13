@@ -6,7 +6,7 @@ using System.Linq;
 using System.Security;
 using Microsoft.Win32;
 
-namespace Utilities
+namespace GCCHRMachinery.Security
 {
     /// <summary>
     /// This class provides Hashing + Encryption/Decryption capabilities.
@@ -14,7 +14,7 @@ namespace Utilities
     /// <see href="http://stackoverflow.com/questions/10168240/encrypting-decrypting-a-string-in-c-sharp"/>
     /// <see href="http://stackoverflow.com/questions/202011/encrypt-and-decrypt-a-string"/>
     /// <see href="https://crackstation.net/hashing-security.htm"/>
-    public static class StringCipher
+    public static class Cryptography
     {
         // This constant is used to determine the keysize of the encryption algorithm in bits.
         // We divide this by 8 within the code below to get the equivalent number of bytes.

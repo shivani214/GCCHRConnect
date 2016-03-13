@@ -1,8 +1,9 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using GCCHRMachinery.Security;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.Win32;
 using System;
 
-namespace Utilities
+namespace GCCHRMachineryTest.Security
 {
     [TestClass]
     public class StringCipherTest
@@ -71,8 +72,8 @@ namespace Utilities
             var plainText = "This is my sample plain text message";
 
             // Act
-            var cipherText = StringCipher.Encrypt(plainText);
-            var decryptedText = StringCipher.Decrypt(cipherText);
+            var cipherText = Cryptography.Encrypt(plainText);
+            var decryptedText = Cryptography.Decrypt(cipherText);
 
             // Assert
             Assert.AreEqual(plainText, decryptedText);
@@ -83,13 +84,13 @@ namespace Utilities
         public void GenerateHash(string passPhrase)
         {
             string passwordToHash = "AnyUserPasswordOrCreditCard";
-            string salt = StringCipher.GenerateRandomEntropy(64);
+            string salt = Cryptography.GenerateRandomEntropy(64);
             //string salt = "1234";
-            string encryptedPasswordHash = StringCipher.GenerateHash(passwordToHash, salt);
+            string encryptedPasswordHash = Cryptography.GenerateHash(passwordToHash, salt);
             //string encryptedHash = StringCipher.Encrypt(passwordHash, passPhrase);
 
-            string decryptedHash = StringCipher.Decrypt(encryptedPasswordHash);
-            string passwordMatchHash = StringCipher.GenerateHash(passwordToHash, salt);
+            string decryptedHash = Cryptography.Decrypt(encryptedPasswordHash);
+            string passwordMatchHash = Cryptography.GenerateHash(passwordToHash, salt);
             Assert.AreEqual(decryptedHash, passwordMatchHash);
         }
 
@@ -108,8 +109,8 @@ namespace Utilities
             var plainText = "This is my sample plain text message";
 
             // Act
-            var cipherText1 = StringCipher.Encrypt(plainText);
-            var cipherText2 = StringCipher.Encrypt(plainText);
+            var cipherText1 = Cryptography.Encrypt(plainText);
+            var cipherText2 = Cryptography.Encrypt(plainText);
 
             // Assert
             Assert.AreNotEqual(cipherText1, cipherText2);
@@ -122,10 +123,10 @@ namespace Utilities
             var plainText = "This is my sample plain text message";
 
             // Act
-            var cipherText1 = StringCipher.Encrypt(plainText);
-            var cipherText2 = StringCipher.Encrypt(plainText);
-            var decryptedText1 = StringCipher.Decrypt(cipherText1);
-            var decryptedText2 = StringCipher.Decrypt(cipherText2);
+            var cipherText1 = Cryptography.Encrypt(plainText);
+            var cipherText2 = Cryptography.Encrypt(plainText);
+            var decryptedText1 = Cryptography.Decrypt(cipherText1);
+            var decryptedText2 = Cryptography.Decrypt(cipherText2);
 
             // Assert
             Assert.AreEqual(decryptedText1, plainText);
