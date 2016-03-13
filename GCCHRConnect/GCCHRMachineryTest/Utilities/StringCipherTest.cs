@@ -69,11 +69,10 @@ namespace Utilities
         {
             // Arrange
             var plainText = "This is my sample plain text message";
-            var passPhrase = "supersecretpassword";
 
             // Act
-            var cipherText = StringCipher.Encrypt(plainText, passPhrase);
-            var decryptedText = StringCipher.Decrypt(cipherText, passPhrase);
+            var cipherText = StringCipher.Encrypt(plainText);
+            var decryptedText = StringCipher.Decrypt(cipherText);
 
             // Assert
             Assert.AreEqual(plainText, decryptedText);
@@ -84,12 +83,12 @@ namespace Utilities
         public void GenerateHash(string passPhrase)
         {
             string passwordToHash = "AnyUserPasswordOrCreditCard";
-            string salt = StringCipher.RandomStringGenerator();
+            string salt = StringCipher.GenerateRandomEntropy(64);
             //string salt = "1234";
-            string passwordHash = StringCipher.GenerateHash(passwordToHash, salt);
-            string encryptedHash = StringCipher.Encrypt(passwordHash, passPhrase);
+            string encryptedPasswordHash = StringCipher.GenerateHash(passwordToHash, salt);
+            //string encryptedHash = StringCipher.Encrypt(passwordHash, passPhrase);
 
-            string decryptedHash = StringCipher.Decrypt(encryptedHash, passPhrase);
+            string decryptedHash = StringCipher.Decrypt(encryptedPasswordHash);
             string passwordMatchHash = StringCipher.GenerateHash(passwordToHash, salt);
             Assert.AreEqual(decryptedHash, passwordMatchHash);
         }
@@ -107,11 +106,10 @@ namespace Utilities
         {
             // Arrange
             var plainText = "This is my sample plain text message";
-            var passPhrase = "supersecretpassword";
 
             // Act
-            var cipherText1 = StringCipher.Encrypt(plainText, passPhrase);
-            var cipherText2 = StringCipher.Encrypt(plainText, passPhrase);
+            var cipherText1 = StringCipher.Encrypt(plainText);
+            var cipherText2 = StringCipher.Encrypt(plainText);
 
             // Assert
             Assert.AreNotEqual(cipherText1, cipherText2);
@@ -122,13 +120,12 @@ namespace Utilities
         {
             // Arrange
             var plainText = "This is my sample plain text message";
-            var passPhrase = "supersecretpassword";
 
             // Act
-            var cipherText1 = StringCipher.Encrypt(plainText, passPhrase);
-            var cipherText2 = StringCipher.Encrypt(plainText, passPhrase);
-            var decryptedText1 = StringCipher.Decrypt(cipherText1, passPhrase);
-            var decryptedText2 = StringCipher.Decrypt(cipherText2, passPhrase);
+            var cipherText1 = StringCipher.Encrypt(plainText);
+            var cipherText2 = StringCipher.Encrypt(plainText);
+            var decryptedText1 = StringCipher.Decrypt(cipherText1);
+            var decryptedText2 = StringCipher.Decrypt(cipherText2);
 
             // Assert
             Assert.AreEqual(decryptedText1, plainText);

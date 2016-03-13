@@ -26,12 +26,13 @@ namespace Utilities
         private const int HASH_SIZE = 64;
         // This constant determines the number of iterations for the password bytes generation function.
         private const int DERIVATIONITERATIONS = 64000;
+
         /// <summary>
-        /// Encrypts the provided string
+        /// Encrypts the provided string by using a passphrase from Windows Registry or Environment variable
         /// </summary>
-        /// <param name="securedString">The string to encrypt</param>
-        /// <param name="passPhrase">The password to use for encryption and decryption</param>
+        /// <param name="plainText">The string to encrypt</param>
         /// <returns>Encrypted string</returns>
+        /// <seealso cref="getPassphrase"/>
         public static string Encrypt(string plainText)
         {
             //string plainText = ToInsecureString(securedString);
@@ -42,8 +43,8 @@ namespace Utilities
             byte[] ivStringBytes = Convert.FromBase64String(GenerateRandomEntropy(KEY_SIZE));
             var plainTextBytes = Encoding.UTF8.GetBytes(plainText);
 
-            string passPhrase = GetPassphrase();
-            var keyBytes = KeyStretch_PBKDF2(passPhrase, saltStringBytes,KEY_SIZE);
+            string passPhrase = getPassphrase();
+            var keyBytes = keyStretch_PBKDF2(passPhrase, saltStringBytes,KEY_SIZE);
 
             using (var symmetricKey = new RijndaelManaged())
             {
@@ -72,25 +73,24 @@ namespace Utilities
         }
 
         /// <summary>
-        /// Decrypts the provided encrypted string
+        /// Decrypts the encrypted string provided in <paramref name="cipherText"/> by using a passphrase from Windows Registry or Environment variable
         /// </summary>
         /// <param name="cipherText">The string to decrypt</param>
-        /// <param name="passPhrase">The password provided during encryption</param>
-        /// <returns>A secure string of the decrypted value</returns>
+        /// <returns>A string of the decrypted value</returns>
         public static string Decrypt(string cipherText)
         {
             // Get the complete stream of bytes that represent:
             // [32 bytes of Salt] + [32 bytes of IV] + [n bytes of CipherText]
             var cipherTextBytesWithSaltAndIv = Convert.FromBase64String(cipherText);
             // Get the saltbytes by extracting the first 32 bytes from the supplied cipherText bytes.
-            var saltStringBytes = cipherTextBytesWithSaltAndIv.Take(KEY_SIZE / 8).ToArray();
+            var saltStringBytes = cipherTextBytesWithSaltAndIv.Take(KEY_SIZE).ToArray();
             // Get the IV bytes by extracting the next 32 bytes from the supplied cipherText bytes.
-            var ivStringBytes = cipherTextBytesWithSaltAndIv.Skip(KEY_SIZE / 8).Take(KEY_SIZE / 8).ToArray();
+            var ivStringBytes = cipherTextBytesWithSaltAndIv.Skip(KEY_SIZE).Take(KEY_SIZE).ToArray();
             // Get the actual cipher text bytes by removing the first 64 bytes from the cipherText string.
-            var cipherTextBytes = cipherTextBytesWithSaltAndIv.Skip((KEY_SIZE / 8) * 2).Take(cipherTextBytesWithSaltAndIv.Length - ((KEY_SIZE / 8) * 2)).ToArray();
+            var cipherTextBytes = cipherTextBytesWithSaltAndIv.Skip((KEY_SIZE) * 2).Take(cipherTextBytesWithSaltAndIv.Length - ((KEY_SIZE / 8) * 2)).ToArray();
 
-            string passPhrase = GetPassphrase();
-            var keyBytes = KeyStretch_PBKDF2(passPhrase, saltStringBytes,KEY_SIZE);
+            string passPhrase = getPassphrase();
+            var keyBytes = keyStretch_PBKDF2(passPhrase, saltStringBytes,KEY_SIZE);
 
             using (var symmetricKey = new RijndaelManaged())
             {
@@ -150,11 +150,27 @@ namespace Utilities
             return returnValue;
         }
 
-        #region My security features for sha-512
-        public static string GenerateHash(string plainPassword, string salt)
+        /// <summary>
+        /// Hashes the <paramref name="plainText"/> followed by encrypting it with <see cref="Encrypt(string)"/>
+        /// </summary>
+        /// <param name="plainText">The text to be hashed</param>
+        /// <param name="salt">A 64 bit string obtained from <see cref="GenerateRandomEntropy(int)"/></param>
+        /// <returns>The encrypted hash for the provided <paramref name="plainText"/></returns>
+        public static string GenerateHash(string plainText, string salt)
         {
+            #region Verify that the passphrase for encryption exists in either Windows Registry or Environment variable
+            try
+            {
+                getPassphrase();
+            }
+            catch (ApplicationException)
+            {
+                throw;
+            } 
+            #endregion
+
             #region Check password or salt
-            if (string.IsNullOrWhiteSpace(plainPassword))
+            if (string.IsNullOrWhiteSpace(plainText))
             {
                 throw new ArgumentNullException("plainPassword");
             }
@@ -170,14 +186,14 @@ namespace Utilities
             {
                 blankSalt = null;
                 saltBytes = null;
-                throw new ArgumentException("salt", "Null value found! The salt should be generated using RandomGenerator() before hashing");
+                throw new ArgumentException("salt", "Null value found! The salt should be generated using GenerateRandomEntropy(64) before hashing");
             }
             blankSalt = null;
 
             if (saltBytes.Length != 64)
             {
                 saltBytes = null;
-                throw new ArgumentException("Incorrect size! The salt should be generated using RandomGenerator() before hashing", "salt");
+                throw new ArgumentException("Incorrect size! The salt should be generated using GenerateRandomEntropy(64) before hashing", "salt");
             }
             #endregion
 
@@ -186,18 +202,22 @@ namespace Utilities
             //byte[] saltedPasswordBytes = Encoding.UTF8.GetBytes(saltedPassword);
             //var hash = sha512.ComputeHash(saltedPasswordBytes);
 
-            byte[] saltedPasswordBytesKeyStretched = KeyStretch_PBKDF2(plainPassword, saltBytes,HASH_SIZE);
-            var hashKeyStretched = sha512.ComputeHash(saltedPasswordBytesKeyStretched);
-            //return encrypted hash
-            return Convert.ToBase64String(hashKeyStretched);
+            byte[] saltedPasswordBytesKeyStretched = keyStretch_PBKDF2(plainText, saltBytes,HASH_SIZE);
+            byte[] hashKeyStretched = sha512.ComputeHash(saltedPasswordBytesKeyStretched);
+            string hash = Convert.ToBase64String(hashKeyStretched);
+            string encryptedHash = Encrypt(hash);
+            return encryptedHash;
         }
 
+        /// <summary>
+        /// Generates a random string using the .Net implemented RNGCryptoServiceProvider of the CSPRNG algorithm of Cryptography
+        /// </summary>
+        /// <param name="byteSize">32 for <see cref="Encrypt(string)"/> or 64 for <see cref="GenerateHash(string, string)"/></param>
+        /// <returns>The random string of 32 or 64 bit</returns>
+        /// <exception cref="ArgumentException">Acceptable values for <paramref name="byteSize"/> are 32 or 64</exception>
         public static string GenerateRandomEntropy(int byteSize)
         {
-            if (byteSize != KEY_SIZE && byteSize != HASH_SIZE)
-            {
-                throw new ArgumentException("Only 32 or 64 valid", "byteSize");
-            }
+            verifyByteSize32Or64(byteSize);
             var randomBytes = new byte[byteSize]; // 32 Bytes will give us 256 bits, 64 Bytes will give us 512 bits.
             using (var csprng = new RNGCryptoServiceProvider())
             {
@@ -207,9 +227,30 @@ namespace Utilities
             return Convert.ToBase64String(randomBytes);
         }
 
-        private static byte[] KeyStretch_PBKDF2(string password, byte[] saltBytes, int byteSize)
+        /// <summary>
+        /// Checks if the provided number is either 32 or 64
+        /// </summary>
+        /// <param name="byteSize">Acceptable values: 32 for <see cref="Encrypt(string)"/> and 64 for <see cref="GenerateHash(string, string)"/></param>
+        /// <exception cref="ArgumentException">If values not 32 or 64</exception>
+        private static void verifyByteSize32Or64(int byteSize)
+        {
+            if (byteSize != KEY_SIZE && byteSize != HASH_SIZE)
+            {
+                throw new ArgumentException("Only 32 or 64 valid", "byteSize");
+            }
+        }
+
+        /// <summary>
+        /// Implements the additional security measure of Key stretching
+        /// </summary>
+        /// <param name="password">The text to be secured</param>
+        /// <param name="saltBytes">The generated salt to be added to <paramref name="password"/></param>
+        /// <param name="byteSize">32 for <see cref="Encrypt(string)"/> or 64 for <see cref="GenerateHash(string, string)"/></param>
+        /// <returns>Key stretched bytes</returns>
+        private static byte[] keyStretch_PBKDF2(string password, byte[] saltBytes, int byteSize)
         {
             //byte[] saltBytes = Convert.FromBase64String(saltBytes);
+            verifyByteSize32Or64(byteSize);
             using (Rfc2898DeriveBytes pbkdf2 = new Rfc2898DeriveBytes(password, saltBytes, DERIVATIONITERATIONS))
             {
                 return pbkdf2.GetBytes(byteSize);
@@ -223,18 +264,18 @@ namespace Utilities
         /// </summary>
         /// <returns>Passphrase from registry or environment variable</returns>
         /// <exception cref="ApplicationException">Thrown if Passphrase is not found in either Windows Registry or Environment variable.</exception>
-        private static string GetPassphrase()
+        private static string getPassphrase()
         {
             string passPhrase;
             try
             {
-                passPhrase = GetPassphraseFromRegistry();
+                passPhrase = getPassphraseFromRegistry();
             }
             catch (ApplicationException passPhraseAbsentInRegistry)
             {
                 try
                 {
-                    passPhrase = GetPassphraseFromEnvironmentVariable();
+                    passPhrase = getPassphraseFromEnvironmentVariable();
                 }
                 catch (ApplicationException passPhraseAbsentInEnvironmentVariable)
                 {
@@ -246,11 +287,11 @@ namespace Utilities
             return passPhrase;
         }
         /// <summary>
-        /// Gets passphrase <seealso cref="GetPassphrase"/>
+        /// Gets passphrase from Windows Registry<seealso cref="getPassphrase"/>
         /// </summary>
         /// <returns>The passphrase from Windows Registry</returns>
         /// <exception cref="ApplicationException">When any of the folders in the tree structure or the EncryptionPassphrase key is missing in Windows Registry</exception>
-        private static string GetPassphraseFromRegistry()
+        private static string getPassphraseFromRegistry()
         {
             #region TreeStructure
             string root = "HKEY_LOCAL_MACHINE";
@@ -315,21 +356,20 @@ namespace Utilities
         }
 
         /// <summary>
-        /// Gets passphrase <seealso cref="GetPassphrase"/>
+        /// Gets passphrase<seealso cref="getPassphrase"/>
         /// </summary>
         /// <returns>The passphrase from environment variable</returns>
-        /// <exception cref="ApplicationException">Thrown if Environment variable with the name EncryptionPassphrase does not exist</exception>
-        public static string GetPassphraseFromEnvironmentVariable()
+        /// <exception cref="ApplicationException">Thrown if Environment variable with the name EncryptionPassphrase does not exist or if it holds blank value</exception>
+        private static string getPassphraseFromEnvironmentVariable()
         {
             string passPhrase = Environment.GetEnvironmentVariable("EncryptionPassphrase", EnvironmentVariableTarget.Machine);
-            if (passPhrase == null)
+            if (passPhrase == null || string.IsNullOrWhiteSpace(passPhrase))
             {
                 throw new ApplicationException("Environment variable for passphrase does not exist.");
             }
             //Assert.IsNotNull(passPhrase);
             return passPhrase;
         }
-        #endregion
         #endregion
     }
 }
