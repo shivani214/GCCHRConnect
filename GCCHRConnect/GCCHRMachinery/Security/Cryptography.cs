@@ -35,8 +35,8 @@ namespace GCCHRMachinery.Security
             // Salt and IV is randomly generated each time, but is preprended to encrypted cipher text
             // so that the same Salt and IV values can be used when decrypting.  
             //var saltStringBytes = Generate256BitsOfRandomEntropy();
-            byte[] saltStringBytes = Convert.FromBase64String(GenerateRandomEntropy(KEY_SIZE));
-            byte[] ivStringBytes = Convert.FromBase64String(GenerateRandomEntropy(KEY_SIZE));
+            byte[] saltStringBytes = GenerateRandomEntropy(KEY_SIZE);
+            byte[] ivStringBytes = GenerateRandomEntropy(KEY_SIZE);
             var plainTextBytes = Encoding.UTF8.GetBytes(plainText);
 
             string passPhrase = getPassphrase();
@@ -152,7 +152,7 @@ namespace GCCHRMachinery.Security
         /// <param name="plainText">The text to be hashed</param>
         /// <param name="salt">A 64 bit string obtained from <see cref="GenerateRandomEntropy(int)"/></param>
         /// <returns>The encrypted hash for the provided <paramref name="plainText"/></returns>
-        public static string GenerateHash(string plainText, string salt)
+        public static string GenerateHash(string plainText,out string salt)
         {
             #region Verify that the passphrase for encryption exists in either Windows Registry or Environment variable
             try
@@ -170,38 +170,36 @@ namespace GCCHRMachinery.Security
             {
                 throw new ArgumentNullException("plainPassword");
             }
-            if (string.IsNullOrWhiteSpace(salt))
-            {
-                throw new ArgumentNullException("salt");
-            }
+            //if (string.IsNullOrWhiteSpace(salt))
+            //{
+            //    throw new ArgumentNullException("salt");
+            //}
 
-            byte[] blankSalt = new byte[64];
-            byte[] saltBytes = Convert.FromBase64String(salt);
+            //byte[] blankSalt = new byte[64];
 
-            if (saltBytes == blankSalt)
-            {
-                blankSalt = null;
-                saltBytes = null;
-                throw new ArgumentException("salt", "Null value found! The salt should be generated using GenerateRandomEntropy(64) before hashing");
-            }
-            blankSalt = null;
+            //if (saltBytes == blankSalt)
+            //{
+            //    blankSalt = null;
+            //    saltBytes = null;
+            //    throw new ArgumentException("salt", "Null value found! The salt should be generated using GenerateRandomEntropy(64) before hashing");
+            //}
+            //blankSalt = null;
 
-            if (saltBytes.Length != 64)
-            {
-                saltBytes = null;
-                throw new ArgumentException("Incorrect size! The salt should be generated using GenerateRandomEntropy(64) before hashing", "salt");
-            }
+            //if (saltBytes.Length != 64)
+            //{
+            //    saltBytes = null;
+            //    throw new ArgumentException("Incorrect size! The salt should be generated using GenerateRandomEntropy(64) before hashing", "salt");
+            //}
             #endregion
 
+            byte[] saltBytes = GenerateRandomEntropy(HASH_SIZE);
             SHA512Managed sha512 = new SHA512Managed();
-            //string saltedPassword = plainPassword + salt;
-            //byte[] saltedPasswordBytes = Encoding.UTF8.GetBytes(saltedPassword);
-            //var hash = sha512.ComputeHash(saltedPasswordBytes);
 
-            byte[] saltedPasswordBytesKeyStretched = keyStretch_PBKDF2(plainText, saltBytes,HASH_SIZE);
-            byte[] hashKeyStretched = sha512.ComputeHash(saltedPasswordBytesKeyStretched);
-            string hash = Convert.ToBase64String(hashKeyStretched);
+            byte[] saltedPasswordKeyStretched = keyStretch_PBKDF2(plainText, saltBytes,HASH_SIZE);
+            byte[] hashBytes = sha512.ComputeHash(saltedPasswordKeyStretched);
+            string hash = Convert.ToBase64String(hashBytes);
             string encryptedHash = Encrypt(hash);
+            salt = Convert.ToBase64String(saltBytes);
             return encryptedHash;
         }
 
@@ -211,7 +209,7 @@ namespace GCCHRMachinery.Security
         /// <param name="byteSize">32 for <see cref="Encrypt(string)"/> or 64 for <see cref="GenerateHash(string, string)"/></param>
         /// <returns>The random string of 32 or 64 bit</returns>
         /// <exception cref="ArgumentException">Acceptable values for <paramref name="byteSize"/> are 32 or 64</exception>
-        public static string GenerateRandomEntropy(int byteSize)
+        private static byte[] GenerateRandomEntropy(int byteSize)
         {
             verifyByteSize32Or64(byteSize);
             var randomBytes = new byte[byteSize]; // 32 Bytes will give us 256 bits, 64 Bytes will give us 512 bits.
@@ -220,7 +218,7 @@ namespace GCCHRMachinery.Security
                 // Fill the array with cryptographically secure random bytes.
                 csprng.GetBytes(randomBytes);
             }
-            return Convert.ToBase64String(randomBytes);
+            return randomBytes;
         }
 
         /// <summary>
