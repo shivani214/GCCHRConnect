@@ -21,7 +21,7 @@ namespace GCCHRMachinery.Security
         private const int KEY_SIZE = 32;
         private const int HASH_SIZE = 64;
         // This constant determines the number of iterations for the password bytes generation function.
-        private const int DERIVATIONITERATIONS = 64000;
+        private const int DERIVATION_ITERATIONS = 64000;
 
         /// <summary>
         /// Encrypts the provided string by using a passphrase from Windows Registry or Environment variable
@@ -31,16 +31,14 @@ namespace GCCHRMachinery.Security
         /// <seealso cref="getPassphrase"/>
         public static string Encrypt(string plainText)
         {
-            //string plainText = ToInsecureString(securedString);
             // Salt and IV is randomly generated each time, but is preprended to encrypted cipher text
             // so that the same Salt and IV values can be used when decrypting.  
-            //var saltStringBytes = Generate256BitsOfRandomEntropy();
             byte[] saltStringBytes = GenerateRandomEntropy(KEY_SIZE);
             byte[] ivStringBytes = GenerateRandomEntropy(KEY_SIZE);
-            var plainTextBytes = Encoding.UTF8.GetBytes(plainText);
+            byte[] plainTextBytes = Encoding.UTF8.GetBytes(plainText);
 
             string passPhrase = getPassphrase();
-            var keyBytes = keyStretch_PBKDF2(passPhrase, saltStringBytes,KEY_SIZE);
+            var keyBytes = keyStretch_PBKDF2(passPhrase, saltStringBytes, KEY_SIZE);
 
             using (var symmetricKey = new RijndaelManaged())
             {
@@ -83,10 +81,10 @@ namespace GCCHRMachinery.Security
             // Get the IV bytes by extracting the next 32 bytes from the supplied cipherText bytes.
             var ivStringBytes = cipherTextBytesWithSaltAndIv.Skip(KEY_SIZE).Take(KEY_SIZE).ToArray();
             // Get the actual cipher text bytes by removing the first 64 bytes from the cipherText string.
-            var cipherTextBytes = cipherTextBytesWithSaltAndIv.Skip((KEY_SIZE) * 2).Take(cipherTextBytesWithSaltAndIv.Length - ((KEY_SIZE / 8) * 2)).ToArray();
+            var cipherTextBytes = cipherTextBytesWithSaltAndIv.Skip((KEY_SIZE) * 2).Take(cipherTextBytesWithSaltAndIv.Length - ((KEY_SIZE) * 2)).ToArray();
 
             string passPhrase = getPassphrase();
-            var keyBytes = keyStretch_PBKDF2(passPhrase, saltStringBytes,KEY_SIZE);
+            var keyBytes = keyStretch_PBKDF2(passPhrase, saltStringBytes, KEY_SIZE);
 
             using (var symmetricKey = new RijndaelManaged())
             {
@@ -152,7 +150,7 @@ namespace GCCHRMachinery.Security
         /// <param name="plainText">The text to be hashed</param>
         /// <param name="salt">A 64 bit string obtained from <see cref="GenerateRandomEntropy(int)"/></param>
         /// <returns>The encrypted hash for the provided <paramref name="plainText"/></returns>
-        public static string GenerateHash(string plainText,out string salt)
+        public static string GenerateHash(string plainText, out string salt)
         {
             #region Verify that the passphrase for encryption exists in either Windows Registry or Environment variable
             try
@@ -162,10 +160,10 @@ namespace GCCHRMachinery.Security
             catch (ApplicationException)
             {
                 throw;
-            } 
+            }
             #endregion
 
-            #region Check password or salt
+            #region Check plainText
             if (string.IsNullOrWhiteSpace(plainText))
             {
                 throw new ArgumentNullException("plainPassword");
@@ -193,9 +191,9 @@ namespace GCCHRMachinery.Security
             #endregion
 
             byte[] saltBytes = GenerateRandomEntropy(HASH_SIZE);
-            SHA512Managed sha512 = new SHA512Managed();
+            byte[] saltedPasswordKeyStretched = keyStretch_PBKDF2(plainText, saltBytes, HASH_SIZE);
 
-            byte[] saltedPasswordKeyStretched = keyStretch_PBKDF2(plainText, saltBytes,HASH_SIZE);
+            SHA512Managed sha512 = new SHA512Managed();
             byte[] hashBytes = sha512.ComputeHash(saltedPasswordKeyStretched);
             string hash = Convert.ToBase64String(hashBytes);
             string encryptedHash = Encrypt(hash);
@@ -245,7 +243,7 @@ namespace GCCHRMachinery.Security
         {
             //byte[] saltBytes = Convert.FromBase64String(saltBytes);
             verifyByteSize32Or64(byteSize);
-            using (Rfc2898DeriveBytes pbkdf2 = new Rfc2898DeriveBytes(password, saltBytes, DERIVATIONITERATIONS))
+            using (Rfc2898DeriveBytes pbkdf2 = new Rfc2898DeriveBytes(password, saltBytes, DERIVATION_ITERATIONS))
             {
                 return pbkdf2.GetBytes(byteSize);
             }
@@ -254,7 +252,7 @@ namespace GCCHRMachinery.Security
 
         #region Getting Passphrase from Registry or Environment variable for Encryption/Decryption
         /// <summary>
-        /// Gets the passphrase for <see cref="Encrypt(string)"/> and <see cref="Decrypt(string, string)"/> from Windows Registry, and if not found, Environment Vaiable
+        /// Gets the passphrase for <see cref="Encrypt(string)"/> and <see cref="Decrypt(string)"/> from Windows Registry, and if not found, Environment Vaiable
         /// </summary>
         /// <returns>Passphrase from registry or environment variable</returns>
         /// <exception cref="ApplicationException">Thrown if Passphrase is not found in either Windows Registry or Environment variable.</exception>
