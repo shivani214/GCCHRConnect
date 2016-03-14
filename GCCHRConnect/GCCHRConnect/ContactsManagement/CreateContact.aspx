@@ -90,6 +90,7 @@
                         <asp:ListItem>Friends</asp:ListItem>
                     </asp:CheckBoxList>
                 </div>
+
             </div>
 
         </div>
