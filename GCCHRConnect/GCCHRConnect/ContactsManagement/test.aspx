@@ -24,8 +24,10 @@
 <body>
     <div>
         Doctor:
-        <input type="checkbox" class="switch" checked />
-    </div>
+        <input type="checkbox" class="switch" checked "Docter"/>
+     
+           </div>
+    
     <div>
        Relative:
         <input type="checkbox" class="switch" checked />
@@ -33,6 +35,5 @@
     <div>
        Friends:
         <input type="checkbox" class="switch" />
-    </div> 
-       </body>
+        </body>
     </html>

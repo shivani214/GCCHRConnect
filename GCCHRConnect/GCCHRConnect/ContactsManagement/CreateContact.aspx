@@ -50,7 +50,7 @@
                         <div class="form-group">
                             <asp:Label ID="Label5" runat="server" Text="Phone No." CssClass="col-lg-3 control-label"></asp:Label>
                             <div class="col-lg-9">
-                                <asp:TextBox ID="PhoneNo" runat="server" CssClass="form-control" placeholder="Phone Number"></asp:TextBox>
+                                <asp:TextBox ID="PhoneNo" runat="server" CssClass="form-control" placeholder="Comma seperated"></asp:TextBox>
                             </div>
                         </div>
                         <div class="form-group">
@@ -62,15 +62,55 @@
                         <div class="form-group">
                             <asp:Label ID="Label7" runat="server" Text="Mobile" CssClass="col-lg-3 control-label"></asp:Label>
                             <div class="col-lg-9">
-                                <asp:TextBox ID="Mobile" runat="server" CssClass="form-control" placeholder="Mobile"></asp:TextBox>
+                                <asp:TextBox ID="Mobile" runat="server" CssClass="form-control" placeholder="Comma seperated"></asp:TextBox>
+                            </div>
+                        </div>
+                        <p>Address</p>
+                        <div class="well bs-component">
+                        <div class="form-group">
+                            <asp:Label ID="Label8" runat="server" Text="Line1" CssClass="col-lg-3 control-label"></asp:Label>
+                            <div class="col-lg-9">
+                                <asp:TextBox ID="Address" runat="server" CssClass="form-control" placeholder="Line1"></asp:TextBox>
+                            </div>
+                        </div>
+                            
+                        <div class="form-group">
+                            <asp:Label ID="Label9" runat="server" Text="Line2" CssClass="col-lg-3 control-label"></asp:Label>
+                            <div class="col-lg-9">
+                                <asp:TextBox ID="TextBox1" runat="server" CssClass="form-control" placeholder="Line2"></asp:TextBox>
                             </div>
                         </div>
                         <div class="form-group">
-                            <asp:Label ID="Label8" runat="server" Text="Address" CssClass="col-lg-3 control-label"></asp:Label>
+                            <asp:Label ID="Label10" runat="server" Text="Line3" CssClass="col-lg-3 control-label"></asp:Label>
                             <div class="col-lg-9">
-                                <asp:TextBox ID="Address" runat="server" CssClass="form-control" placeholder="Address"></asp:TextBox>
+                                <asp:TextBox ID="TextBox2" runat="server" CssClass="form-control" placeholder="Line3"></asp:TextBox>
                             </div>
                         </div>
+                        <div class="form-group">
+                            <asp:Label ID="Label11" runat="server" Text="City" CssClass="col-lg-3 control-label"></asp:Label>
+                            <div class="col-lg-9">
+                                <asp:TextBox ID="TextBox3" runat="server" CssClass="form-control" placeholder="City"></asp:TextBox>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <asp:Label ID="Label12" runat="server" Text="Pincode" CssClass="col-lg-3 control-label"></asp:Label>
+                            <div class="col-lg-9">
+                                <asp:TextBox ID="TextBox4" runat="server" CssClass="form-control" placeholder="Pincode"></asp:TextBox>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <asp:Label ID="Label13" runat="server" Text="State" CssClass="col-lg-3 control-label"></asp:Label>
+                            <div class="col-lg-9">
+                                <asp:TextBox ID="TextBox5" runat="server" CssClass="form-control" placeholder="State"></asp:TextBox>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <asp:Label ID="Label14" runat="server" Text="Country" CssClass="col-lg-3 control-label"></asp:Label>
+                            <div class="col-lg-9">
+                                <asp:TextBox ID="TextBox6" runat="server" CssClass="form-control" placeholder="Country"></asp:TextBox>
+                            </div>
+                        </div>
+                            </div>
                         <div class="form-group">
                             <div class="col-lg-9 col-lg-offset-3">
                                 <button type="submit" class="btn btn-primary">Submit</button>
