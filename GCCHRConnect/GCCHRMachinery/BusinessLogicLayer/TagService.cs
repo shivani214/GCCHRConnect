@@ -18,16 +18,11 @@ namespace GCCHRMachinery.BusinessLogicLayer
             var allContacts = contactService.GetAllRecords();
             foreach (Contact contact in allContacts)
             {
-                IEnumerable<Tag> allTags = tagDb.GetAll();
-                List<Tag> tagsMasterList = allTags.ToList();
-                List<string> tagsReferenceList = new List<string>();
-                foreach (Tag tag in tagsMasterList)
-                {
-                    tagsReferenceList.Add(tag.TagName);
-                }
+                IEnumerable<string> allTags = tagDb.GetAllTagNames();
+                List<string> tagsMasterList = allTags.ToList();
                 foreach (string tagToCheck in contact.Tags)
                 {
-                    if (!tagsReferenceList.Contains(tagToCheck))
+                    if (!tagsMasterList.Contains(tagToCheck))
                     {
                         Tag newTag = new Tag();
                         newTag.TagName = tagToCheck;
@@ -35,6 +30,13 @@ namespace GCCHRMachinery.BusinessLogicLayer
                     }
                 }
             }
+        }
+
+        public IEnumerable<string> GetAllTagNamesOnly()
+        {
+            TagDB db = new TagDB();
+            IEnumerable<string> tagNames = db.GetAllTagNames();
+            return tagNames;
         }
     }
 }
