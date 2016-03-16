@@ -59,6 +59,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BusinessLogicLayer\ContactService.cs" />
+    <Compile Include="BusinessLogicLayer\TagService.cs" />
     <Compile Include="DataAccessLayer\MongoDb\Contacts management\ContactDB.cs" />
     <Compile Include="DataAccessLayer\MongoDb\Contacts management\TagDB.cs" />
     <Compile Include="DataAccessLayer\MongoDb\IMongoTask.cs" />

@@ -84,13 +84,13 @@ namespace GCCHRMachineryTest.Security
         public void GenerateHash(string passPhrase)
         {
             string passwordToHash = "AnyUserPasswordOrCreditCard";
-            string salt = Cryptography.GenerateRandomEntropy(64);
+            string salt; // = Cryptography.GenerateRandomEntropy(64);
             //string salt = "1234";
-            string encryptedPasswordHash = Cryptography.GenerateHash(passwordToHash, salt);
+            string encryptedPasswordHash = Cryptography.GenerateHash(passwordToHash,out salt);
             //string encryptedHash = StringCipher.Encrypt(passwordHash, passPhrase);
 
             string decryptedHash = Cryptography.Decrypt(encryptedPasswordHash);
-            string passwordMatchHash = Cryptography.GenerateHash(passwordToHash, salt);
+            string passwordMatchHash = Cryptography.GenerateHash(passwordToHash,out salt);
             Assert.AreEqual(decryptedHash, passwordMatchHash);
         }
 

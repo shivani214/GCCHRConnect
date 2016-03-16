@@ -106,5 +106,6 @@ namespace GCCHRMachinery.BusinessLogicLayer
             db.DeleteById(id);
         }
 
+
     }
 }
