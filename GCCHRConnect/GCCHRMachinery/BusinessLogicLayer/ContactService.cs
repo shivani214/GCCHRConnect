@@ -27,7 +27,6 @@ namespace GCCHRMachinery.BusinessLogicLayer
             TagService tagService = new TagService();
             tagService.UpdateMissingTags(contactToCreate);
 
-            //Not needed TagService.Validate(contactToCreate.Tags);
             ContactDB db = new ContactDB();
             createdId = db.Create(contactToCreate);
 
