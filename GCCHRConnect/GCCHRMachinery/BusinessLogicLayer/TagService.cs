@@ -15,7 +15,7 @@ namespace GCCHRMachinery.BusinessLogicLayer
         {
             ContactService contactService = new ContactService();
             TagDB tagDb = new TagDB();
-            var allContacts = contactService.GetAllRecords();
+            IEnumerable allContacts = contactService.GetAllRecords();
             foreach (Contact contact in allContacts)
             {
                 IEnumerable<string> allTags = tagDb.GetAllTagNames();
@@ -26,10 +26,25 @@ namespace GCCHRMachinery.BusinessLogicLayer
                     {
                         Tag newTag = new Tag();
                         newTag.TagName = tagToCheck;
-                        tagDb.Create(newTag);
+                        CreateTag(newTag);
                     }
                 }
             }
+            allContacts = null;
+            tagDb = null;
+        }
+
+        public string CreateTag(Tag newTag)
+        {
+            if (string.IsNullOrWhiteSpace(newTag.TagName))
+            {
+                throw new ArgumentNullException("newTag.TagName", "The TagName cannot be null");
+            }
+            newTag.TagName.Trim();
+            TagDB dbOp = new TagDB();
+            dbOp.Create(newTag);
+            dbOp = null;
+            return newTag.Id;
         }
 
         public IEnumerable<string> GetAllTagNamesOnly()
