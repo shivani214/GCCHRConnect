@@ -23,6 +23,7 @@ namespace GCCHRMachinery.DataAccessLayer.MongoDb
         /// The constructor which connects to the database.
         /// </summary>
         /// <param name="collectionNameForConnector">The collection name in database which corresponds to the specified entity</param>
+        /// <exception cref="ArgumentNullException"><paramref name="collectionNameForConnector"/></exception>
         public MongoConnector(string collectionNameForConnector)
         {
             if (string.IsNullOrWhiteSpace(collectionNameForConnector))

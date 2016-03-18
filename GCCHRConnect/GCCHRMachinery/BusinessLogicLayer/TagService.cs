@@ -12,29 +12,21 @@ namespace GCCHRMachinery.BusinessLogicLayer
     public class TagService
     {
         /// <summary>
-        /// Looks up <see cref="Contact.Tags"/> for each <see cref="Contact"/> and if any is missing in master list <see cref="Tag"/>, it is inserted there.
+        /// Looks up for each tag from <paramref name="tagsToCheckAndUpdate"/> and if any is missing in master list <see cref="Tag"/>, it is inserted there.
         /// </summary>
-        public void UpdateMissingTags()
+        public void UpdateMissingTags(HashSet<string> tagsToCheckAndUpdate)
         {
-            ContactService contactService = new ContactService();
-            TagDB tagDb = new TagDB();
-            IEnumerable allContacts = contactService.GetAllRecords();
-            foreach (Contact contact in allContacts)
+            IEnumerable<string> allTagsFromMaster = GetAllTagNamesOnly();
+            List<string> tagsMasterList = allTagsFromMaster.ToList();
+            foreach (string tagToCheck in tagsToCheckAndUpdate)
             {
-                IEnumerable<string> allTags = tagDb.GetAllTagNames();
-                List<string> tagsMasterList = allTags.ToList();
-                foreach (string tagToCheck in contact.Tags)
+                if (!tagsMasterList.Contains(tagToCheck))
                 {
-                    if (!tagsMasterList.Contains(tagToCheck))
-                    {
-                        Tag newTag = new Tag();
-                        newTag.TagName = tagToCheck;
-                        CreateTag(newTag);
-                    }
+                    Tag newTag = new Tag();
+                    newTag.TagName = tagToCheck;
+                    CreateTag(newTag);
                 }
             }
-            allContacts = null;
-            tagDb = null;
         }
 
         /// <summary>
@@ -45,15 +37,38 @@ namespace GCCHRMachinery.BusinessLogicLayer
         /// <exception cref="ArgumentNullException">If <see cref="Tag.TagName"/> is null, empty, blank or whitespace</exception>
         public string CreateTag(Tag newTag)
         {
-            if (string.IsNullOrWhiteSpace(newTag.TagName))
-            {
-                throw new ArgumentNullException("newTag.TagName", "The TagName cannot be null");
-            }
+            Validate(newTag.TagName);
             newTag.TagName.Trim();
             TagDB dbOp = new TagDB();
             dbOp.Create(newTag);
             dbOp = null;
             return newTag.Id;
+        }
+
+        /// <summary>
+        /// Validates a tag name
+        /// </summary>
+        /// <param name="tagNameToValidate">The <see cref="Tag"/> to be validated</param>
+        /// <exception cref="ArgumentNullException"><paramref name="tagNameToValidate"/></exception>
+        public static void Validate(string tagNameToValidate)
+        {
+            if (string.IsNullOrWhiteSpace(tagNameToValidate))
+            {
+                throw new ArgumentNullException("newTag.TagName", "The TagName cannot be null");
+            }
+        }
+
+        /// <summary>
+        /// Validates a list of tag names
+        /// </summary>
+        /// <param name="tagNamesToValidate">The list of tags to be validated</param>
+        /// <exception cref="ArgumentNullException"></exception>
+        public static void Validate(HashSet<string> tagNamesToValidate)
+        {
+            foreach (string tag in tagNamesToValidate)
+            {
+                Validate(tag);
+            }
         }
 
         public IEnumerable<string> GetAllTagNamesOnly()

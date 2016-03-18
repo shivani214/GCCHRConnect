@@ -13,13 +13,6 @@ namespace GCCHRMachineryTest.BusinessLogicLayer
     public class TagServiceTest
     {
         [TestMethod]
-        public void UpdateMissingTagsTest()
-        {
-            TagService updateTag = new TagService();
-            updateTag.UpdateMissingTags();
-        }
-
-        [TestMethod]
         [ExpectedException(typeof(ArgumentNullException), "The TagName cannot be null")]
         public void BlankTagCannotBeInserted()
         {

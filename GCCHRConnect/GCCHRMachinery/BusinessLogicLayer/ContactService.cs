@@ -3,6 +3,8 @@ using GCCHRMachinery.DataAccessLayer.MongoDb;
 using System.Collections;
 using UniversalEntities;
 using System.Text.RegularExpressions;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace GCCHRMachinery.BusinessLogicLayer
 {
@@ -11,10 +13,10 @@ namespace GCCHRMachinery.BusinessLogicLayer
     /// </summary>
     public class ContactService
     {
-        ContactDB db = new ContactDB();
-
         /// <summary>
-        /// Inserts a new <see cref="Contact"/> in the database
+        /// Validates the <paramref name="contactToCreate"/>.
+        /// Inserts any new tags from <see cref="Contact.Tags"/> in <see cref="Tag"/>.
+        /// Inserts a new <see cref="Contact"/> in the database.
         /// </summary>
         /// <param name="contactToCreate">The <see cref="Contact"/> to be inserted</param>
         /// <returns>Id of the inserted <see cref="Contact"/></returns>
@@ -22,7 +24,11 @@ namespace GCCHRMachinery.BusinessLogicLayer
         {
             string createdId = "";
             Validate(contactToCreate);
+            TagService tagService = new TagService();
+            tagService.UpdateMissingTags(contactToCreate.Tags);
 
+            //Not needed TagService.Validate(contactToCreate.Tags);
+            ContactDB db = new ContactDB();
             createdId = db.Create(contactToCreate);
 
             return createdId;
@@ -86,6 +92,7 @@ namespace GCCHRMachinery.BusinessLogicLayer
         public IEnumerable GetAllRecords()
         {
             IEnumerable allRecords;
+            ContactDB db = new ContactDB();
             allRecords = db.GetAll();
             return allRecords;
         }
@@ -97,6 +104,7 @@ namespace GCCHRMachinery.BusinessLogicLayer
         public Contact GetRecordById(string id)
         {
             Contact c;
+            ContactDB db = new ContactDB();
             c = db.GetById(id);
             return c;
         }
@@ -107,6 +115,7 @@ namespace GCCHRMachinery.BusinessLogicLayer
         /// <param name="id">The <paramref name="id"/> of the <see cref="Contact"/> to be deleted</param>
         public void DeleteRecordsById(string id)
         {
+            ContactDB db = new ContactDB();
             db.DeleteById(id);
         }
 
