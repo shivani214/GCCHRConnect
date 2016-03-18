@@ -28,6 +28,10 @@ namespace GCCHRMachinery.BusinessLogicLayer
             return createdId;
         }
 
+        /// <summary>
+        /// Validates various properties of <see cref="Contact"/>. Called prior to <see cref="CreateContact(Contact)"/>
+        /// </summary>
+        /// <param name="contactToValidate"></param>
         public void Validate(Contact contactToValidate)
         {
             #region RequiredValidation

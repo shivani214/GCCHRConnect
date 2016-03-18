@@ -11,6 +11,9 @@ namespace GCCHRMachinery.BusinessLogicLayer
 {
     public class TagService
     {
+        /// <summary>
+        /// Looks up <see cref="Contact.Tags"/> for each <see cref="Contact"/> and if any is missing in master list <see cref="Tag"/>, it is inserted there.
+        /// </summary>
         public void UpdateMissingTags()
         {
             ContactService contactService = new ContactService();
@@ -34,6 +37,12 @@ namespace GCCHRMachinery.BusinessLogicLayer
             tagDb = null;
         }
 
+        /// <summary>
+        /// Inserts tag in database after validating it
+        /// </summary>
+        /// <param name="newTag">Tag to insert</param>
+        /// <returns><see cref="Tag.Id"/> of the inserted <paramref name="newTag"/></returns>
+        /// <exception cref="ArgumentNullException">If <see cref="Tag.TagName"/> is null, empty, blank or whitespace</exception>
         public string CreateTag(Tag newTag)
         {
             if (string.IsNullOrWhiteSpace(newTag.TagName))
