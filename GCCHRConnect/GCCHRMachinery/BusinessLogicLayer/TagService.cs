@@ -12,7 +12,7 @@ namespace GCCHRMachinery.BusinessLogicLayer
     public class TagService
     {
         /// <summary>
-        /// Looks up for each tag from <paramref name="tagsToCheckAndUpdate"/> and if any is missing in master list <see cref="Tag"/>, it is inserted there.
+        /// Looks for each tag from <paramref name="tagsToCheckAndUpdate"/> and if any is missing in master list <see cref="Tag"/>, it is inserted there.
         /// </summary>
         public void UpdateMissingTags(HashSet<string> tagsToCheckAndUpdate)
         {
@@ -26,6 +26,27 @@ namespace GCCHRMachinery.BusinessLogicLayer
                     newTag.TagName = tagToCheck;
                     CreateTag(newTag);
                 }
+            }
+        }
+
+        /// <summary>
+        /// Looks for each tag from tags of <paramref name="contactTagsToCheckUpdate"/> and if any is missing in master list <see cref="Tag"/>, it is inserted there.
+        /// </summary>
+        /// <param name="contactTagsToCheckUpdate"></param>
+        public void UpdateMissingTags(Contact contactTagsToCheckUpdate)
+        {
+            UpdateMissingTags(contactTagsToCheckUpdate.Tags);
+        }
+
+        /// <summary>
+        /// Looks for each tag from tags of each <paramref name="contactsTagsToCheckAndUpdate"/> and if any is missing in master list <see cref="Tag"/>, it is inserted there.
+        /// </summary>
+        /// <param name="contactsTagsToCheckAndUpdate"></param>
+        public void UpdateMissingTags(IEnumerable<Contact> contactsTagsToCheckAndUpdate)
+        {
+            foreach (Contact contact in contactsTagsToCheckAndUpdate.ToList())
+            {
+                UpdateMissingTags(contact);
             }
         }
 
