@@ -25,6 +25,7 @@ namespace GCCHRMachinery.BusinessLogicLayer
                     Tag newTag = new Tag();
                     newTag.TagName = tagToCheck;
                     CreateTag(newTag);
+                    tagsMasterList.Add(tagToCheck);
                 }
             }
         }
