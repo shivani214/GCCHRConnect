@@ -100,6 +100,7 @@
   <ItemGroup>
     <Content Include="ContactsManagement\ContactList.aspx" />
     <Content Include="ContactsManagement\CreateContact.aspx" />
+    <Content Include="ContactsManagement\ImportUtility.aspx" />
     <Content Include="ContactsManagement\test.aspx" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
@@ -152,6 +153,12 @@
     </Compile>
     <Compile Include="ContactsManagement\CreateContact.aspx.designer.cs">
       <DependentUpon>CreateContact.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ContactsManagement\ImportUtility.aspx.cs">
+      <DependentUpon>ImportUtility.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ContactsManagement\ImportUtility.aspx.designer.cs">
+      <DependentUpon>ImportUtility.aspx</DependentUpon>
     </Compile>
     <Compile Include="ContactsManagement\test.aspx.cs">
       <DependentUpon>test.aspx</DependentUpon>
