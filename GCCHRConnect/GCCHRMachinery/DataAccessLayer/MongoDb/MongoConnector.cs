@@ -23,14 +23,16 @@ namespace GCCHRMachinery.DataAccessLayer.MongoDb
         /// The constructor which connects to the database.
         /// </summary>
         /// <param name="collectionNameForConnector">The collection name in database which corresponds to the specified entity</param>
+        /// <exception cref="ArgumentNullException"><paramref name="collectionNameForConnector"/></exception>
         public MongoConnector(string collectionNameForConnector)
         {
             if (string.IsNullOrWhiteSpace(collectionNameForConnector))
             {
                 throw new ArgumentNullException("collectionNameForConnector", "The collection name cannot be null");
             }
-            const string connectionString = "";
-            MongoClient client = new MongoClient();
+
+            const string CONNECTION_STRING = "mongodb://JERRY.gcchr.org:27017";
+            MongoClient client = new MongoClient(CONNECTION_STRING);
             const string databaseName = "GCCHRConnectDB"; // should be a private class constant
             IMongoDatabase database = client.GetDatabase(databaseName);
             Collection = database.GetCollection<TEntity>(collectionNameForConnector);
