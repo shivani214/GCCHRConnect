@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace ContactsVisual {
+namespace GCCHRConnect.ContactsManagement {
     
     
     public partial class ImportUtility {
@@ -31,24 +31,6 @@ namespace ContactsVisual {
         protected global::System.Web.UI.ScriptManager ScriptManager1;
         
         /// <summary>
-        /// uc_title control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::ContactsVisual.uc_title uc_title;
-        
-        /// <summary>
-        /// Label1 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label Label1;
-        
-        /// <summary>
         /// Wizard1 control.
         /// </summary>
         /// <remarks>
@@ -65,15 +47,6 @@ namespace ContactsVisual {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.WizardStep WizardStep1;
-        
-        /// <summary>
-        /// Label3 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label Label3;
         
         /// <summary>
         /// BulletedList1 control.
@@ -283,15 +256,6 @@ namespace ContactsVisual {
         protected global::System.Web.UI.WebControls.Panel FaultyContacts;
         
         /// <summary>
-        /// FaultyContacts_Collapsible control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::AjaxControlToolkit.CollapsiblePanelExtender FaultyContacts_Collapsible;
-        
-        /// <summary>
         /// toggle_ValidContacts control.
         /// </summary>
         /// <remarks>
@@ -335,15 +299,6 @@ namespace ContactsVisual {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Panel ValidContacts;
-        
-        /// <summary>
-        /// ValidContacts_Collapsible control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::AjaxControlToolkit.CollapsiblePanelExtender ValidContacts_Collapsible;
         
         /// <summary>
         /// ConvertRowsToContacts control.

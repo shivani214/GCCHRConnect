@@ -8,10 +8,10 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 //ContactsManagement
-using ContactsManagement.Objects;
-using ContactsManagement.Logics;
+//using ContactsManagement.Objects;
+//using ContactsManagement.Logics;
 
-namespace ContactsVisual
+namespace GCCHRConnect.ContactsManagement
 {
     public partial class ImportUtility : System.Web.UI.Page
     {
@@ -61,74 +61,74 @@ namespace ContactsVisual
 
         protected void Import_Click(object sender, EventArgs e)
         {
-            //string fileName = FileUpload1.PostedFile.FileName;
-            //string saveLocation = savePath(fileName);
-            //FileUpload1.SaveAs(saveLocation);
+            ////string fileName = FileUpload1.PostedFile.FileName;
+            ////string saveLocation = savePath(fileName);
+            ////FileUpload1.SaveAs(saveLocation);
 
-            //FileName.Text = fileName;
-            //UploadedFileProperties.Visible = true;
+            ////FileName.Text = fileName;
+            ////UploadedFileProperties.Visible = true;
 
-            ImportedExcel = new DataSet();
+            //ImportedExcel = new DataSet();
 
-            Dictionary<string, bool> ColumnConsistency;
-            Dictionary<string, int> RemoveBlankRows;
-            Dictionary<string, bool> validation;
+            //Dictionary<string, bool> ColumnConsistency;
+            //Dictionary<string, int> RemoveBlankRows;
+            //Dictionary<string, bool> validation;
 
-            //Stopwatch watch = Stopwatch.StartNew();
-            //watch.Start();
-            ImportedExcel = ContactLogic.ImportFromExcel(LocationOfSavedFile.Value);
-            //watch.Stop();
+            ////Stopwatch watch = Stopwatch.StartNew();
+            ////watch.Start();
+            //ImportedExcel = ContactLogic.ImportFromExcel(LocationOfSavedFile.Value);
+            ////watch.Stop();
 
-            ColumnConsistency = new Dictionary<string, bool>();
-            ColumnConsistency = ContactLogic.CheckColumnConsistency(ref ImportedExcel);
+            //ColumnConsistency = new Dictionary<string, bool>();
+            //ColumnConsistency = ContactLogic.CheckColumnConsistency(ref ImportedExcel);
 
-            RemoveBlankRows = new Dictionary<string, int>();
-            RemoveBlankRows = ContactLogic.RemoveBlankRows(ref ImportedExcel);
+            //RemoveBlankRows = new Dictionary<string, int>();
+            //RemoveBlankRows = ContactLogic.RemoveBlankRows(ref ImportedExcel);
 
-            validation = new Dictionary<string, bool>();
-            validation = ContactLogic.ValidateImportedDataSet(ref ImportedExcel);
+            //validation = new Dictionary<string, bool>();
+            //validation = ContactLogic.ValidateImportedDataSet(ref ImportedExcel);
 
 
-            ColumnConsistencySummary.DataSource = ColumnConsistency;
-            //ColumnConsistencySummary.Visible = true;
-            ColumnConsistencySummary.DataBind();
-            BlankRowsDeleteSummary.DataSource = RemoveBlankRows;
-            //BlankRowsDeleteSummary.Visible = true;
-            BlankRowsDeleteSummary.DataBind();
-            ValidationSummary.DataSource = validation;
-            //ValidationSummary.Visible = true;
-            ValidationSummary.DataBind();
+            //ColumnConsistencySummary.DataSource = ColumnConsistency;
+            ////ColumnConsistencySummary.Visible = true;
+            //ColumnConsistencySummary.DataBind();
+            //BlankRowsDeleteSummary.DataSource = RemoveBlankRows;
+            ////BlankRowsDeleteSummary.Visible = true;
+            //BlankRowsDeleteSummary.DataBind();
+            //ValidationSummary.DataSource = validation;
+            ////ValidationSummary.Visible = true;
+            //ValidationSummary.DataBind();
 
-            bool allTableColumnsConsistent = allTablesHaveConsistentColumns(ref ColumnConsistency);
-            bool allTablesValid = allTablesValidated(ref validation);
-            if (allTableColumnsConsistent && allTablesValid)
-            {
-                MaintainDatasetToViewstate();
-            }
+            //bool allTableColumnsConsistent = allTablesHaveConsistentColumns(ref ColumnConsistency);
+            //bool allTablesValid = allTablesValidated(ref validation);
+            //if (allTableColumnsConsistent && allTablesValid)
+            //{
+            //    MaintainDatasetToViewstate();
+            //}
 
-            foreach (DataTable table in ImportedExcel.Tables)
-            {
-                string remarksNotNull = "REMARKS <> ''";
-                DataTable faultyContacts = filterFromTable(table, remarksNotNull);
-                faultyContacts.TableName = table.TableName.Trim() + " Faulty contacts";
-                string remarksNull = "REMARKS = '' OR REMARKS IS NULL";
-                DataTable validContacts = filterFromTable(table, remarksNull);
-                validContacts.TableName = table.TableName.Trim() + " Valid contacts";
+            //foreach (DataTable table in ImportedExcel.Tables)
+            //{
+            //    string remarksNotNull = "REMARKS <> ''";
+            //    DataTable faultyContacts = filterFromTable(table, remarksNotNull);
+            //    faultyContacts.TableName = table.TableName.Trim() + " Faulty contacts";
+            //    string remarksNull = "REMARKS = '' OR REMARKS IS NULL";
+            //    DataTable validContacts = filterFromTable(table, remarksNull);
+            //    validContacts.TableName = table.TableName.Trim() + " Valid contacts";
 
-                GridView gridFaultyContacts = new GridView();
-                gridFaultyContacts.ID = "FaultyContactsGrid_" + table.TableName;
-                gridFaultyContacts.Caption = faultyContacts.TableName;
-                gridFaultyContacts.DataSource = faultyContacts;
-                gridFaultyContacts.DataBind();
-                FaultyContacts.Controls.Add(gridFaultyContacts);
-                GridView gridValidContacts = new GridView();
-                gridValidContacts.ID = "ValidContactsGrid_" + table.TableName;
-                gridValidContacts.Caption = validContacts.TableName;
-                gridValidContacts.DataSource = validContacts;
-                gridValidContacts.DataBind();
-                ValidContacts.Controls.Add(gridValidContacts);
-            }
-            ImportResult.Visible = true;
+            //    GridView gridFaultyContacts = new GridView();
+            //    gridFaultyContacts.ID = "FaultyContactsGrid_" + table.TableName;
+            //    gridFaultyContacts.Caption = faultyContacts.TableName;
+            //    gridFaultyContacts.DataSource = faultyContacts;
+            //    gridFaultyContacts.DataBind();
+            //    FaultyContacts.Controls.Add(gridFaultyContacts);
+            //    GridView gridValidContacts = new GridView();
+            //    gridValidContacts.ID = "ValidContactsGrid_" + table.TableName;
+            //    gridValidContacts.Caption = validContacts.TableName;
+            //    gridValidContacts.DataSource = validContacts;
+            //    gridValidContacts.DataBind();
+            //    ValidContacts.Controls.Add(gridValidContacts);
+            //}
+            //ImportResult.Visible = true;
         }
 
         private DataTable filterFromTable(DataTable tbl, string filter)
@@ -181,51 +181,51 @@ namespace ContactsVisual
             //Import.Visible = true;
         }
 
-        private List<Contact> convertRowsToContacts()
-        {
-            //todo Write another function which should precede this one....
-            //....that function must check if all tables in dataset contain Columns with names same as used below in this function....
-            //....if not, then the column name may be changed to match the one given here.
-            //....Also, if a column does not exist, it may be added to avoid error when running the below code.
-            List<Contact> contacts = new List<Contact>();
+        //private List<Contact> convertRowsToContacts()
+        //{
+        //    //todo Write another function which should precede this one....
+        //    //....that function must check if all tables in dataset contain Columns with names same as used below in this function....
+        //    //....if not, then the column name may be changed to match the one given here.
+        //    //....Also, if a column does not exist, it may be added to avoid error when running the below code.
+        //    List<Contact> contacts = new List<Contact>();
 
-            foreach (DataTable table in ImportedExcel.Tables)
-            {
-                foreach (DataRow row in table.Rows)
-                {
-                    string name = row["Name"].ToString();
-                    string nickName = row["Nick name"].ToString();
+        //    foreach (DataTable table in ImportedExcel.Tables)
+        //    {
+        //        foreach (DataRow row in table.Rows)
+        //        {
+        //            string name = row["Name"].ToString();
+        //            string nickName = row["Nick name"].ToString();
 
-                    Contact.Address add = new Contact.Address();
-                    add.Line1 = row["Line 1"].ToString();
-                    add.Line2 = row["Line 2"].ToString();
-                    add.Line3 = row["Line 3"].ToString();
-                    add.City = row["City"].ToString();
-                    add.PinCode = row["Pin code"].ToString();
-                    add.State = row["State"].ToString();
-                    add.Country = row["Country"].ToString();
-                    List<Contact.Address> addresses = new List<Contact.Address>();
-                    addresses.Add(add);
+        //            Contact.Address add = new Contact.Address();
+        //            add.Line1 = row["Line 1"].ToString();
+        //            add.Line2 = row["Line 2"].ToString();
+        //            add.Line3 = row["Line 3"].ToString();
+        //            add.City = row["City"].ToString();
+        //            add.PinCode = row["Pin code"].ToString();
+        //            add.State = row["State"].ToString();
+        //            add.Country = row["Country"].ToString();
+        //            List<Contact.Address> addresses = new List<Contact.Address>();
+        //            addresses.Add(add);
 
-                    string rowPhones = row["Phone number"].ToString();
-                    string rowEmails = row["Emails"].ToString();
-                    string rowTags = row["Tag"].ToString();
+        //            string rowPhones = row["Phone number"].ToString();
+        //            string rowEmails = row["Emails"].ToString();
+        //            string rowTags = row["Tag"].ToString();
 
-                    Contact c = ContactLogic.ConvertToContact(name, nickName, addresses, rowPhones, rowEmails, rowTags);
+        //            Contact c = ContactLogic.ConvertToContact(name, nickName, addresses, rowPhones, rowEmails, rowTags);
 
-                    contacts.Add(c);
-                }
-            }
-            return contacts;
-        }
+        //            contacts.Add(c);
+        //        }
+        //    }
+        //    return contacts;
+        //}
 
-        protected void ConvertRowsToContacts_Click(object sender, EventArgs e)
-        {
-            MaintainDatasetToViewstate();
-            List<Contact> contacts = convertRowsToContacts();
-            Repeater1.DataSource = contacts;
-            Repeater1.DataBind();
-        }
+        //protected void ConvertRowsToContacts_Click(object sender, EventArgs e)
+        //{
+        //    MaintainDatasetToViewstate();
+        //    List<Contact> contacts = convertRowsToContacts();
+        //    Repeater1.DataSource = contacts;
+        //    Repeater1.DataBind();
+        //}
 
         protected void Wizard1_ActiveStepChanged(object sender, EventArgs e)
         {
