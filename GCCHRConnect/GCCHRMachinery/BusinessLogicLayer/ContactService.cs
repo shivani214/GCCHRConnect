@@ -37,6 +37,8 @@ namespace GCCHRMachinery.BusinessLogicLayer
         /// Validates various properties of <see cref="Contact"/>. Called prior to <see cref="CreateContact(Contact)"/>
         /// </summary>
         /// <param name="contactToValidate"></param>
+        /// <exception cref="System.ArgumentNullException"><see cref="PersonName.Title"/>, <see cref="PersonName.First"/>, <see cref="Address.City"/></exception>
+        /// <exception cref="System.ArgumentException"></exception>
         public void Validate(Contact contactToValidate)
         {
             #region RequiredValidation

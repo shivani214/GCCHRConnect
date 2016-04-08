@@ -58,13 +58,22 @@ namespace GCCHRConnect.ContactsManagement {
         protected global::System.Web.UI.WebControls.BulletedList BulletedList1;
         
         /// <summary>
-        /// WizardStep2 control.
+        /// FileUpload control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.WizardStep WizardStep2;
+        protected global::System.Web.UI.WebControls.WizardStep FileUpload;
+        
+        /// <summary>
+        /// fileUploadPanel control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel fileUploadPanel;
         
         /// <summary>
         /// FileUpload1 control.
@@ -85,6 +94,15 @@ namespace GCCHRConnect.ContactsManagement {
         protected global::System.Web.UI.WebControls.Button SaveFile;
         
         /// <summary>
+        /// RequiredSaveFile control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredSaveFile;
+        
+        /// <summary>
         /// LocationOfSavedFile control.
         /// </summary>
         /// <remarks>
@@ -101,33 +119,6 @@ namespace GCCHRConnect.ContactsManagement {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.WizardStep WizardStep3;
-        
-        /// <summary>
-        /// UploadedFileProperties control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel UploadedFileProperties;
-        
-        /// <summary>
-        /// Label2 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label Label2;
-        
-        /// <summary>
-        /// FileName control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label FileName;
         
         /// <summary>
         /// upnlImportResult control.
@@ -148,6 +139,24 @@ namespace GCCHRConnect.ContactsManagement {
         protected global::System.Web.UI.WebControls.Button Import;
         
         /// <summary>
+        /// UploadSuccess control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel UploadSuccess;
+        
+        /// <summary>
+        /// Literal1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Literal Literal1;
+        
+        /// <summary>
         /// UpdateProgress1 control.
         /// </summary>
         /// <remarks>
@@ -164,15 +173,6 @@ namespace GCCHRConnect.ContactsManagement {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Panel ImportResult;
-        
-        /// <summary>
-        /// Literal1 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label Literal1;
         
         /// <summary>
         /// ColumnConsistencySummary control.
@@ -193,121 +193,49 @@ namespace GCCHRConnect.ContactsManagement {
         protected global::System.Web.UI.WebControls.GridView BlankRowsDeleteSummary;
         
         /// <summary>
-        /// ValidationSummary control.
+        /// RecordCount control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView ValidationSummary;
+        protected global::System.Web.UI.WebControls.GridView RecordCount;
         
         /// <summary>
-        /// Label4 control.
+        /// Transform control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label Label4;
+        protected global::System.Web.UI.WebControls.Button Transform;
         
         /// <summary>
-        /// toggle_FaultyContacts control.
+        /// TransformError control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel toggle_FaultyContacts;
+        protected global::System.Web.UI.WebControls.Panel TransformError;
         
         /// <summary>
-        /// label_FaultyContacts control.
+        /// Literal2 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label label_FaultyContacts;
+        protected global::System.Web.UI.WebControls.Literal Literal2;
         
         /// <summary>
-        /// displayStatus_FaultyContacts control.
+        /// tempGridView control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label displayStatus_FaultyContacts;
-        
-        /// <summary>
-        /// imageDisplayStatus_FaultyContacts control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Image imageDisplayStatus_FaultyContacts;
-        
-        /// <summary>
-        /// FaultyContacts control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel FaultyContacts;
-        
-        /// <summary>
-        /// toggle_ValidContacts control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel toggle_ValidContacts;
-        
-        /// <summary>
-        /// label_ValidContacts control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label label_ValidContacts;
-        
-        /// <summary>
-        /// displayStatus_ValidContacts control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label displayStatus_ValidContacts;
-        
-        /// <summary>
-        /// imageDisplayStatus_ValidContacts control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Image imageDisplayStatus_ValidContacts;
-        
-        /// <summary>
-        /// ValidContacts control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel ValidContacts;
-        
-        /// <summary>
-        /// ConvertRowsToContacts control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button ConvertRowsToContacts;
+        protected global::System.Web.UI.WebControls.GridView tempGridView;
         
         /// <summary>
         /// Repeater1 control.

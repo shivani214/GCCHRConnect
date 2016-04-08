@@ -24,6 +24,11 @@ namespace GCCHRMachinery.Entities
         public string Id { get; set; }
 
         /// <summary>
+        /// Nick name of the <see cref="Contact"/>
+        /// </summary>
+        [BsonIgnoreIfNull]
+        public string NickName { get; set; }
+        /// <summary>
         /// A list of tags to which the <see cref="Contact"/> belongs.
         /// </summary>
         /// <remarks>The tags are from a Master list <see cref="Tag"/></remarks>

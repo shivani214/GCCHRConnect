@@ -61,6 +61,7 @@
     <Compile Include="DataAccessLayer\MongoDb\Contacts management\TagDBTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Security\CryptographyTest.cs" />
+    <Compile Include="Utilities\SorterTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GCCHRMachinery\GCCHRMachinery.csproj">
@@ -68,9 +69,7 @@
       <Name>GCCHRMachinery</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Utilities\" />
-  </ItemGroup>
+  <ItemGroup />
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>
