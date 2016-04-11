@@ -87,15 +87,15 @@ namespace GCCHRConnect.ContactsManagement
             bool requiredColumnsExist;
             using (ExcelBridge.ExcelFile xl = new ExcelBridge.ExcelFile(LocationOfSavedFile.Value))
             {
-                string[] requiredColumns = new string[2]; //new string[] { } didn't work
-                requiredColumns[0] = "Title";
-                requiredColumns[1] = "First name";
-                //ExcelBridge.ExcelFile xl = new ExcelBridge.ExcelFile(LocationOfSavedFile.Value);
+                string[] requiredColumns = new string[2] { "Title", "First name" };
                 requiredColumnsExist = xl.HeadersExist(requiredColumns);    //Remove checking of required columns from here as it should be done in previos step
                 if (requiredColumnsExist)
                 {
                     importedExcel = new DataSet();
+                    //Stopwatch watch = Stopwatch.StartNew();
+                    //watch.Start();
                     importedExcel = xl.Import();
+                    //watch.Stop();
                 }
             }
             if (!requiredColumnsExist)
@@ -105,11 +105,6 @@ namespace GCCHRConnect.ContactsManagement
             }
             else
             {
-                //Stopwatch watch = Stopwatch.StartNew();
-                //watch.Start();
-                //importedExcel = xl.Import();
-                //watch.Stop();
-
                 DataSetHelper datasetOperations = new DataSetHelper(ref importedExcel);
 
                 Dictionary<string, int> removeBlankRows;
@@ -117,16 +112,9 @@ namespace GCCHRConnect.ContactsManagement
                 BlankRowsDeleteSummary.DataSource = removeBlankRows;
                 BlankRowsDeleteSummary.DataBind();
 
-                //Dictionary<string, bool> columnConsistency;
-                //columnConsistency = datasetOperations.CheckColumnsConsistency();
-                //ColumnConsistencySummary.DataSource = columnConsistency;
-                //ColumnConsistencySummary.DataBind();
-                //bool allTableColumnsConsistent = allTablesHaveConsistentColumns(ref columnConsistency);
-                //if (allTableColumnsConsistent)
                 AddDatasetToViewstate();
                 RecordCount.DataSource = datasetOperations.GetRecordsCount();
                 RecordCount.DataBind();
-                //AddDatasetToViewstate();
                 ImportResult.Visible = true;
                 Import.Visible = false;
                 //Transform.Visible = true;
@@ -156,11 +144,6 @@ namespace GCCHRConnect.ContactsManagement
             string fileName = FileUpload1.PostedFile.FileName;
             LocationOfSavedFile.Value = savePath(fileName);
 
-            //File already being deleted by SaveAs()
-            //if (File.Exists(LocationOfSavedFile.Value))
-            //{
-            //    File.Delete(LocationOfSavedFile.Value);
-            //}
             try
             {
                 FileUpload1.SaveAs(LocationOfSavedFile.Value);
@@ -176,63 +159,8 @@ namespace GCCHRConnect.ContactsManagement
                 //todo Show Summary: If required columns exist (remove checking of required columns from the import function), SN (optional column) exists
                 Wizard1.ActiveStepIndex++;
                 Import.Text = Import.Text + " " + fileName;
-                //UploadedFileProperties.Visible = true;
-                //    upnlImportResult.Visible = true;
-                //    fileUploadPanel.Visible = false;
             }
             //Import.Visible = true;
-        }
-
-        //private List<Contact> convertRowsToContacts()
-        //{
-        //    //todo Write another function which should precede this one....
-        //    //....that function must check if all tables in dataset contain Columns with names same as used below in this function....
-        //    //....if not, then the column name may be changed to match the one given here.
-        //    //....Also, if a column does not exist, it may be added to avoid error when running the below code.
-        //    List<Contact> contacts = new List<Contact>();
-
-        //    foreach (DataTable table in ImportedExcel.Tables)
-        //    {
-        //        foreach (DataRow row in table.Rows)
-        //        {
-        //            string name = row["Name"].ToString();
-        //            string nickName = row["Nick name"].ToString();
-
-        //            Contact.Address add = new Contact.Address();
-        //            add.Line1 = row["Line 1"].ToString();
-        //            add.Line2 = row["Line 2"].ToString();
-        //            add.Line3 = row["Line 3"].ToString();
-        //            add.City = row["City"].ToString();
-        //            add.PinCode = row["Pin code"].ToString();
-        //            add.State = row["State"].ToString();
-        //            add.Country = row["Country"].ToString();
-        //            List<Contact.Address> addresses = new List<Contact.Address>();
-        //            addresses.Add(add);
-
-        //            string rowPhones = row["Phone number"].ToString();
-        //            string rowEmails = row["Emails"].ToString();
-        //            string rowTags = row["Tag"].ToString();
-
-        //            Contact c = ContactLogic.ConvertToContact(name, nickName, addresses, rowPhones, rowEmails, rowTags);
-
-        //            contacts.Add(c);
-        //        }
-        //    }
-        //    return contacts;
-        //}
-
-        //protected void ConvertRowsToContacts_Click(object sender, EventArgs e)
-        //{
-        //    MaintainDatasetToViewstate();
-        //    List<Contact> contacts = convertRowsToContacts();
-        //    Repeater1.DataSource = contacts;
-        //    Repeater1.DataBind();
-        //}
-
-        protected void Wizard1_ActiveStepChanged(object sender, EventArgs e)
-        {
-            //AddDatasetToViewstate();
-
         }
 
         private void AddDatasetToViewstate()
@@ -240,14 +168,8 @@ namespace GCCHRConnect.ContactsManagement
             ViewState.Add(VIEWSTATE_DATASET, importedExcel);
         }
 
-        protected void Wizard1_NextButtonClick(object sender, WizardNavigationEventArgs e)
-        {
-            //AddDatasetToViewstate();
-        }
-
         protected void Transform_Click(object sender, EventArgs e)
         {
-            //AddDatasetToViewstate();
             importedExcel = (DataSet)ViewState[VIEWSTATE_DATASET];
 
             List<Contact> allContacts = new List<Contact>();
@@ -266,7 +188,7 @@ namespace GCCHRConnect.ContactsManagement
                                  .ToArray();
                 columns = columnNames.ToList();
                 #endregion
-
+                //Transforming values from rows into Contact object
                 foreach (DataRow row in table.Rows)
                 {
                     string columnName;
@@ -315,7 +237,7 @@ namespace GCCHRConnect.ContactsManagement
                         prepareContact.Name.Last = (string)row[columnName];
                     }
                     // Nickname
-                    columnName = "Nick name"; //Returned false
+                    columnName = "Nick name";
                     if (columns.Contains(columnName))
                     {
                         prepareContact.NickName = (string)row[columnName];
@@ -448,7 +370,7 @@ namespace GCCHRConnect.ContactsManagement
                         prepareContact.Addresses.Add(address);
                     }
 
-                    //Sort Line1, Line2, Line3 for each address
+                    //Sort Line1, Line2, Line3 for each address then replace the below foreach loop with simple address.sort
                     //todo Use the Address.Sort method. Check https://github.com/gaurangfgupta/UniversalEntities/issues/17
                     foreach (Address add in prepareContact.Addresses)
                     {
@@ -460,8 +382,6 @@ namespace GCCHRConnect.ContactsManagement
                     }
 
                     ContactService contactManager = new ContactService();
-
-
 
                     try
                     {
