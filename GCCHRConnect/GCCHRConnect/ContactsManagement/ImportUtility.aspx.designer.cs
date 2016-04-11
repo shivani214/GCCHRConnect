@@ -139,22 +139,40 @@ namespace GCCHRConnect.ContactsManagement {
         protected global::System.Web.UI.WebControls.Button Import;
         
         /// <summary>
-        /// UploadSuccess control.
+        /// ExtractionSuccess control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel UploadSuccess;
+        protected global::System.Web.UI.WebControls.Panel ExtractionSuccess;
         
         /// <summary>
-        /// Literal1 control.
+        /// ExtractionSuccessMessage control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal Literal1;
+        protected global::System.Web.UI.WebControls.Literal ExtractionSuccessMessage;
+        
+        /// <summary>
+        /// ExtractionFailure control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel ExtractionFailure;
+        
+        /// <summary>
+        /// ExtractionFailureMessage control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Literal ExtractionFailureMessage;
         
         /// <summary>
         /// UpdateProgress1 control.

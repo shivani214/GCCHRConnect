@@ -102,8 +102,11 @@
                                         <p>
                                             <asp:Button ID="Import" runat="server" Text="Extract from" OnClick="Import_Click" CssClass="btn btn-default btn-block" />
                                         </p>
-                                        <asp:Panel ID="UploadSuccess" runat="server" CssClass="alert alert-success" Visible="false">
-                                            <asp:Literal ID="Literal1" runat="server" Text="Extraction successful"></asp:Literal>
+                                        <asp:Panel ID="ExtractionSuccess" runat="server" CssClass="alert alert-success" Visible="false" EnableViewState="false">
+                                            <asp:Literal ID="ExtractionSuccessMessage" runat="server" Text="Extraction successful"></asp:Literal>
+                                        </asp:Panel>
+                                        <asp:Panel ID="ExtractionFailure" runat="server" CssClass="alert alert-danger" Visible="false" EnableViewState="False">
+                                            <asp:Literal ID="ExtractionFailureMessage" runat="server" Text="Extraction failed"></asp:Literal>
                                         </asp:Panel>
 
                                         <asp:UpdateProgress ID="UpdateProgress1" runat="server" AssociatedUpdatePanelID="upnlImportResult" DisplayAfter="500">

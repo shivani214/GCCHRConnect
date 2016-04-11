@@ -84,36 +84,45 @@ namespace GCCHRConnect.ContactsManagement
 
             //FileName.Text = fileName;
             //UploadedFileProperties.Visible = true;
-            ExcelBridge.ImportFromFile xlImport = new ExcelBridge.ImportFromFile(LocationOfSavedFile.Value);
-            importedExcel = new DataSet();
-
-
-
-            //Stopwatch watch = Stopwatch.StartNew();
-            //watch.Start();
-            //watch.Stop();
-            importedExcel = xlImport.Import();
-            DataSetHelper datasetOperations = new DataSetHelper(ref importedExcel);
-            List<string> requiredColumns = new List<string>();
-            requiredColumns.Add("Title");
-            requiredColumns.Add("FirstName");
-            bool requiredColumnsExist = datasetOperations.ColumnsExist(requiredColumns);
-            //todo If requiredColumnsExist false??
-
-
-            Dictionary<string, int> removeBlankRows;
-            removeBlankRows = datasetOperations.RemoveBlankRows();
-            BlankRowsDeleteSummary.DataSource = removeBlankRows;
-            BlankRowsDeleteSummary.DataBind();
-
-            //Dictionary<string, bool> columnConsistency;
-            //columnConsistency = datasetOperations.CheckColumnsConsistency();
-            //ColumnConsistencySummary.DataSource = columnConsistency;
-            //ColumnConsistencySummary.DataBind();
-            //bool allTableColumnsConsistent = allTablesHaveConsistentColumns(ref columnConsistency);
-            //if (allTableColumnsConsistent)
-            if (requiredColumnsExist)
+            bool requiredColumnsExist;
+            using (ExcelBridge.ExcelFile xl = new ExcelBridge.ExcelFile(LocationOfSavedFile.Value))
             {
+                string[] requiredColumns = new string[2]; //new string[] { } didn't work
+                requiredColumns[0] = "Title";
+                requiredColumns[1] = "First name";
+                //ExcelBridge.ExcelFile xl = new ExcelBridge.ExcelFile(LocationOfSavedFile.Value);
+                requiredColumnsExist = xl.HeadersExist(requiredColumns);    //Remove checking of required columns from here as it should be done in previos step
+                if (requiredColumnsExist)
+                {
+                    importedExcel = new DataSet();
+                    importedExcel = xl.Import();
+                }
+            }
+            if (!requiredColumnsExist)
+            {
+                ExtractionFailureMessage.Text = string.Format("<strong>{0}:</strong> {1}", ExtractionFailureMessage.Text, "Required columns 'Title' and 'First name' missing from Excel file");
+                ExtractionFailure.Visible = true;
+            }
+            else
+            {
+                //Stopwatch watch = Stopwatch.StartNew();
+                //watch.Start();
+                //importedExcel = xl.Import();
+                //watch.Stop();
+
+                DataSetHelper datasetOperations = new DataSetHelper(ref importedExcel);
+
+                Dictionary<string, int> removeBlankRows;
+                removeBlankRows = datasetOperations.RemoveBlankRows();
+                BlankRowsDeleteSummary.DataSource = removeBlankRows;
+                BlankRowsDeleteSummary.DataBind();
+
+                //Dictionary<string, bool> columnConsistency;
+                //columnConsistency = datasetOperations.CheckColumnsConsistency();
+                //ColumnConsistencySummary.DataSource = columnConsistency;
+                //ColumnConsistencySummary.DataBind();
+                //bool allTableColumnsConsistent = allTablesHaveConsistentColumns(ref columnConsistency);
+                //if (allTableColumnsConsistent)
                 AddDatasetToViewstate();
                 RecordCount.DataSource = datasetOperations.GetRecordsCount();
                 RecordCount.DataBind();
@@ -121,8 +130,9 @@ namespace GCCHRConnect.ContactsManagement
                 ImportResult.Visible = true;
                 Import.Visible = false;
                 //Transform.Visible = true;
-                UploadSuccess.Visible = true;
+                ExtractionSuccess.Visible = true;
             }
+
         }
 
         private bool allTablesHaveConsistentColumns(ref Dictionary<string, bool> colConsistency)
@@ -145,10 +155,25 @@ namespace GCCHRConnect.ContactsManagement
 
             string fileName = FileUpload1.PostedFile.FileName;
             LocationOfSavedFile.Value = savePath(fileName);
-            FileUpload1.SaveAs(LocationOfSavedFile.Value);
+
+            //File already being deleted by SaveAs()
+            //if (File.Exists(LocationOfSavedFile.Value))
+            //{
+            //    File.Delete(LocationOfSavedFile.Value);
+            //}
+            try
+            {
+                FileUpload1.SaveAs(LocationOfSavedFile.Value);
+            }
+            catch (IOException x) when (x.Message.Contains("being used by another process"))
+            {
+                //todo release busy file or save by another name
+                throw;
+            }
 
             if (File.Exists(LocationOfSavedFile.Value))
             {
+                //todo Show Summary: If required columns exist (remove checking of required columns from the import function), SN (optional column) exists
                 Wizard1.ActiveStepIndex++;
                 Import.Text = Import.Text + " " + fileName;
                 //UploadedFileProperties.Visible = true;
@@ -226,6 +251,13 @@ namespace GCCHRConnect.ContactsManagement
             importedExcel = (DataSet)ViewState[VIEWSTATE_DATASET];
 
             List<Contact> allContacts = new List<Contact>();
+            //Prepare table for validation summary of all contacts
+            DataTable contactsValidationSummary = new DataTable();
+            contactsValidationSummary.Columns.Add("Sheet");
+            contactsValidationSummary.Columns.Add("Row number");
+            contactsValidationSummary.Columns.Add("Error encountered");
+
+            //Begin procedure
             foreach (DataTable table in importedExcel.Tables)
             {
                 #region GetColumnNames
@@ -239,7 +271,25 @@ namespace GCCHRConnect.ContactsManagement
                 {
                     string columnName;
                     Contact prepareContact = new Contact();
-                    prepareContact.Name = new PersonName();
+                    //Serial number
+                    columnName = "SN";
+                    int serialNumber;
+                    if (columns.Contains(columnName))
+                    {
+                        try
+                        {
+                            serialNumber = (int)row[columnName];
+                        }
+                        catch (Exception)
+                        {
+
+                            throw;
+                        }
+                    }
+                    else
+                    {
+                        serialNumber = table.Rows.IndexOf(row) + 2;
+                    }
                     // Title
                     columnName = "Title";
                     if (columns.Contains(columnName))
@@ -247,25 +297,25 @@ namespace GCCHRConnect.ContactsManagement
                         prepareContact.Name.Title = (string)row[columnName];
                     }
                     // First name
-                    columnName = "FirstName";
+                    columnName = "First name";
                     if (columns.Contains(columnName))
                     {
                         prepareContact.Name.First = (string)row[columnName];
                     }
                     // Middle name
-                    columnName = "MiddleName";
+                    columnName = "Middle name";
                     if (columns.Contains(columnName))
                     {
                         prepareContact.Name.Middle = (string)row[columnName];
                     }
                     // Last name
-                    columnName = "LastName";
+                    columnName = "Last name";
                     if (columns.Contains(columnName))
                     {
                         prepareContact.Name.Last = (string)row[columnName];
                     }
                     // Nickname
-                    columnName = "NickName";
+                    columnName = "Nick name"; //Returned false
                     if (columns.Contains(columnName))
                     {
                         prepareContact.NickName = (string)row[columnName];
@@ -274,7 +324,6 @@ namespace GCCHRConnect.ContactsManagement
                     columnName = "Tags";
                     if (columns.Contains(columnName))
                     {
-                        prepareContact.Tags = new HashSet<string>();
                         string raw = (string)row[columnName];
                         string[] tags = raw.Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
                         for (int i = 0; i < tags.Length; i++)
@@ -286,7 +335,6 @@ namespace GCCHRConnect.ContactsManagement
                     columnName = "Emails";
                     if (columns.Contains(columnName))
                     {
-                        prepareContact.Emails = new List<string>();
                         string raw = (string)row[columnName];
                         prepareContact.Emails = raw.Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries).ToList();
                     }
@@ -294,22 +342,20 @@ namespace GCCHRConnect.ContactsManagement
                     columnName = "Mobiles";
                     if (columns.Contains(columnName))
                     {
-                        prepareContact.Mobiles = new List<string>();
                         string raw = (string)row[columnName];
                         prepareContact.Mobiles = raw.Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries).ToList();
                     }
                     // Phones
-                    columnName = "Phones";
+                    columnName = "Phone numbers";
                     if (columns.Contains(columnName))
                     {
-                        prepareContact.Phones = new List<string>();
                         string raw = (string)row[columnName];
                         prepareContact.Phones = raw.Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries).ToList();
                     }
 
                     // Addresses
                     //Line1
-                    columnName = "Line1";
+                    columnName = "Line 1";
                     //List<string> line1 = new List<string>();
                     //todo If array for line1 works, convert all other address elements to array, else reverse this to use list similar to other address elements
                     string[] line1 = new string[] { };
@@ -319,7 +365,7 @@ namespace GCCHRConnect.ContactsManagement
                         line1 = raw.Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
                     }
                     //Line2
-                    columnName = "Line2";
+                    columnName = "Line 2";
                     List<string> line2 = new List<string>();
                     if (columns.Contains(columnName))
                     {
@@ -327,7 +373,7 @@ namespace GCCHRConnect.ContactsManagement
                         line2 = raw.Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries).ToList();
                     }
                     //Line3
-                    columnName = "Line3";
+                    columnName = "Line 3";
                     List<string> line3 = new List<string>();
                     if (columns.Contains(columnName))
                     {
@@ -343,7 +389,7 @@ namespace GCCHRConnect.ContactsManagement
                         city = raw.Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries).ToList();
                     }
                     //Pincode
-                    columnName = "Pincode";
+                    columnName = "Pin code";
                     List<string> pincode = new List<string>();
                     if (columns.Contains(columnName))
                     {
@@ -368,7 +414,6 @@ namespace GCCHRConnect.ContactsManagement
                     }
 
                     int numberOfAddressesNeeded = new int[] { line1.Length, line2.Count, line3.Count, city.Count, pincode.Count, state.Count, country.Count }.Max();
-                    prepareContact.Addresses = new List<Address>();
                     for (int i = 0; i < numberOfAddressesNeeded - 1; i++)
                     {
                         Address address = new Address();
@@ -416,21 +461,22 @@ namespace GCCHRConnect.ContactsManagement
 
                     ContactService contactManager = new ContactService();
 
+
+
                     try
                     {
                         contactManager.Validate(prepareContact);
                     }
-                    catch (ArgumentNullException)
+                    catch (ArgumentNullException argNullX)
                     {
-                        TransformError.Visible = true;
                         //todo If any contact invalid
-                        return;
+                        contactsValidationSummary.Rows.Add(table.TableName, serialNumber, argNullX.Message);
                     }
-                    catch (ArgumentException)
+                    catch (ArgumentException argX)
                     {
-                        TransformError.Visible = true;
                         //todo If any contact invalid
-                        return;
+                        contactsValidationSummary.Rows.Add(table.TableName, serialNumber, argX.Message);
+                        TransformError.Visible = true;
                     }
                 }
             }
@@ -442,40 +488,6 @@ namespace GCCHRConnect.ContactsManagement
             #endregion
             Wizard1.ActiveStepIndex++;
         }
-        //private T GetValue<T>(string columnName)
-        //{
-        //    T value;
-        //    #region Title
-        //    if (columns.Contains(columnName))
-        //    {
-        //        value = (T)rowContact[columnName];
-        //    }
-        //    #endregion
-
-        //    #region Nickname
-        //    if (columns.Contains(columnName))
-        //    {
-        //        value = (T)rowContact[columnName];
-        //    }
-        //    #endregion
-
-        //    #region Tags
-
-        //    if (columns.Contains(columnName))
-        //    {
-        //        string rawTags = (string)rowContact[columnName];
-        //        string[] tagsSplit = rawTags.Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
-        //        HashSet<string> tags = new HashSet<string>();
-        //        for (int i = 0; i < tagsSplit.Length; i++)
-        //        {
-        //            tags.Add(tagsSplit[i]);
-        //        }
-        //        value = tags;
-        //    }
-        //    #endregion
-
-        //    return value;
-        //}
 
     }
 }
