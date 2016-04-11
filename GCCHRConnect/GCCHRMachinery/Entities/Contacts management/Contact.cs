@@ -17,6 +17,15 @@ namespace GCCHRMachinery.Entities
         public const string TableOrCollectionName = "Contacts";
         #endregion
 
+        public Contact()
+        {
+            Name = new PersonName();
+            Addresses = new List<Address>();
+            Mobiles = new List<string>();
+            Phones = new List<string>();
+            Emails = new List<string>();
+            Tags = new HashSet<string>();
+        }
         /// <summary>
         /// The unique id of the <see cref="Contact"/>
         /// </summary>
