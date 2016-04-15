@@ -56,6 +56,7 @@ namespace GCCHRMachinery.BusinessLogicLayer
                 {
                     throw new System.ArgumentNullException("City");
                 }
+                address.IsCorrectFormat();
             }
             #endregion
 

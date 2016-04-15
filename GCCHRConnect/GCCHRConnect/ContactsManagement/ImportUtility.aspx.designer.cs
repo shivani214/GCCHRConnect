@@ -49,6 +49,15 @@ namespace GCCHRConnect.ContactsManagement {
         protected global::System.Web.UI.WebControls.WizardStep WizardStep1;
         
         /// <summary>
+        /// BulletedList2 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.BulletedList BulletedList2;
+        
+        /// <summary>
         /// BulletedList1 control.
         /// </summary>
         /// <remarks>
@@ -56,6 +65,15 @@ namespace GCCHRConnect.ContactsManagement {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.BulletedList BulletedList1;
+        
+        /// <summary>
+        /// Table1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Table Table1;
         
         /// <summary>
         /// FileUpload control.

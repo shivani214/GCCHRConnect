@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="ImportUtility.aspx.cs" Inherits="GCCHRConnect.ContactsManagement.ImportUtility" Trace="True" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="ImportUtility.aspx.cs" Inherits="GCCHRConnect.ContactsManagement.ImportUtility" Trace="False" %>
 
 <!DOCTYPE html>
 
@@ -29,8 +29,7 @@
             <div id="container_ImportUtility" class="container">
                 <div class="row">
 
-                    <asp:Wizard ID="Wizard1" runat="server" DisplayCancelButton="True" ActiveStepIndex="2" OnActiveStepChanged="Wizard1_ActiveStepChanged" OnNextButtonClick="Wizard1_NextButtonClick"
-                        CssClass="panel">
+                    <asp:Wizard ID="Wizard1" runat="server" DisplayCancelButton="True" ActiveStepIndex="0" CssClass="panel">
 
                         <HeaderStyle CssClass="page-header panel-body"></HeaderStyle>
 
@@ -62,18 +61,47 @@
                         </StepNavigationTemplate>
 
                         <WizardSteps>
+                            <asp:WizardStep ID="WizardStep1" runat="server" Title="Guidelines">
+                                <div class="panel panel-default" id="FileStructure">
+                                    <div class="panel-heading">
+                                        <h5>File structure</h5>
+                                    </div>
+                                    <div class="panel-body">
+                                        <asp:BulletedList ID="BulletedList2" runat="server">
+                                            <asp:ListItem>The Excel file may contain single or multiple sheets</asp:ListItem>
+                                            <asp:ListItem>Row 1 on each sheet: must not be blank and must contain headers</asp:ListItem>
+                                            <asp:ListItem>Headers must begin from Column A and there should be no blank columns from beginning to end of headers</asp:ListItem>
+                                            <asp:ListItem>Records must begin from Row 2</asp:ListItem>
+                                            <asp:ListItem>There should be no blank rows from beginning to end of records</asp:ListItem>
+                                        </asp:BulletedList>
+                                    </div>
+                                </div>
 
-                            <asp:WizardStep ID="WizardStep1" runat="server" Title="Begin">
-                                <p>Before you go ahead, go through this checklist for a smooth import experience</p>
-                                <%--bulletedlist--%>
-                                <p>Go through following easy steps</p>
-                                <asp:BulletedList ID="BulletedList1" runat="server">
-                                    <asp:ListItem>The Excel file may contain single or multiple sheets</asp:ListItem>
-                                    <asp:ListItem>Each sheet must have the same columns (order of columns need not be same)</asp:ListItem>
-                                    <asp:ListItem>The values will be validated eg. mobiles must be numbers only</asp:ListItem>
-                                    <asp:ListItem>Any blank rows will be deleted</asp:ListItem>
-                                    <asp:ListItem Text="Any tags which are not present in database will be created for you, duplicates will be ignored" />
-                                </asp:BulletedList>
+                                <div class="panel panel-default" id="columns">
+                                    <div class="panel-heading">
+                                        <h5>Columns</h5>
+                                    </div>
+                                    <div class="panel-body">
+                                        <asp:BulletedList ID="BulletedList1" runat="server">
+                                            <asp:ListItem>The order of columns in various sheets need not be same</asp:ListItem>
+                                            <asp:ListItem>The names of the columns (headers) must be exact as given below</asp:ListItem>
+                                        </asp:BulletedList>
+                                        <div class="row" id="columnsDescription">
+                                            <div class="panel">Panel-1</div>
+                                            <div class="panel">Panel-2</div>
+                                        </div>
+                                        <asp:Table ID="Table1" runat="server" CssClass="table">
+                                            <asp:TableHeaderRow>
+                                                <asp:TableHeaderCell>Required columns</asp:TableHeaderCell>
+                                            </asp:TableHeaderRow>
+                                            <asp:TableRow>
+                                                <asp:TableCell>Title</asp:TableCell>
+                                                <asp:TableCell>Required</asp:TableCell>
+                                            </asp:TableRow>
+                                        </asp:Table>
+                                    </div>
+                                </div>
+                                
 
 
                                 <p>ToDo: Show a list of tags available in the tags collection so that user may either edit his tags (in excel) to match the ones provided or leave them as it is so they may be added to the Tag collection</p>
@@ -86,9 +114,9 @@
                                     </p>
                                     <p>
                                         <asp:Button ID="SaveFile" runat="server" Text="Upload file" OnClick="SaveFile_Click" CssClass="btn btn-default" />
-                                            <asp:RequiredFieldValidator ID="RequiredSaveFile" runat="server"
-                                                ErrorMessage="Please select a file and then click <strong>Upload file</strong>"
-                                                ControlToValidate="FileUpload1" CssClass="text-danger"></asp:RequiredFieldValidator>
+                                        <asp:RequiredFieldValidator ID="RequiredSaveFile" runat="server"
+                                            ErrorMessage="Please select a file and then click <strong>Upload file</strong>"
+                                            ControlToValidate="FileUpload1" CssClass="text-danger"></asp:RequiredFieldValidator>
                                     </p>
                                     <asp:HiddenField ID="LocationOfSavedFile" runat="server" />
                                 </asp:Panel>
@@ -176,8 +204,8 @@
                                 </asp:UpdatePanel>
                                 <asp:Button ID="Transform" runat="server" Text="Prepare contacts" CssClass="btn btn-block btn-default btn-lg" OnClick="Transform_Click" />
                                 <asp:Panel ID="TransformError" runat="server" CssClass="alert alert-danger" Visible="false">
-                                            <asp:Literal ID="Literal2" runat="server" Text="Transformation failed"></asp:Literal>
-                                        </asp:Panel>
+                                    <asp:Literal ID="Literal2" runat="server" Text="Transformation failed"></asp:Literal>
+                                </asp:Panel>
                                 <%--<asp:UpdatePanel ID="UpdatePanel1" runat="server">
                                     <ContentTemplate>
                                         <asp:Label ID="TestLabel" runat="server" Text="Label"></asp:Label>
