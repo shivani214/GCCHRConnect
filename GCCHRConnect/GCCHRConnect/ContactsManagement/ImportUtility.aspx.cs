@@ -275,103 +275,56 @@ namespace GCCHRConnect.ContactsManagement
                         prepareContact.Phones = raw.Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries).ToList();
                     }
 
-                    // Addresses
+                    // Address
+                    Address address = new Address();
                     //Line1
                     columnName = "Line 1";
-                    //List<string> line1 = new List<string>();
-                    //todo If array for line1 works, convert all other address elements to array, else reverse this to use list similar to other address elements
                     string[] line1 = new string[] { };
                     if (columns.Contains(columnName))
                     {
-                        string raw = (string)row[columnName];
-                        line1 = raw.Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
+                        address.Line1 = (string)row[columnName];
                     }
                     //Line2
                     columnName = "Line 2";
-                    List<string> line2 = new List<string>();
                     if (columns.Contains(columnName))
                     {
-                        string raw = (string)row[columnName];
-                        line2 = raw.Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries).ToList();
+                        address.Line2 = (string)row[columnName];
                     }
                     //Line3
                     columnName = "Line 3";
-                    List<string> line3 = new List<string>();
                     if (columns.Contains(columnName))
                     {
-                        string raw = (string)row[columnName];
-                        line3 = raw.Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries).ToList();
+                        address.Line3 = (string)row[columnName];
                     }
                     //City
                     columnName = "City";
-                    List<string> city = new List<string>();
                     if (columns.Contains(columnName))
                     {
-                        string raw = (string)row[columnName];
-                        city = raw.Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries).ToList();
+                        address.City = (string)row[columnName];
                     }
                     //Pincode
                     columnName = "Pin code";
-                    List<string> pincode = new List<string>();
                     if (columns.Contains(columnName))
                     {
-                        string raw = (string)row[columnName];
-                        pincode = raw.Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries).ToList();
+                        address.PinCode = (string)row[columnName];
                     }
                     //State
                     columnName = "State";
-                    List<string> state = new List<string>();
                     if (columns.Contains(columnName))
                     {
-                        string raw = (string)row[columnName];
-                        state = raw.Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries).ToList();
+                        address.State = (string)row[columnName];
                     }
                     //Country
                     columnName = "Country";
-                    List<string> country = new List<string>();
                     if (columns.Contains(columnName))
                     {
-                        string raw = (string)row[columnName];
-                        country = raw.Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries).ToList();
+                        address.Country = (string)row[columnName];
                     }
+                    prepareContact.Addresses.Add(address);
 
-                    int numberOfAddressesNeeded = new int[] { line1.Length, line2.Count, line3.Count, city.Count, pincode.Count, state.Count, country.Count }.Max();
-                    for (int i = 0; i < numberOfAddressesNeeded - 1; i++)
-                    {
-                        Address address = new Address();
-                        if (line1.Length > i)
-                        {
-                            address.Line1 = line1[i];
-                        }
-                        if (line2.Count > i)
-                        {
-                            address.Line2 = line2[i];
-                        }
-                        if (line3.Count > i)
-                        {
-                            address.Line3 = line3[i];
-                        }
-                        if (city.Count > i)
-                        {
-                            address.City = city[i];
-                        }
-                        if (pincode.Count > i)
-                        {
-                            address.PinCode = pincode[i];
-                        }
-                        if (state.Count > i)
-                        {
-                            address.State = state[i];
-                        }
-                        if (country.Count > i)
-                        {
-                            address.Country = country[i];
-                        }
-                        prepareContact.Addresses.Add(address);
-                    }
 
                     //Sort Line1, Line2, Line3 for each address then replace the below foreach loop with simple address.sort
-                    //todo Use the Address.Sort method. Check https://github.com/gaurangfgupta/UniversalEntities/issues/17
+                    //todo Use the Address.Sort method. Incorrect sorting done below. Check https://github.com/gaurangfgupta/UniversalEntities/issues/17
                     foreach (Address add in prepareContact.Addresses)
                     {
                         string[] toSort = new string[3] { add.Line1, add.Line2, add.Line3 };
