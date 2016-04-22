@@ -344,13 +344,19 @@ namespace GCCHRConnect.ContactsManagement
                     {
                         //todo If any contact invalid
                         contactsValidationSummary.Rows.Add(table.TableName, serialNumber, argNullX.Message);
-                        TransformError.Visible = true;
+                        if (!Transform.Visible)
+                        {
+                            TransformError.Visible = true; 
+                        }
                     }
                     catch (ArgumentException argX)
                     {
                         //todo If any contact invalid
                         contactsValidationSummary.Rows.Add(table.TableName, serialNumber, argX.Message);
-                        TransformError.Visible = true;
+                        if (!Transform.Visible)
+                        {
+                            TransformError.Visible = true;
+                        }
                     }
 
                 }
