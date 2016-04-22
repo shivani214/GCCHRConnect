@@ -30,10 +30,30 @@
                 <div class="row">
 
                     <asp:Wizard ID="Wizard1" runat="server" DisplayCancelButton="True" ActiveStepIndex="0" CssClass="panel">
+                        <LayoutTemplate>
+                            <div class="row">
+                                <div class="col-lg-2">
+                                    <asp:PlaceHolder ID="sideBarPlaceHolder" runat="server" />
+                                </div>
+                                <div class="col-lg-10 well well-lg">
+                                    <div>
+                                        <asp:PlaceHolder ID="headerPlaceHolder" runat="server" />
+                                    </div>
 
-                        <HeaderStyle CssClass="page-header panel-body"></HeaderStyle>
+                                    <div>
+                                        <asp:PlaceHolder ID="WizardStepPlaceHolder" runat="server" />
+                                    </div>
 
-                        <NavigationButtonStyle CssClass="btn btn-default"></NavigationButtonStyle>
+                                    <div>
+                                        <asp:PlaceHolder ID="navigationPlaceHolder" runat="server" />
+                                    </div>
+
+                                </div>
+                            </div>
+                        </LayoutTemplate>
+
+
+                        <%--<NavigationButtonStyle CssClass="btn btn-default"></NavigationButtonStyle>--%>
                         <SideBarButtonStyle></SideBarButtonStyle>
                         <SideBarStyle CssClass="col-lg-2 panel-body"></SideBarStyle>
                         <StepStyle CssClass="col-lg-10 panel-body"></StepStyle>
@@ -47,7 +67,7 @@
                             </h4>
                         </HeaderTemplate>
                         <StartNavigationTemplate>
-                            <div class="panel-body">
+                            <div class="panel-body pull-right">
                                 <asp:Button runat="server" CausesValidation="False" CommandName="Cancel" Text="Cancel" CssClass="btn btn-danger" ID="CancelButton"></asp:Button>
                                 <asp:Button runat="server" CommandName="MoveNext" Text="Next" CssClass="btn btn-default" ID="StartNextButton"></asp:Button>
                             </div>
@@ -62,7 +82,7 @@
 
                         <WizardSteps>
                             <asp:WizardStep ID="WizardStep1" runat="server" Title="Guidelines">
-                                <div class="panel panel-default" id="FileStructure">
+                                <div class="panel panel-default" id="fileStructure">
                                     <div class="panel-heading">
                                         <h5>File structure</h5>
                                     </div>
@@ -70,9 +90,9 @@
                                         <asp:BulletedList ID="BulletedList2" runat="server">
                                             <asp:ListItem>The Excel file may contain single or multiple sheets</asp:ListItem>
                                             <asp:ListItem>Row 1 on each sheet: must not be blank and must contain headers</asp:ListItem>
-                                            <asp:ListItem>Headers must begin from Column A and there should be no blank columns from beginning to end of headers</asp:ListItem>
                                             <asp:ListItem>Records must begin from Row 2</asp:ListItem>
                                             <asp:ListItem>There should be no blank rows from beginning to end of records</asp:ListItem>
+                                            <asp:ListItem>Headers must begin from Column A and there should be no blank columns from beginning to end of headers</asp:ListItem>
                                         </asp:BulletedList>
                                     </div>
                                 </div>
@@ -83,28 +103,166 @@
                                     </div>
                                     <div class="panel-body">
                                         <asp:BulletedList ID="BulletedList1" runat="server">
-                                            <asp:ListItem>The order of columns in various sheets need not be same</asp:ListItem>
-                                            <asp:ListItem>The names of the columns (headers) must be exact as given below</asp:ListItem>
+                                            <asp:ListItem class="text-danger">The required columns (headers) must be present in each sheet. Application will proceed if they are not present.</asp:ListItem>
+                                            <asp:ListItem class="text-info">Optional columns may or may not be present. Values are extracted from these columns if they have been provided.</asp:ListItem>
+                                            <asp:ListItem>The order of columns in various sheets need not be same.</asp:ListItem>
+                                            <asp:ListItem>The names of the columns (headers) must be exact as given below.</asp:ListItem>
+                                            <asp:ListItem>Any other columns may be present in the file or any sheet but no values will be extracted from them.</asp:ListItem>
                                         </asp:BulletedList>
-                                        <div class="row" id="columnsDescription">
+                                        <%--<div class="row" id="columnsDescription">
                                             <div class="panel">Panel-1</div>
                                             <div class="panel">Panel-2</div>
+                                        </div>--%>
+                                        <div class="list-group">
+                                            <div class="row">
+                                                <div class="col-lg-4">
+                                                    <h4 class="list-group-item-heading text-danger">Required columns</h4>
+                                                    <ul class="list-unstyled">
+                                                        <li class="list-group-item-text">SN<span class="text-muted"><em> (for Serial number, must be in Column A, not required but recommended)</em></span></li>
+                                                        <li class="list-group-item-text">Title</li>
+                                                        <li class="list-group-item-text">First name</li>
+                                                    </ul>
+                                                </div>
+                                                <div class="col-lg-4">
+                                                    <h4 class="list-group-item-heading text-info">Optional columns</h4>
+                                                    <ul class="list-unstyled">
+                                                        <li class="list-group-item-text">Middle name</li>
+                                                        <li class="list-group-item-text">Last name</li>
+                                                        <li class="list-group-item-text">Line 1</li>
+                                                        <li class="list-group-item-text">Line 2</li>
+                                                        <li class="list-group-item-text">Line 3</li>
+                                                        <li class="list-group-item-text">City</li>
+                                                        <li class="list-group-item-text">Pin code</li>
+                                                        <li class="list-group-item-text">State</li>
+                                                        <li class="list-group-item-text">Country</li>
+                                                        <li class="list-group-item-text">Mobiles</li>
+                                                        <li class="list-group-item-text">Phones</li>
+                                                        <li class="list-group-item-text">Emails</li>
+                                                        <li class="list-group-item-text">Tags</li>
+                                                    </ul>
+                                                </div>
+                                            </div>
                                         </div>
+                                    </div>
+                                </div>
+
+                                <div class="panel panel-default" id="rows">
+                                    <div class="panel-heading">
+                                        <h5>Rows</h5>
+                                    </div>
+                                    <div class="panel-body">
+                                        <ul>
+                                            <li>The method of writing values for each header is given below.</li>
+                                            <li>If a header supports multiple values, the values must be separated by <strong>;</strong></li>
+                                        </ul>
+
+
                                         <asp:Table ID="Table1" runat="server" CssClass="table">
                                             <asp:TableHeaderRow>
-                                                <asp:TableHeaderCell>Required columns</asp:TableHeaderCell>
+                                                <asp:TableHeaderCell>Header</asp:TableHeaderCell>
+                                                <asp:TableHeaderCell>Value</asp:TableHeaderCell>
+                                                <asp:TableHeaderCell>Multi values support</asp:TableHeaderCell>
                                             </asp:TableHeaderRow>
+
                                             <asp:TableRow>
-                                                <asp:TableCell>Title</asp:TableCell>
+                                                <asp:TableHeaderCell>SN</asp:TableHeaderCell>
+                                                <asp:TableCell>Incrementing number. May begin from 1 on each sheet or continue from previous sheet. Helps to pin-point validation errors.</asp:TableCell>
+                                            </asp:TableRow>
+
+                                            <asp:TableRow>
+                                                <asp:TableHeaderCell CssClass="text-danger">Title</asp:TableHeaderCell>
                                                 <asp:TableCell>Required</asp:TableCell>
                                             </asp:TableRow>
+
+                                            <asp:TableRow>
+                                                <asp:TableHeaderCell CssClass="text-danger">First name</asp:TableHeaderCell>
+                                                <asp:TableCell>Required</asp:TableCell>
+                                            </asp:TableRow>
+
+                                            <asp:TableRow>
+                                                <asp:TableHeaderCell>Middle name</asp:TableHeaderCell>
+                                                <asp:TableCell></asp:TableCell>
+                                            </asp:TableRow>
+
+                                            <asp:TableRow>
+                                                <asp:TableHeaderCell>Last name</asp:TableHeaderCell>
+                                                <asp:TableCell></asp:TableCell>
+                                            </asp:TableRow>
+
+                                            <asp:TableRow>
+                                                <asp:TableHeaderCell>Line 1</asp:TableHeaderCell>
+                                                <asp:TableCell>1<sup>st</sup> line of address</asp:TableCell>
+                                            </asp:TableRow>
+
+                                            <asp:TableRow>
+                                                <asp:TableHeaderCell>Line 2</asp:TableHeaderCell>
+                                                <asp:TableCell>2<sup>nd</sup> line of address</asp:TableCell>
+                                            </asp:TableRow>
+
+                                            <asp:TableRow>
+                                                <asp:TableHeaderCell>Line 3</asp:TableHeaderCell>
+                                                <asp:TableCell>3<sup>rd</sup> line of address</asp:TableCell>
+                                            </asp:TableRow>
+
+                                            <asp:TableRow>
+                                                <asp:TableHeaderCell>City</asp:TableHeaderCell>
+                                                <asp:TableCell></asp:TableCell>
+                                            </asp:TableRow>
+
+                                            <asp:TableRow>
+                                                <asp:TableHeaderCell>Pin code</asp:TableHeaderCell>
+                                                <asp:TableCell></asp:TableCell>
+                                            </asp:TableRow>
+
+                                            <asp:TableRow>
+                                                <asp:TableHeaderCell>State</asp:TableHeaderCell>
+                                                <asp:TableCell></asp:TableCell>
+                                            </asp:TableRow>
+
+                                            <asp:TableRow>
+                                                <asp:TableHeaderCell>Country</asp:TableHeaderCell>
+                                                <asp:TableCell></asp:TableCell>
+                                            </asp:TableRow>
+
+                                            <asp:TableRow>
+                                                <asp:TableHeaderCell>Mobiles</asp:TableHeaderCell>
+                                                <asp:TableCell></asp:TableCell>
+                                                <asp:TableCell><span class="glyphicon glyphicon-ok text-success"></span><span class="text-muted"><em> (separated by ;)</em></span></asp:TableCell>
+                                            </asp:TableRow>
+
+                                            <asp:TableRow>
+                                                <asp:TableHeaderCell>Phones</asp:TableHeaderCell>
+                                                <asp:TableCell></asp:TableCell>
+                                                <asp:TableCell><span class="glyphicon glyphicon-ok text-success"></span><span class="text-muted"><em> (separated by ;)</em></span></asp:TableCell>
+                                            </asp:TableRow>
+
+                                            <asp:TableRow>
+                                                <asp:TableHeaderCell>Emails</asp:TableHeaderCell>
+                                                <asp:TableCell></asp:TableCell>
+                                                <asp:TableCell><span class="glyphicon glyphicon-ok text-success"></span><span class="text-muted"><em> (separated by ;)</em></span></asp:TableCell>
+                                            </asp:TableRow>
+
+                                            <asp:TableRow>
+                                                <asp:TableHeaderCell>Tags</asp:TableHeaderCell>
+                                                <asp:TableCell>
+                                                    <p>
+                                                        You may use any existing tags from the ones given below. If any new tags are found, they will be added to the database.
+                                                    </p>
+
+                                                    <asp:Repeater ID="Repeater2" runat="server" DataSourceID="dsTags">
+                                                        <ItemTemplate>
+                                                            <asp:Label ID="Literal1" runat="server" Text='<%# Container.DataItem %>' CssClass="well well-sm" Style="display: inline-block;"></asp:Label>
+                                                        </ItemTemplate>
+                                                    </asp:Repeater>
+                                                    <asp:ObjectDataSource runat="server" ID="dsTags" SelectMethod="GetAllTagNamesOnly" TypeName="GCCHRMachinery.BusinessLogicLayer.TagService"></asp:ObjectDataSource>
+
+                                                </asp:TableCell>
+                                                <asp:TableCell><span class="glyphicon glyphicon-ok text-success"></span><span class="text-muted"><em> (separated by ;)</em></span></asp:TableCell>
+                                            </asp:TableRow>
+
                                         </asp:Table>
                                     </div>
                                 </div>
-                                
-
-
-                                <p>ToDo: Show a list of tags available in the tags collection so that user may either edit his tags (in excel) to match the ones provided or leave them as it is so they may be added to the Tag collection</p>
                             </asp:WizardStep>
 
                             <asp:WizardStep ID="FileUpload" runat="server" Title="Upload file to server">
