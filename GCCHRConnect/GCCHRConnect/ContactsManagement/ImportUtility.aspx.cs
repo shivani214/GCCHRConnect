@@ -320,22 +320,10 @@ namespace GCCHRConnect.ContactsManagement
                     {
                         address.Country = (string)row[columnName];
                     }
+                    address.SortAddressLines();
                     prepareContact.Addresses.Add(address);
 
-
-                    //Sort Line1, Line2, Line3 for each address then replace the below foreach loop with simple address.sort
-                    //todo Use the Address.Sort method. Incorrect sorting done below. Check https://github.com/gaurangfgupta/UniversalEntities/issues/17
-                    foreach (Address add in prepareContact.Addresses)
-                    {
-                        string[] toSort = new string[3] { add.Line1, add.Line2, add.Line3 };
-                        Array.Sort(toSort);
-                        add.Line1 = toSort[0];
-                        add.Line2 = toSort[1];
-                        add.Line3 = toSort[2];
-                    }
-
                     ContactService contactManager = new ContactService();
-
                     try
                     {
                         contactManager.Validate(prepareContact);
@@ -358,15 +346,14 @@ namespace GCCHRConnect.ContactsManagement
                             TransformError.Visible = true;
                         }
                     }
-
                 }
             }
 
             #region Debugging
-
             tempGridView.DataSource = importedExcel.Tables[0];
             tempGridView.DataBind();
             #endregion
+
             Wizard1.ActiveStepIndex++;
         }
 

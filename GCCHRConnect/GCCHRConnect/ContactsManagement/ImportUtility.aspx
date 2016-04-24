@@ -43,7 +43,7 @@
                 </HeaderTemplate>
 
                 <SideBarTemplate>
-                    <asp:ListView ID="SideBarList" runat="server" RepeatDirection="Horizontal">
+                    <asp:ListView ID="SideBarList" runat="server">
                         <ItemTemplate>
                             <asp:LinkButton ID="SideBarButton" runat="server" CssClass="btn btn-default" />
                         </ItemTemplate>
@@ -248,7 +248,8 @@
 
                                             <asp:Repeater ID="Repeater2" runat="server" DataSourceID="dsTags">
                                                 <ItemTemplate>
-                                                    <asp:Label ID="Literal1" runat="server" Text='<%# Container.DataItem %>' CssClass="well well-sm" Style="display: inline-block;"></asp:Label>
+                                                    <%--<asp:Label runat="server" CssClass="glyphicon glyphicon-tag" />--%>
+                                                    <asp:Label ID="Literal1" runat="server" Text='<%# string.Format("{0} {1}","<span class=\"glyphicon glyphicon-tag\"></span>",Container.DataItem) %>' CssClass="well well-sm" Style="display: inline-block;"></asp:Label>
                                                 </ItemTemplate>
                                             </asp:Repeater>
                                             <asp:ObjectDataSource runat="server" ID="dsTags" SelectMethod="GetAllTagNamesOnly" TypeName="GCCHRMachinery.BusinessLogicLayer.TagService"></asp:ObjectDataSource>
