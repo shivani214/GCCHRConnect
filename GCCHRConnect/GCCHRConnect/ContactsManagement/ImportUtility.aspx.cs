@@ -18,7 +18,7 @@ using GCCHRMachinery.BusinessLogicLayer;
 
 namespace GCCHRConnect.ContactsManagement
 {
-    public partial class ImportUtility : System.Web.UI.Page
+    public partial class ImportUtility : Page
     {
         DataSet importedExcel;
         const string VIEWSTATE_DATASET = "ExctractedRecords";
@@ -47,13 +47,6 @@ namespace GCCHRConnect.ContactsManagement
                     importedExcel = (DataSet)ViewState["ImportedExcel"];
                 }
             }
-            //DataTable dt = new DataTable();
-            //dt.Columns.Add("Name");
-            //dt.Columns.Add("Boolean");
-            //dt.Rows.Add(new object[] { "True", true });
-            //dt.Rows.Add(new object[] { "False", false });
-            //GridView1.DataSource = dt;
-            //GridView1.DataBind();
         }
 
         /// <summary>
@@ -84,42 +77,28 @@ namespace GCCHRConnect.ContactsManagement
 
             //FileName.Text = fileName;
             //UploadedFileProperties.Visible = true;
-            bool requiredColumnsExist;
             using (ExcelBridge.ExcelFile xl = new ExcelBridge.ExcelFile(LocationOfSavedFile.Value))
             {
-                string[] requiredColumns = new string[2] { "Title", "First name" };
-                requiredColumnsExist = xl.HeadersExist(requiredColumns);    //Remove checking of required columns from here as it should be done in previos step
-                if (requiredColumnsExist)
-                {
-                    importedExcel = new DataSet();
-                    //Stopwatch watch = Stopwatch.StartNew();
-                    //watch.Start();
-                    importedExcel = xl.Import();
-                    //watch.Stop();
-                }
+                importedExcel = new DataSet();
+                //Stopwatch watch = Stopwatch.StartNew();
+                //watch.Start();
+                importedExcel = xl.Import();
+                //watch.Stop();
             }
-            if (!requiredColumnsExist)
-            {
-                ExtractionFailureMessage.Text = string.Format("<strong>{0}:</strong> {1}", ExtractionFailureMessage.Text, "Required columns 'Title' and 'First name' missing from Excel file");
-                ExtractionFailure.Visible = true;
-            }
-            else
-            {
-                DataSetHelper datasetOperations = new DataSetHelper(ref importedExcel);
+            DataSetHelper datasetOperations = new DataSetHelper(ref importedExcel);
 
-                Dictionary<string, int> removeBlankRows;
-                removeBlankRows = datasetOperations.RemoveBlankRows();
-                BlankRowsDeleteSummary.DataSource = removeBlankRows;
-                BlankRowsDeleteSummary.DataBind();
+            Dictionary<string, int> removeBlankRows;
+            removeBlankRows = datasetOperations.RemoveBlankRows();
+            BlankRowsDeleteSummary.DataSource = removeBlankRows;
+            BlankRowsDeleteSummary.DataBind();
 
-                AddDatasetToViewstate();
-                RecordCount.DataSource = datasetOperations.GetRecordsCount();
-                RecordCount.DataBind();
-                ImportResult.Visible = true;
-                Import.Visible = false;
-                //Transform.Visible = true;
-                ExtractionSuccess.Visible = true;
-            }
+            AddDatasetToViewstate();
+            RecordCount.DataSource = datasetOperations.GetRecordsCount();
+            RecordCount.DataBind();
+            ImportResult.Visible = true;
+            Import.Visible = false;
+            //Transform.Visible = true;
+            ExtractionSuccess.Visible = true;
 
         }
 
@@ -156,9 +135,24 @@ namespace GCCHRConnect.ContactsManagement
 
             if (File.Exists(LocationOfSavedFile.Value))
             {
-                //todo Show Summary: If required columns exist (remove checking of required columns from the import function), SN (optional column) exists
-                Wizard1.ActiveStepIndex++;
-                Import.Text = Import.Text + " " + fileName;
+                bool requiredColumnsExist;
+                using (ExcelBridge.ExcelFile xl = new ExcelBridge.ExcelFile(LocationOfSavedFile.Value))
+                {
+                    string[] requiredColumns = new string[2] { "Title", "First name" };
+                    requiredColumnsExist = xl.HeadersExist(requiredColumns);
+                }
+                if (!requiredColumnsExist)
+                {
+                    ErrorMessage.Text = "Required columns 'Title' and/or 'First name' missing";
+                    ErrorAlert.Visible = true;
+                    //todo clear FileUpload1
+                }
+                else
+                {
+                    //ErrorAlert.Visible = false;
+                    Wizard1.ActiveStepIndex++;
+                    Import.Text = Import.Text + " " + fileName;
+                }
             }
             //Import.Visible = true;
         }
@@ -334,7 +328,7 @@ namespace GCCHRConnect.ContactsManagement
                         contactsValidationSummary.Rows.Add(table.TableName, serialNumber, argNullX.Message);
                         if (!Transform.Visible)
                         {
-                            TransformError.Visible = true; 
+                            TransformError.Visible = true;
                         }
                     }
                     catch (ArgumentException argX)
@@ -357,5 +351,10 @@ namespace GCCHRConnect.ContactsManagement
             Wizard1.ActiveStepIndex++;
         }
 
+        protected void Wizard1_CancelButtonClick(object sender, EventArgs e)
+        {
+            //todo Where should the user be taken to on cancelling import process
+            Response.Redirect("#");
+        }
     }
 }

@@ -139,6 +139,24 @@ namespace GCCHRConnect.ContactsManagement {
         protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredSaveFile;
         
         /// <summary>
+        /// ErrorAlert control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel ErrorAlert;
+        
+        /// <summary>
+        /// ErrorMessage control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Literal ErrorMessage;
+        
+        /// <summary>
         /// LocationOfSavedFile control.
         /// </summary>
         /// <remarks>
@@ -191,24 +209,6 @@ namespace GCCHRConnect.ContactsManagement {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Literal ExtractionSuccessMessage;
-        
-        /// <summary>
-        /// ExtractionFailure control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel ExtractionFailure;
-        
-        /// <summary>
-        /// ExtractionFailureMessage control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal ExtractionFailureMessage;
         
         /// <summary>
         /// UpdateProgress1 control.

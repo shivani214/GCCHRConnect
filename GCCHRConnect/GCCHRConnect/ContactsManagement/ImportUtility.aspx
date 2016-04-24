@@ -25,21 +25,29 @@
         </div>
         <div id="container_ImportUtility" class="container">
 
-            <asp:Wizard ID="Wizard1" runat="server" DisplayCancelButton="True" ActiveStepIndex="0">
+            <asp:Wizard ID="Wizard1" runat="server" DisplayCancelButton="True" ActiveStepIndex="0" OnCancelButtonClick="Wizard1_CancelButtonClick">
                 <LayoutTemplate>
-                    <asp:PlaceHolder ID="headerPlaceHolder" runat="server" />
                     <div id="steps" class=" panel btn-group btn-group-justified">
                         <asp:PlaceHolder ID="sideBarPlaceHolder" runat="server" />
                     </div>
+
+                    <asp:PlaceHolder ID="headerPlaceHolder" runat="server" />
+
                     <div>
                         <asp:PlaceHolder ID="WizardStepPlaceHolder" runat="server" />
                     </div>
+
                     <div>
                         <asp:PlaceHolder ID="navigationPlaceHolder" runat="server" />
                     </div>
                 </LayoutTemplate>
 
                 <HeaderTemplate>
+                    <div class="panel-primary">
+                        <div class="panel-heading">
+                            <h3><%= Wizard1.ActiveStep.Name %><small><asp:Literal ID="StepTagLine" runat="server" Text="--add tagline here--" /></small></h3>
+                        </div>
+                    </div>
                 </HeaderTemplate>
 
                 <SideBarTemplate>
@@ -263,7 +271,7 @@
                         </div>
                     </asp:WizardStep>
 
-                    <asp:WizardStep ID="FileUpload" runat="server" Title="Upload file to server">
+                    <asp:WizardStep ID="FileUpload" runat="server" Title="File upload">
                         <asp:Panel runat="server" ID="fileUploadPanel">
                             <h4>Select the Excel file to be uploaded</h4>
                             <p>
@@ -275,12 +283,16 @@
                                     ErrorMessage="Please select a file and then click <strong>Upload file</strong>"
                                     ControlToValidate="FileUpload1" CssClass="text-danger"></asp:RequiredFieldValidator>
                             </p>
+
+                            <asp:Panel ID="ErrorAlert" runat="server" CssClass="alert alert-dismissible alert-danger" Visible="false" EnableViewState="False">
+                                <asp:Literal ID="ErrorMessage" runat="server" />
+                            </asp:Panel>
                             <asp:HiddenField ID="LocationOfSavedFile" runat="server" />
                         </asp:Panel>
 
                     </asp:WizardStep>
 
-                    <asp:WizardStep ID="WizardStep3" Title="Import rows from file">
+                    <asp:WizardStep ID="WizardStep3" Title="Extract">
 
                         <asp:UpdatePanel runat="server" ID="upnlImportResult" ChildrenAsTriggers="True" UpdateMode="Conditional">
                             <ContentTemplate>
@@ -290,9 +302,9 @@
                                 <asp:Panel ID="ExtractionSuccess" runat="server" CssClass="alert alert-success" Visible="false" EnableViewState="false">
                                     <asp:Literal ID="ExtractionSuccessMessage" runat="server" Text="Extraction successful"></asp:Literal>
                                 </asp:Panel>
-                                <asp:Panel ID="ExtractionFailure" runat="server" CssClass="alert alert-danger" Visible="false" EnableViewState="False">
+                                <%--<asp:Panel ID="ExtractionFailure" runat="server" CssClass="alert alert-danger" Visible="false" EnableViewState="False">
                                     <asp:Literal ID="ExtractionFailureMessage" runat="server" Text="Extraction failed"></asp:Literal>
-                                </asp:Panel>
+                                </asp:Panel>--%>
 
                                 <asp:UpdateProgress ID="UpdateProgress1" runat="server" AssociatedUpdatePanelID="upnlImportResult" DisplayAfter="500">
                                     <ProgressTemplate>
@@ -377,7 +389,7 @@
                             </asp:UpdateProgress>--%>
                     </asp:WizardStep>
 
-                    <asp:WizardStep runat="server" Title="Convert imported excel rows to contacts">
+                    <asp:WizardStep runat="server" Title="Transform">
                         <%--<asp:Button ID="ConvertRowsToContacts" runat="server" Text="Show contacts" />--%>
                         <%--OnClick="ConvertRowsToContacts_Click"--%>
                         <asp:GridView ID="tempGridView" runat="server"></asp:GridView>
