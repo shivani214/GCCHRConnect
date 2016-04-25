@@ -49,6 +49,15 @@ namespace GCCHRConnect.ContactsManagement {
         protected global::System.Web.UI.WebControls.WizardStep WizardStep1;
         
         /// <summary>
+        /// Step1TagLine control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Literal Step1TagLine;
+        
+        /// <summary>
         /// BulletedList2 control.
         /// </summary>
         /// <remarks>
@@ -101,6 +110,15 @@ namespace GCCHRConnect.ContactsManagement {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.WizardStep FileUpload;
+        
+        /// <summary>
+        /// Step2TagLine control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Literal Step2TagLine;
         
         /// <summary>
         /// fileUploadPanel control.
@@ -175,6 +193,33 @@ namespace GCCHRConnect.ContactsManagement {
         protected global::System.Web.UI.WebControls.WizardStep WizardStep3;
         
         /// <summary>
+        /// Step3TagLine control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Literal Step3TagLine;
+        
+        /// <summary>
+        /// UploadSuccess control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel UploadSuccess;
+        
+        /// <summary>
+        /// UploadedFileName control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label UploadedFileName;
+        
+        /// <summary>
         /// upnlImportResult control.
         /// </summary>
         /// <remarks>
@@ -184,13 +229,13 @@ namespace GCCHRConnect.ContactsManagement {
         protected global::System.Web.UI.UpdatePanel upnlImportResult;
         
         /// <summary>
-        /// Import control.
+        /// Extract control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button Import;
+        protected global::System.Web.UI.WebControls.Button Extract;
         
         /// <summary>
         /// ExtractionSuccess control.
@@ -220,40 +265,22 @@ namespace GCCHRConnect.ContactsManagement {
         protected global::System.Web.UI.UpdateProgress UpdateProgress1;
         
         /// <summary>
-        /// ImportResult control.
+        /// ExtractResult control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel ImportResult;
+        protected global::System.Web.UI.WebControls.Panel ExtractResult;
         
         /// <summary>
-        /// ColumnConsistencySummary control.
+        /// SummaryRecordCount control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView ColumnConsistencySummary;
-        
-        /// <summary>
-        /// BlankRowsDeleteSummary control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView BlankRowsDeleteSummary;
-        
-        /// <summary>
-        /// RecordCount control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView RecordCount;
+        protected global::System.Web.UI.WebControls.GridView SummaryRecordCount;
         
         /// <summary>
         /// Transform control.

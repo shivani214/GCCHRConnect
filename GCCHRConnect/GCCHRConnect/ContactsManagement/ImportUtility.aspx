@@ -43,10 +43,9 @@
                 </LayoutTemplate>
 
                 <HeaderTemplate>
-                    <div class="panel-primary">
-                        <div class="panel-heading">
-                            <h3><%= Wizard1.ActiveStep.Name %><small><asp:Literal ID="StepTagLine" runat="server" Text="--add tagline here--" /></small></h3>
-                        </div>
+                    <div class="page-header">
+                        <h3 class="text-primary">
+                            <asp:Literal ID="StepTagLine" runat="server" Text="--add tagline here--" /></h3>
                     </div>
                 </HeaderTemplate>
 
@@ -80,13 +79,14 @@
                         </div>
                     </div>
 
-
-                    <%--<asp:Button runat="server" CausesValidation="False" CommandName="MovePrevious" Text="Previous" CssClass="btn btn-default" ID="StepPreviousButton"></asp:Button>
-                            <asp:Button runat="server" CommandName="MoveNext" Text="Next" CssClass="btn btn-default" ID="StepNextButton"></asp:Button>--%>
                 </StepNavigationTemplate>
 
                 <WizardSteps>
                     <asp:WizardStep ID="WizardStep1" runat="server" Title="Guidelines">
+                        <div class="page-header">
+                            <h3 class="text-primary">
+                                <asp:Literal ID="Step1TagLine" runat="server" Text="Guidelines to follow to construct your Excel file" /></h3>
+                        </div>
                         <div class="panel panel-default" id="fileStructure">
                             <div class="panel-heading">
                                 <h5>File structure</h5>
@@ -272,8 +272,11 @@
                     </asp:WizardStep>
 
                     <asp:WizardStep ID="FileUpload" runat="server" Title="File upload">
+                        <div class="page-header">
+                            <h3 class="text-primary">
+                                <asp:Literal ID="Step2TagLine" runat="server" Text="Upload your Excel file for importing contacts" /></h3>
+                        </div>
                         <asp:Panel runat="server" ID="fileUploadPanel">
-                            <h4>Select the Excel file to be uploaded</h4>
                             <p>
                                 <asp:FileUpload ID="FileUpload1" runat="server" ToolTip="Select the Miscrosoft Excel file from which to import contacts" BackColor="#404040" ForeColor="Black" />
                             </p>
@@ -293,11 +296,21 @@
                     </asp:WizardStep>
 
                     <asp:WizardStep ID="WizardStep3" Title="Extract">
+                        <div class="page-header">
+                            <h3 class="text-primary">
+                                <asp:Literal ID="Step3TagLine" runat="server" Text="Extract records from uploaded file" /></h3>
+                        </div>
+                        <asp:Panel runat="server" ID="UploadSuccess" EnableViewState="false">
+                            <asp:Literal Text="Your file " runat="server" />
+                            <em>
+                                <asp:Label ID="UploadedFileName" Text="" runat="server" CssClass="text-success" /></em>
+                            <asp:Literal Text=" has been uploaded successfully! Records may now be extracted." runat="server" />
+                        </asp:Panel>
 
                         <asp:UpdatePanel runat="server" ID="upnlImportResult" ChildrenAsTriggers="True" UpdateMode="Conditional">
                             <ContentTemplate>
                                 <p>
-                                    <asp:Button ID="Import" runat="server" Text="Extract from" OnClick="Import_Click" CssClass="btn btn-default btn-block" />
+                                    <asp:Button ID="Extract" runat="server" Text="Extract now" OnClick="Extract_Click" CssClass="btn btn-default btn-block" />
                                 </p>
                                 <asp:Panel ID="ExtractionSuccess" runat="server" CssClass="alert alert-success" Visible="false" EnableViewState="false">
                                     <asp:Literal ID="ExtractionSuccessMessage" runat="server" Text="Extraction successful"></asp:Literal>
@@ -308,70 +321,30 @@
 
                                 <asp:UpdateProgress ID="UpdateProgress1" runat="server" AssociatedUpdatePanelID="upnlImportResult" DisplayAfter="500">
                                     <ProgressTemplate>
-                                        <asp:Image ID="Image1" runat="server" ImageUrl="~/icons/uploading.gif" />
+                                        <asp:Image ID="Image1" runat="server" ImageUrl="~/icons/uploading.gif" CssClass="pull-left" />
                                         <asp:Literal runat="server" Text="This process may take a while depending upon the number of sheets and rows in each sheet in the excel file
                                                 Please do not interrupt the process in order to allow successful import"></asp:Literal>
                                     </ProgressTemplate>
                                 </asp:UpdateProgress>
 
-                                <asp:Panel runat="server" ID="ImportResult" Visible="false">
-                                    <h3>Validation status</h3>
-                                    <div class="row">
-                                        <div class="col-lg-6">
-                                            <asp:GridView ID="ColumnConsistencySummary" runat="server" AutoGenerateColumns="False" Caption="Column consistency" CssClass="table">
-                                                <Columns>
-                                                    <asp:BoundField DataField="Key" HeaderText="Table"></asp:BoundField>
-                                                    <asp:TemplateField HeaderText="Consistent ?" ItemStyle-HorizontalAlign="Center">
-                                                        <ItemTemplate>
-                                                            <asp:Image runat="server" ImageUrl="~/icons/tick.png" Visible='<%# Boolean.Parse(Eval("Value").ToString()) ? true : false %>' ID="Tick" Width="25px" />
-                                                            <asp:Image runat="server" ImageUrl="~/icons/cross.png" Visible='<%# bool.Parse(Eval("Value").ToString()) ? false : true %>' ID="Cross" Width="20px" />
-                                                        </ItemTemplate>
-                                                    </asp:TemplateField>
-                                                </Columns>
-
-                                                <RowStyle Height="32px"></RowStyle>
-                                            </asp:GridView>
-                                        </div>
-                                        <div class="col-lg-6">
-                                            <asp:GridView ID="BlankRowsDeleteSummary" runat="server" AutoGenerateColumns="False" Caption="Deleted rows" CssClass="table">
-                                                <Columns>
-                                                    <asp:BoundField DataField="Key" HeaderText="Table"></asp:BoundField>
-                                                    <asp:BoundField DataField="Value" HeaderText="Number of rows deleted"></asp:BoundField>
-                                                </Columns>
-                                                <EditRowStyle Height="24px"></EditRowStyle>
-
-                                                <RowStyle Height="32px"></RowStyle>
-                                            </asp:GridView>
-                                        </div>
+                                <asp:Panel runat="server" ID="ExtractResult" Visible="false">
+                                    <div class="well">
+                                        <h4>Extraction summary</h4>
                                     </div>
-                                    <asp:GridView ID="RecordCount" runat="server" AutoGenerateColumns="False" Caption="Deleted rows" CssClass="table">
+                                    <asp:GridView ID="SummaryRecordCount" runat="server" AutoGenerateColumns="False" Caption="Number of rows extracted" CssClass="table">
                                         <Columns>
                                             <asp:BoundField DataField="Key" HeaderText="Table"></asp:BoundField>
-                                            <asp:BoundField DataField="Value" HeaderText="Number of contacts"></asp:BoundField>
+                                            <asp:BoundField DataField="Value" HeaderText="Number of rows"></asp:BoundField>
                                         </Columns>
-                                        <EditRowStyle Height="24px"></EditRowStyle>
-
-                                        <RowStyle Height="32px"></RowStyle>
                                     </asp:GridView>
-
-
-                                    <%--<asp:GridView ID="ValidationSummary" runat="server" AutoGenerateColumns="False" Caption="Contacts validation">
-                                                    <Columns>
-                                                        <asp:BoundField DataField="Key" HeaderText="Table"></asp:BoundField>
-                                                        <asp:TemplateField HeaderText="Passed ?" ItemStyle-HorizontalAlign="Center">
-                                                            <ItemTemplate>
-                                                                <asp:Image runat="server" ImageUrl="~/media/icons/tick.png" Visible='<%# Boolean.Parse(Eval("Value").ToString()) ? true : false %>' ID="Tick" Width="25px" />
-                                                                <asp:Image runat="server" ImageUrl="~/media/icons/cross.png" Visible='<%# bool.Parse(Eval("Value").ToString()) ? false : true %>' ID="Cross" Width="20px" />
-                                                            </ItemTemplate>
-                                                        </asp:TemplateField>
-                                                    </Columns>
-
-                                                    <RowStyle Height="32px"></RowStyle>
-                                                </asp:GridView>--%>
                                 </asp:Panel>
+
+                                <asp:Button ID="Transform" runat="server" Text="Prepare contacts" CssClass="btn btn-block btn-default btn-lg" OnClick="Transform_Click" Visible="false" />
                             </ContentTemplate>
+                            <Triggers>
+                                <asp:PostBackTrigger ControlID="Transform" />
+                            </Triggers>
                         </asp:UpdatePanel>
-                        <asp:Button ID="Transform" runat="server" Text="Prepare contacts" CssClass="btn btn-block btn-default btn-lg" OnClick="Transform_Click" />
                         <asp:Panel ID="TransformError" runat="server" CssClass="alert alert-danger" Visible="false">
                             <asp:Literal ID="Literal2" runat="server" Text="Transformation failed"></asp:Literal>
                         </asp:Panel>

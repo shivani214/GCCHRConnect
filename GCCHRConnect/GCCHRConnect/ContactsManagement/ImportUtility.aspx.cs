@@ -69,14 +69,8 @@ namespace GCCHRConnect.ContactsManagement
             //todo Add code to check for duplicate files (if a file already exists)
         }
 
-        protected void Import_Click(object sender, EventArgs e)
+        protected void Extract_Click(object sender, EventArgs e)
         {
-            //string fileName = FileUpload1.PostedFile.FileName;
-            //string saveLocation = savePath(fileName);
-            //FileUpload1.SaveAs(saveLocation);
-
-            //FileName.Text = fileName;
-            //UploadedFileProperties.Visible = true;
             using (ExcelBridge.ExcelFile xl = new ExcelBridge.ExcelFile(LocationOfSavedFile.Value))
             {
                 importedExcel = new DataSet();
@@ -86,20 +80,17 @@ namespace GCCHRConnect.ContactsManagement
                 //watch.Stop();
             }
             DataSetHelper datasetOperations = new DataSetHelper(ref importedExcel);
-
-            Dictionary<string, int> removeBlankRows;
-            removeBlankRows = datasetOperations.RemoveBlankRows();
-            BlankRowsDeleteSummary.DataSource = removeBlankRows;
-            BlankRowsDeleteSummary.DataBind();
+            datasetOperations.RemoveBlankRows();
 
             AddDatasetToViewstate();
-            RecordCount.DataSource = datasetOperations.GetRecordsCount();
-            RecordCount.DataBind();
-            ImportResult.Visible = true;
-            Import.Visible = false;
-            //Transform.Visible = true;
-            ExtractionSuccess.Visible = true;
 
+            SummaryRecordCount.DataSource = datasetOperations.GetRecordsCount();
+            SummaryRecordCount.DataBind();
+            ExtractResult.Visible = true;
+            Extract.Visible = false;
+            Transform.Visible = true;
+            ExtractionSuccess.Visible = true;
+            UploadSuccess.Visible = false;
         }
 
         private bool allTablesHaveConsistentColumns(ref Dictionary<string, bool> colConsistency)
@@ -151,7 +142,7 @@ namespace GCCHRConnect.ContactsManagement
                 {
                     //ErrorAlert.Visible = false;
                     Wizard1.ActiveStepIndex++;
-                    Import.Text = Import.Text + " " + fileName;
+                    UploadedFileName.Text = fileName;
                 }
             }
             //Import.Visible = true;
