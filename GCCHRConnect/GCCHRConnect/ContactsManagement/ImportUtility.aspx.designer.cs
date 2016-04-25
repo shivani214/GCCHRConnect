@@ -103,13 +103,13 @@ namespace GCCHRConnect.ContactsManagement {
         protected global::System.Web.UI.WebControls.ObjectDataSource dsTags;
         
         /// <summary>
-        /// FileUpload control.
+        /// WizardStep2 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.WizardStep FileUpload;
+        protected global::System.Web.UI.WebControls.WizardStep WizardStep2;
         
         /// <summary>
         /// Step2TagLine control.
@@ -202,6 +202,15 @@ namespace GCCHRConnect.ContactsManagement {
         protected global::System.Web.UI.WebControls.Literal Step3TagLine;
         
         /// <summary>
+        /// upnlImportResult control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.UpdatePanel upnlImportResult;
+        
+        /// <summary>
         /// UploadSuccess control.
         /// </summary>
         /// <remarks>
@@ -218,15 +227,6 @@ namespace GCCHRConnect.ContactsManagement {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label UploadedFileName;
-        
-        /// <summary>
-        /// upnlImportResult control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.UpdatePanel upnlImportResult;
         
         /// <summary>
         /// Extract control.
@@ -292,22 +292,40 @@ namespace GCCHRConnect.ContactsManagement {
         protected global::System.Web.UI.WebControls.Button Transform;
         
         /// <summary>
-        /// TransformError control.
+        /// ValidationError control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel TransformError;
+        protected global::System.Web.UI.WebControls.Panel ValidationError;
         
         /// <summary>
-        /// Literal2 control.
+        /// ValidationSummary control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal Literal2;
+        protected global::System.Web.UI.WebControls.GridView ValidationSummary;
+        
+        /// <summary>
+        /// WizardStep4 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.WizardStep WizardStep4;
+        
+        /// <summary>
+        /// Step4TagLine control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Literal Step4TagLine;
         
         /// <summary>
         /// tempGridView control.

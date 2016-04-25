@@ -63,7 +63,7 @@ namespace GCCHRMachinery.BusinessLogicLayer
             #region ValueTypes
             foreach (string phone in contactToValidate.Phones)
             {
-                if (!Regex.IsMatch(phone, @"/^\+?[0-9]+$/g"))
+                if (!Regex.IsMatch(phone, @"^\+?[0-9]+$"))
                 {
                     throw new System.ArgumentException("Phone number is not in the correct format. Only numbers allowed, optionally beginning with a '+' sign.");
                 }
@@ -71,7 +71,7 @@ namespace GCCHRMachinery.BusinessLogicLayer
 
             foreach (string mobile in contactToValidate.Mobiles)
             {
-                if (!Regex.IsMatch(mobile, @"/^(\+91)?([0-9]{10})$/g"))
+                if (!Regex.IsMatch(mobile, @"^(\+91)?([0-9]{10})$"))
                 {
                     throw new System.ArgumentException(@"Mobile number must be 10 digit number, optionally beginning from '+91' (excluding 10 digits) matching the regular expression /^(\+91)?([0-9]{10})$/g");
                 }
@@ -79,7 +79,7 @@ namespace GCCHRMachinery.BusinessLogicLayer
 
             foreach (string email in contactToValidate.Emails)
             {
-                if (!Regex.IsMatch(email, @"/^[a-z0-9!#$%&*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/g"))
+                if (!Regex.IsMatch(email, @"^[a-z0-9!#$%&*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?"))
                 {
                     throw new System.ArgumentException(@"Invalid email format. It must match the regular expression /^[a-z0-9!#$%&*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/g");
                 }

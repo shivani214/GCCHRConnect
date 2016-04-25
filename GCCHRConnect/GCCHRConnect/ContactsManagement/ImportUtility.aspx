@@ -271,7 +271,7 @@
                         </div>
                     </asp:WizardStep>
 
-                    <asp:WizardStep ID="FileUpload" runat="server" Title="File upload">
+                    <asp:WizardStep ID="WizardStep2" runat="server" Title="File upload">
                         <div class="page-header">
                             <h3 class="text-primary">
                                 <asp:Literal ID="Step2TagLine" runat="server" Text="Upload your Excel file for importing contacts" /></h3>
@@ -287,7 +287,7 @@
                                     ControlToValidate="FileUpload1" CssClass="text-danger"></asp:RequiredFieldValidator>
                             </p>
 
-                            <asp:Panel ID="ErrorAlert" runat="server" CssClass="alert alert-dismissible alert-danger" Visible="false" EnableViewState="False">
+                            <asp:Panel ID="ErrorAlert" runat="server" CssClass="alert alert-danger" Visible="false" EnableViewState="False">
                                 <asp:Literal ID="ErrorMessage" runat="server" />
                             </asp:Panel>
                             <asp:HiddenField ID="LocationOfSavedFile" runat="server" />
@@ -300,17 +300,17 @@
                             <h3 class="text-primary">
                                 <asp:Literal ID="Step3TagLine" runat="server" Text="Extract records from uploaded file" /></h3>
                         </div>
-                        <asp:Panel runat="server" ID="UploadSuccess" EnableViewState="false">
-                            <asp:Literal Text="Your file " runat="server" />
-                            <em>
-                                <asp:Label ID="UploadedFileName" Text="" runat="server" CssClass="text-success" /></em>
-                            <asp:Literal Text=" has been uploaded successfully! Records may now be extracted." runat="server" />
-                        </asp:Panel>
 
                         <asp:UpdatePanel runat="server" ID="upnlImportResult" ChildrenAsTriggers="True" UpdateMode="Conditional">
                             <ContentTemplate>
+                                <asp:Panel runat="server" ID="UploadSuccess" EnableViewState="false">
+                                    <asp:Literal Text="Your file " runat="server" />
+                                    <em>
+                                        <asp:Label ID="UploadedFileName" Text="" runat="server" CssClass="text-success" /></em>
+                                    <asp:Literal Text=" has been uploaded successfully! Records may now be extracted." runat="server" />
+                                </asp:Panel>
                                 <p>
-                                    <asp:Button ID="Extract" runat="server" Text="Extract now" OnClick="Extract_Click" CssClass="btn btn-default btn-block" />
+                                    <asp:Button ID="Extract" runat="server" Text="Extract now" OnClick="Extract_Click" CssClass="btn btn-default" />
                                 </p>
                                 <asp:Panel ID="ExtractionSuccess" runat="server" CssClass="alert alert-success" Visible="false" EnableViewState="false">
                                     <asp:Literal ID="ExtractionSuccessMessage" runat="server" Text="Extraction successful"></asp:Literal>
@@ -321,9 +321,11 @@
 
                                 <asp:UpdateProgress ID="UpdateProgress1" runat="server" AssociatedUpdatePanelID="upnlImportResult" DisplayAfter="500">
                                     <ProgressTemplate>
-                                        <asp:Image ID="Image1" runat="server" ImageUrl="~/icons/uploading.gif" CssClass="pull-left" />
-                                        <asp:Literal runat="server" Text="This process may take a while depending upon the number of sheets and rows in each sheet in the excel file
-                                                Please do not interrupt the process in order to allow successful import"></asp:Literal>
+                                        <%--<asp:Image ID="Image1" runat="server" ImageUrl="~/icons/uploading.gif" CssClass="pull-left" />--%>
+                                        <div class="progress progress-striped active">
+                                            <div class="progress-bar" style="width: 100%"></div>
+                                        <em><asp:Literal runat="server" Text="This process may take a while depending upon the number of sheets and rows in each sheet in the excel file. Please do not interrupt the process in order to allow successful import"></asp:Literal></em>
+                                        </div>
                                     </ProgressTemplate>
                                 </asp:UpdateProgress>
 
@@ -338,33 +340,32 @@
                                         </Columns>
                                     </asp:GridView>
                                 </asp:Panel>
-
-                                <asp:Button ID="Transform" runat="server" Text="Prepare contacts" CssClass="btn btn-block btn-default btn-lg" OnClick="Transform_Click" Visible="false" />
+                                <p>
+                                    <asp:Button ID="Transform" runat="server" Text="Prepare contacts" CssClass="btn btn-block btn-default btn-lg" OnClick="Transform_Click" Visible="false" />
+                                </p>
                             </ContentTemplate>
                             <Triggers>
                                 <asp:PostBackTrigger ControlID="Transform" />
                             </Triggers>
                         </asp:UpdatePanel>
-                        <asp:Panel ID="TransformError" runat="server" CssClass="alert alert-danger" Visible="false">
+                        <%--<asp:Panel ID="TransformError" runat="server" CssClass="alert alert-danger" Visible="false">
                             <asp:Literal ID="Literal2" runat="server" Text="Transformation failed"></asp:Literal>
+                        </asp:Panel>--%>
+                        <asp:Panel ID="ValidationError" runat="server" Visible="false">
+                            <div class="alert alert-danger">
+                                <p>Invalid contacts found. Please make necessary corrections in your Excel file and restart this process.</p>
+                            </div>
+                            <asp:GridView ID="ValidationSummary" runat="server" CssClass="table table-striped table-hover" EnableViewState="false"></asp:GridView>
                         </asp:Panel>
-                        <%--<asp:UpdatePanel ID="UpdatePanel1" runat="server">
-                                    <ContentTemplate>
-                                        <asp:Label ID="TestLabel" runat="server" Text="Label"></asp:Label>
-                                        <asp:Button ID="Button1" runat="server" Text="Update time" OnClick="Button1_Click" />
-                                    </ContentTemplate>
-                                </asp:UpdatePanel>
-
-                            <asp:UpdateProgress runat="server">
-                                <ProgressTemplate>
-                                    <asp:Image ImageUrl="~/media/icons/uploading (1).gif" runat="server" />
-                                </ProgressTemplate>
-                            </asp:UpdateProgress>--%>
                     </asp:WizardStep>
 
-                    <asp:WizardStep runat="server" Title="Transform">
+                    <asp:WizardStep ID="WizardStep4" runat="server" Title="Validation">
                         <%--<asp:Button ID="ConvertRowsToContacts" runat="server" Text="Show contacts" />--%>
                         <%--OnClick="ConvertRowsToContacts_Click"--%>
+                        <div class="page-header">
+                            <h3 class="text-primary">
+                                <asp:Literal ID="Step4TagLine" runat="server" Text="Transform extracted records into contacts and validate" /></h3>
+                        </div>
                         <asp:GridView ID="tempGridView" runat="server"></asp:GridView>
                         <asp:Repeater ID="Repeater1" runat="server">
                             <HeaderTemplate>

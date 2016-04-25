@@ -86,11 +86,11 @@ namespace GCCHRConnect.ContactsManagement
 
             SummaryRecordCount.DataSource = datasetOperations.GetRecordsCount();
             SummaryRecordCount.DataBind();
-            ExtractResult.Visible = true;
-            Extract.Visible = false;
-            Transform.Visible = true;
-            ExtractionSuccess.Visible = true;
             UploadSuccess.Visible = false;
+            Extract.Visible = false;
+            ExtractionSuccess.Visible = true;
+            ExtractResult.Visible = true;
+            Transform.Visible = true;
         }
 
         private bool allTablesHaveConsistentColumns(ref Dictionary<string, bool> colConsistency)
@@ -134,7 +134,7 @@ namespace GCCHRConnect.ContactsManagement
                 }
                 if (!requiredColumnsExist)
                 {
-                    ErrorMessage.Text = "Required columns 'Title' and/or 'First name' missing";
+                    ErrorMessage.Text = "Required columns <strong>Title</strong> and/or <strong>First name</strong> missing";
                     ErrorAlert.Visible = true;
                     //todo clear FileUpload1
                 }
@@ -155,6 +155,7 @@ namespace GCCHRConnect.ContactsManagement
 
         protected void Transform_Click(object sender, EventArgs e)
         {
+            Transform.Visible = false;
             importedExcel = (DataSet)ViewState[VIEWSTATE_DATASET];
 
             List<Contact> allContacts = new List<Contact>();
@@ -163,6 +164,7 @@ namespace GCCHRConnect.ContactsManagement
             contactsValidationSummary.Columns.Add("Sheet");
             contactsValidationSummary.Columns.Add("Row number");
             contactsValidationSummary.Columns.Add("Error encountered");
+            bool invalidContactsEncountered = false;
 
             //Begin procedure
             foreach (DataTable table in importedExcel.Tables)
@@ -316,22 +318,26 @@ namespace GCCHRConnect.ContactsManagement
                     catch (ArgumentNullException argNullX)
                     {
                         //todo If any contact invalid
+                        invalidContactsEncountered = true;
                         contactsValidationSummary.Rows.Add(table.TableName, serialNumber, argNullX.Message);
-                        if (!Transform.Visible)
-                        {
-                            TransformError.Visible = true;
-                        }
                     }
                     catch (ArgumentException argX)
                     {
                         //todo If any contact invalid
+                        invalidContactsEncountered = true;
                         contactsValidationSummary.Rows.Add(table.TableName, serialNumber, argX.Message);
-                        if (!Transform.Visible)
-                        {
-                            TransformError.Visible = true;
-                        }
                     }
                 }
+            }
+            if (invalidContactsEncountered)
+            {
+                ValidationSummary.DataSource = contactsValidationSummary;
+                ValidationSummary.DataBind();
+                ValidationError.Visible = invalidContactsEncountered;
+            }
+            else
+            {
+                Wizard1.ActiveStepIndex++;
             }
 
             #region Debugging
@@ -339,7 +345,6 @@ namespace GCCHRConnect.ContactsManagement
             tempGridView.DataBind();
             #endregion
 
-            Wizard1.ActiveStepIndex++;
         }
 
         protected void Wizard1_CancelButtonClick(object sender, EventArgs e)

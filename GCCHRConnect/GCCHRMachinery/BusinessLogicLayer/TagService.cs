@@ -59,8 +59,9 @@ namespace GCCHRMachinery.BusinessLogicLayer
         /// <exception cref="ArgumentNullException">If <see cref="Tag.TagName"/> is null, empty, blank or whitespace</exception>
         public string CreateTag(Tag newTag)
         {
-            Validate(newTag.TagName);
             newTag.TagName.Trim();
+            newTag.TagName.ToLower();
+            Validate(newTag.TagName);
             TagDB dbOp = new TagDB();
             dbOp.Create(newTag);
             dbOp = null;
