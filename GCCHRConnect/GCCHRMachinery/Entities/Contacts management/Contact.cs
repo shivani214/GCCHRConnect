@@ -71,15 +71,30 @@ namespace GCCHRMachinery.Entities
         /// </summary>
         public void TrimAllStrings()
         {
-            Name.Title.Trim();
-            Name.First.Trim();
-            Name.Middle.Trim();
-            Name.Last.Trim();
-            NickName.Trim();
+            Name.Title= Name.Title.Trim();
+            Name.First= Name.First.Trim();
+            Name.Middle=Name.Middle.Trim();
+            Name.Last=Name.Last.Trim();
+            NickName=NickName.Trim();
             Emails = Emails.Select(d => d.Trim()).ToList();
             Mobiles = Mobiles.Select(d => d.Trim()).ToList();
             Phones = Phones.Select(d => d.Trim()).ToList();
             Tags = Tags.Select(d => d.Trim()).ToList();
+            List<Address> tempAddresses = Addresses;
+            //Addresses.Clear();
+            foreach (Address address in tempAddresses)
+            {
+                //Addresses.Remove(address);
+                address.Line1=address.Line1.Trim();
+                address.Line2=address.Line2.Trim();
+                address.Line3=address.Line3.Trim();
+                address.City=address.City.Trim();
+                address.PinCode=address.PinCode.Trim();
+                address.State=address.State.Trim();
+                address.Country=address.Country.Trim();
+                //Addresses.Add(address);
+            }
+
         }
         #endregion
     }
