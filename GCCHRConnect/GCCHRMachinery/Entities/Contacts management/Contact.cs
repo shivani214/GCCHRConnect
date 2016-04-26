@@ -14,9 +14,11 @@ namespace GCCHRMachinery.Entities
     public class Contact : ContactPersonOrganization, IMongoEntity
     {
         #region Fields
+
         public const string TableOrCollectionName = "Contacts";
+        private string nickName;
         #endregion
-        
+
         /// <summary>
         /// The unique id of the <see cref="Contact"/>
         /// </summary>
@@ -27,7 +29,12 @@ namespace GCCHRMachinery.Entities
         /// Nick name of the <see cref="Contact"/>
         /// </summary>
         [BsonIgnoreIfNull]
-        public string NickName { get; set; }
+        public string NickName
+        {
+            get
+            { return nickName; }
+            set { nickName = value.Trim(); }
+        }
         /// <summary>
         /// A list of tags to which the <see cref="Contact"/> belongs.
         /// </summary>
@@ -69,32 +76,12 @@ namespace GCCHRMachinery.Entities
         /// <summary>
         /// Trims the leading and/or trailing spaces or tabs from all the string properties or collections
         /// </summary>
-        public void TrimAllStrings()
+        public void TrimAllStringCollections()
         {
-            Name.Title= Name.Title.Trim();
-            Name.First= Name.First.Trim();
-            Name.Middle=Name.Middle.Trim();
-            Name.Last=Name.Last.Trim();
-            NickName=NickName.Trim();
-            Emails = Emails.Select(d => d.Trim()).ToList();
-            Mobiles = Mobiles.Select(d => d.Trim()).ToList();
-            Phones = Phones.Select(d => d.Trim()).ToList();
-            Tags = Tags.Select(d => d.Trim()).ToList();
-            List<Address> tempAddresses = Addresses;
-            //Addresses.Clear();
-            foreach (Address address in tempAddresses)
-            {
-                //Addresses.Remove(address);
-                address.Line1=address.Line1.Trim();
-                address.Line2=address.Line2.Trim();
-                address.Line3=address.Line3.Trim();
-                address.City=address.City.Trim();
-                address.PinCode=address.PinCode.Trim();
-                address.State=address.State.Trim();
-                address.Country=address.Country.Trim();
-                //Addresses.Add(address);
-            }
-
+            Emails = Utilities.Formatter.TrimList(Emails);
+            Mobiles = Utilities.Formatter.TrimList(Mobiles);
+            Phones = Utilities.Formatter.TrimList(Phones);
+            Tags = Utilities.Formatter.TrimList(Tags);
         }
         #endregion
     }

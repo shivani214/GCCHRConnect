@@ -4,7 +4,7 @@ using System.Globalization;
 using System.Linq;
 using System.Web;
 
-namespace Utilities
+namespace GCCHRMachinery.Utilities
 {
     public class Formatter
     {
@@ -53,6 +53,12 @@ namespace Utilities
                 }
             }
             return Str;
+        }
+
+        public static List<string> TrimList(List<string> rawList)
+        {
+           List<string> trimmedList =  rawList.Select(d => d.Trim()).ToList();
+            return trimmedList;
         }
     }
 }

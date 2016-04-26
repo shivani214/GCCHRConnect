@@ -13,14 +13,25 @@ namespace GCCHRMachinery.Entities
     public class Tag : IMongoEntity
     {
         #region Fields
+        private string tagName;
         public const string TableOrCollectionName = "Tag";
+
         #endregion
 
         /// <summary>
         /// The name of the Tag. Try to avoid acronyms.
         /// </summary>
-        public string TagName { get; set; }
-
+        public string TagName
+        {
+            get
+            {
+                return tagName;
+            }
+            set
+            {
+                tagName = value.Trim();
+            }
+        }
         /// <summary>
         /// The unique id of the <see cref="Tag"/>
         /// </summary>
@@ -33,9 +44,9 @@ namespace GCCHRMachinery.Entities
             return string.Format("Id: {0}\tTag name: {1}", Id, TagName);
         }
 
-        public void TrimAllStrings()
+        public void TrimAllStringCollections()
         {
-            TagName.Trim();
+
         }
         #endregion
     }

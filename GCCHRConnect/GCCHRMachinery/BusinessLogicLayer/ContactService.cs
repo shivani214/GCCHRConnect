@@ -41,7 +41,7 @@ namespace GCCHRMachinery.BusinessLogicLayer
         /// <exception cref="System.ArgumentException"></exception>
         public void Validate(Contact contactToValidate)
         {
-            contactToValidate.TrimAllStrings();
+            contactToValidate.TrimAllStringCollections();
             #region RequiredValidation
             if (string.IsNullOrWhiteSpace(contactToValidate.Name.Title))
             {

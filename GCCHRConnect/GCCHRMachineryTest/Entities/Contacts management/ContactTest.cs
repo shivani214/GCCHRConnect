@@ -24,7 +24,7 @@ namespace GCCHRMachineryTest.Entities.Contacts_management
             c.Tags.Add(" Self");
             c.Addresses.Add(new UniversalEntities.Address {Line1= " A-1/13 ",Line2="Sector-F ", Line3="Janki Puram     ",City="Lucknow",PinCode="     226021    ",State="UP",Country="India   "});
             c.Addresses.Add(new UniversalEntities.Address { Line1 = " B-1/41   ", Line2 = "    Sector-A ", Line3 = "     Kapoorthala Aliganj     \t   ", City = "Lucknow  ", PinCode = "226024    ", State = "Uttar Pradesh ", Country = "India   " });
-            c.TrimAllStrings();
+            c.TrimAllStringCollections();
             Assert.AreEqual("Dr .", c.Name.Title);
             Assert.AreEqual("Gaurang", c.Name.First);
                 Assert.AreEqual("Friend", c.Name.Middle);
