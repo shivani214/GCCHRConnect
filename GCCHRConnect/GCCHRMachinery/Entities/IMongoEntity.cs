@@ -16,5 +16,10 @@ namespace GCCHRMachinery.Entities
         /// Unique id for a document
         /// </summary>
         string Id { get; set; }
+
+        /// <summary>
+        /// Every entity must trim all it's properties of type string and string collections here
+        /// </summary>
+        void TrimAllStrings();
     }
 }

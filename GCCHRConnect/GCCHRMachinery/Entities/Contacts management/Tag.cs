@@ -32,6 +32,11 @@ namespace GCCHRMachinery.Entities
         {
             return string.Format("Id: {0}\tTag name: {1}", Id, TagName);
         }
+
+        public void TrimAllStrings()
+        {
+            TagName.Trim();
+        }
         #endregion
     }
 }
