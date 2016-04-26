@@ -12,7 +12,7 @@ namespace GCCHRMachineryTest.BusinessLogicLayer
         [TestMethod]
         public void Validate()
         {
-            string phone = "9412723600";
+            string phone = "05222635375";
             string result = Regex.Match(phone, @"^\+?[0-9]+$").ToString();
             bool match = Regex.IsMatch(phone, @"^\+?[0-9]+$");
             Assert.IsTrue(match);

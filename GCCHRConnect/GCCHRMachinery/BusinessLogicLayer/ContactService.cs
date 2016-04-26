@@ -41,6 +41,7 @@ namespace GCCHRMachinery.BusinessLogicLayer
         /// <exception cref="System.ArgumentException"></exception>
         public void Validate(Contact contactToValidate)
         {
+            contactToValidate.TrimAllStrings();
             #region RequiredValidation
             if (string.IsNullOrWhiteSpace(contactToValidate.Name.Title))
             {
@@ -52,11 +53,14 @@ namespace GCCHRMachinery.BusinessLogicLayer
             }
             foreach (Address address in contactToValidate.Addresses)
             {
-                if (string.IsNullOrWhiteSpace(address.City))
+                if (!string.IsNullOrWhiteSpace(address.Line1) || !string.IsNullOrWhiteSpace(address.Line2) || !string.IsNullOrWhiteSpace(address.Line3)||!string.IsNullOrWhiteSpace(address.PinCode)||!string.IsNullOrWhiteSpace(address.State)||!string.IsNullOrWhiteSpace(address.Country))
                 {
-                    throw new System.ArgumentNullException("City");
+                    if (string.IsNullOrWhiteSpace(address.City))
+                    {
+                        throw new System.ArgumentNullException("City");
+                    }
+                    address.IsCorrectFormat(); 
                 }
-                address.IsCorrectFormat();
             }
             #endregion
 

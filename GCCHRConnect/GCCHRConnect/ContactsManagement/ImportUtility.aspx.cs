@@ -234,11 +234,7 @@ namespace GCCHRConnect.ContactsManagement
                     if (columns.Contains(columnName))
                     {
                         string raw = (string)row[columnName];
-                        string[] tags = raw.Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
-                        for (int i = 0; i < tags.Length; i++)
-                        {
-                            prepareContact.Tags.Add(tags[i]);
-                        }
+                        prepareContact.Tags = raw.Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries).ToList();
                     }
                     // Emails
                     columnName = "Emails";
@@ -260,6 +256,7 @@ namespace GCCHRConnect.ContactsManagement
                     {
                         string raw = (string)row[columnName];
                         prepareContact.Phones = raw.Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries).ToList();
+                        
                     }
 
                     // Address

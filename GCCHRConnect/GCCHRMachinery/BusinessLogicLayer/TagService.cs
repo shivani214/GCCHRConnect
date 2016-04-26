@@ -14,7 +14,7 @@ namespace GCCHRMachinery.BusinessLogicLayer
         /// <summary>
         /// Looks for each tag from <paramref name="tagsToCheckAndUpdate"/> and if any is missing in master list <see cref="Tag"/>, it is inserted there.
         /// </summary>
-        public void UpdateMissingTags(HashSet<string> tagsToCheckAndUpdate)
+        public void UpdateMissingTags(List<string> tagsToCheckAndUpdate)
         {
             IEnumerable<string> allTagsFromMaster = GetAllTagNamesOnly();
             List<string> tagsMasterList = allTagsFromMaster.ToList();

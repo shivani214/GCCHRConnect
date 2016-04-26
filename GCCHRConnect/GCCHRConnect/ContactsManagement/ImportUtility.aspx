@@ -278,7 +278,7 @@
                         </div>
                         <asp:Panel runat="server" ID="fileUploadPanel">
                             <p>
-                                <asp:FileUpload ID="FileUpload1" runat="server" ToolTip="Select the Miscrosoft Excel file from which to import contacts" BackColor="#404040" ForeColor="Black" />
+                                <asp:FileUpload ID="FileUpload1" runat="server" ToolTip="Select or drag'n'drop the Miscrosoft Excel file here" BackColor="#404040" ForeColor="Black" />
                             </p>
                             <p>
                                 <asp:Button ID="SaveFile" runat="server" Text="Upload file" OnClick="SaveFile_Click" CssClass="btn btn-default" />
