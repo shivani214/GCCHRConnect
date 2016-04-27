@@ -76,7 +76,7 @@ namespace GCCHRMachinery.Entities
         /// <summary>
         /// Trims the leading and/or trailing spaces or tabs from all the string properties or collections
         /// </summary>
-        public void TrimAllStringCollections()
+        public void TrimAllStringLists()
         {
             Emails = Utilities.Formatter.TrimList(Emails);
             Mobiles = Utilities.Formatter.TrimList(Mobiles);

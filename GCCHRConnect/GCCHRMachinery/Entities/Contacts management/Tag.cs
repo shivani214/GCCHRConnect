@@ -44,7 +44,7 @@ namespace GCCHRMachinery.Entities
             return string.Format("Id: {0}\tTag name: {1}", Id, TagName);
         }
 
-        public void TrimAllStringCollections()
+        public void TrimAllStringLists()
         {
 
         }

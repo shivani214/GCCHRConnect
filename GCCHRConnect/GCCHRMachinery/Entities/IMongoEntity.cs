@@ -20,6 +20,6 @@ namespace GCCHRMachinery.Entities
         /// <summary>
         /// Every entity must trim all it's properties of type string and string collections here
         /// </summary>
-        void TrimAllStringCollections();
+        void TrimAllStringLists();
     }
 }
