@@ -324,8 +324,9 @@
                                         <%--<asp:Image ID="Image1" runat="server" ImageUrl="~/icons/uploading.gif" CssClass="pull-left" />--%>
                                         <div class="progress progress-striped active">
                                             <div class="progress-bar" style="width: 100%"></div>
-                                        <em><asp:Literal runat="server" Text="This process may take a while depending upon the number of sheets and rows in each sheet in the excel file. Please do not interrupt the process in order to allow successful import"></asp:Literal></em>
                                         </div>
+                                        <em>
+                                            <asp:Literal runat="server" Text="This process may take a while depending upon the number of sheets and rows in each sheet in the excel file. Please do not interrupt the process in order to allow successful import"></asp:Literal></em>
                                     </ProgressTemplate>
                                 </asp:UpdateProgress>
 
@@ -360,26 +361,84 @@
                     </asp:WizardStep>
 
                     <asp:WizardStep ID="WizardStep4" runat="server" Title="Validation">
-                        <%--<asp:Button ID="ConvertRowsToContacts" runat="server" Text="Show contacts" />--%>
-                        <%--OnClick="ConvertRowsToContacts_Click"--%>
                         <div class="page-header">
                             <h3 class="text-primary">
                                 <asp:Literal ID="Step4TagLine" runat="server" Text="Transform extracted records into contacts and validate" /></h3>
                         </div>
-                        <asp:GridView ID="tempGridView" runat="server"></asp:GridView>
-                        <asp:Repeater ID="Repeater1" runat="server">
-                            <HeaderTemplate>
-                                <asp:Label ID="Label5" runat="server" Text="Converted contacts" Font-Size="X-Large"></asp:Label>
-                            </HeaderTemplate>
 
+                        <asp:Repeater ID="TransformedContacts" runat="server">
                             <ItemTemplate>
-                                <asp:Label ID="Label6" runat="server" Text='<%# Eval("Name") %>'></asp:Label>
-                            </ItemTemplate>
+                                <div id="contactPanel" class="panel panel-primary pull-left" style="width: 225px; height: 350px; margin-right: 5px; overflow-y:auto;">
+                                    <div id="contactHeader" class="panel-heading">
+                                        <asp:Label ID="Label5" runat="server" Text='<%# Eval("Name.Full") %>'></asp:Label>
+                                    </div>
+                                    <div id="contactBody" class="panel-body">
+                                        <asp:Literal ID="Nickname" runat="server" Text='<%# string.Format("<strong>{0}:</strong> {1}","Nick name", Eval("NickName")) %>' />
+                                        <br />
+                                        <asp:Literal ID="Line1" runat="server" Text='<%#string.Format("<strong>{0}:</strong> {1}","Line 1",  Eval("Addresses[0].Line1")) %>' />
+                                        <br />
+                                        <asp:Literal ID="Line2" runat="server" Text='<%#string.Format("<strong>{0}:</strong> {1}","Line 2",  Eval("Addresses[0].Line2")) %>' />
+                                        <br />
+                                        <asp:Literal ID="Line3" runat="server" Text='<%#string.Format("<strong>{0}:</strong> {1}","Line 3",  Eval("Addresses[0].Line3")) %>' />
+                                        <br />
+                                        <asp:Literal ID="City" runat="server" Text='<%#string.Format("<strong>{0}:</strong> {1}","City",  Eval("Addresses[0].City")) %>' />
+                                        <br />
+                                        <asp:Literal ID="PinCode" runat="server" Text='<%#string.Format("<strong>{0}:</strong> {1}","Pin code",  Eval("Addresses[0].PinCode")) %>' />
+                                        <br />
+                                        <asp:Literal ID="State" runat="server" Text='<%#string.Format("<strong>{0}:</strong> {1}","State",  Eval("Addresses[0].State")) %>' />
+                                        <br />
+                                        <asp:Literal ID="Country" runat="server" Text='<%#string.Format("<strong>{0}:</strong> {1}","Country",  Eval("Addresses[0].Country")) %>' />
 
-                            <AlternatingItemTemplate>
-                                <asp:Label ID="Label7" runat="server" Text='<%# Eval("Name") %>' ForeColor="SteelBlue"></asp:Label>
-                            </AlternatingItemTemplate>
+                                        <br />
+                                        <asp:Literal ID="Literal2" runat="server" Text='<%#string.Format("<strong>{0}:</strong>","Mobiles") %>' />
+                                        <asp:Repeater ID="Mobiles" runat="server" DataSource='<%#Eval("Mobiles") %>' Visible='<%# (Eval("Mobiles") as List<string>).Count != 0  %>'>
+                                            <HeaderTemplate>
+                                                <br />
+                                            </HeaderTemplate>
+                                            <ItemTemplate>
+                                                <%# Container.DataItem %>
+                                            </ItemTemplate>
+                                            <SeparatorTemplate>
+                                                <asp:Literal Text=", " runat="server" />
+                                            </SeparatorTemplate>
+                                        </asp:Repeater>
+
+                                        <br />
+                                        <asp:Literal ID="Literal3" runat="server" Text='<%#string.Format("<strong>{0}:</strong>","Phones") %>' />
+                                        <asp:Repeater ID="Phones" runat="server" DataSource='<%#Eval("Phones") %>' Visible='<%# (Eval("Phones") as List<string>).Count != 0  %>'>
+                                            <ItemTemplate>
+                                                <%# Container.DataItem %>
+                                            </ItemTemplate>
+                                            <SeparatorTemplate>
+                                                <asp:Literal Text=", " runat="server" />
+                                            </SeparatorTemplate>
+                                        </asp:Repeater>
+
+                                        <br />
+                                        <asp:Literal ID="Literal4" runat="server" Text='<%#string.Format("<strong>{0}:</strong>","Emails") %>' />
+                                        <asp:Repeater ID="Emails" runat="server" DataSource='<%#Eval("Emails") %>' Visible='<%# (Eval("Emails") as List<string>).Count != 0  %>'>
+                                            <ItemTemplate>
+                                                <asp:HyperLink NavigateUrl="#" runat="server" Text='<%# Container.DataItem %>' CssClass="text-info" />
+                                                <a href="#"><%# Container.DataItem %></a>
+                                            </ItemTemplate>
+                                            <SeparatorTemplate>
+                                                <asp:Literal Text=", " runat="server" />
+                                            </SeparatorTemplate>
+                                        </asp:Repeater>
+
+                                        <br />
+                                        <asp:Literal ID="Literal5" runat="server" Text='<%#string.Format("<strong>{0}:</strong>","Tags") %>' />
+                                        <asp:Repeater ID="Tags" runat="server" DataSource='<%#Eval("Tags") %>' Visible='<%# (Eval("Tags") as List<string>).Count != 0 %>'>
+                                            <ItemTemplate>
+                                                <span class="label label-default"><%# Container.DataItem %></span>
+                                            </ItemTemplate>
+                                        </asp:Repeater>
+                                    </div>
+                                </div>
+                            </ItemTemplate>
                         </asp:Repeater>
+
+                        <asp:GridView ID="tempGridView" runat="server"></asp:GridView>
 
                         <asp:Button ID="Save" runat="server" Text="Save all to database"
                             Style="margin: 20px 20% 20px 20%; width: 60%; height: 40px;" />

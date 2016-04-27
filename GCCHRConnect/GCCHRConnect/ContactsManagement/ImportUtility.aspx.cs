@@ -157,6 +157,7 @@ namespace GCCHRConnect.ContactsManagement
         {
             Transform.Visible = false;
             importedExcel = (DataSet)ViewState[VIEWSTATE_DATASET];
+            //todo Clear ViewState
 
             List<Contact> allContacts = new List<Contact>();
             //Prepare table for validation summary of all contacts
@@ -256,7 +257,7 @@ namespace GCCHRConnect.ContactsManagement
                     {
                         string raw = (string)row[columnName];
                         prepareContact.Phones = raw.Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries).ToList();
-                        
+
                     }
 
                     // Address
@@ -311,6 +312,7 @@ namespace GCCHRConnect.ContactsManagement
                     try
                     {
                         contactManager.Validate(prepareContact);
+                        allContacts.Add(prepareContact);
                     }
                     catch (ArgumentNullException argNullX)
                     {
@@ -326,21 +328,23 @@ namespace GCCHRConnect.ContactsManagement
                     }
                 }
             }
+            ValidationError.Visible = invalidContactsEncountered;
             if (invalidContactsEncountered)
             {
                 ValidationSummary.DataSource = contactsValidationSummary;
                 ValidationSummary.DataBind();
-                ValidationError.Visible = invalidContactsEncountered;
             }
             else
             {
+                TransformedContacts.DataSource = allContacts;
+                TransformedContacts.DataBind();
                 Wizard1.ActiveStepIndex++;
             }
 
-            #region Debugging
-            tempGridView.DataSource = importedExcel.Tables[0];
-            tempGridView.DataBind();
-            #endregion
+            //#region Debugging
+            //tempGridView.DataSource = importedExcel.Tables[0];
+            //tempGridView.DataBind();
+            //#endregion
 
         }
 

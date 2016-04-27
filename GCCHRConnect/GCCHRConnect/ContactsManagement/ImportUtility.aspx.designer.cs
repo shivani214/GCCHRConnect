@@ -328,6 +328,15 @@ namespace GCCHRConnect.ContactsManagement {
         protected global::System.Web.UI.WebControls.Literal Step4TagLine;
         
         /// <summary>
+        /// TransformedContacts control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Repeater TransformedContacts;
+        
+        /// <summary>
         /// tempGridView control.
         /// </summary>
         /// <remarks>
@@ -335,15 +344,6 @@ namespace GCCHRConnect.ContactsManagement {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.GridView tempGridView;
-        
-        /// <summary>
-        /// Repeater1 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater Repeater1;
         
         /// <summary>
         /// Save control.
