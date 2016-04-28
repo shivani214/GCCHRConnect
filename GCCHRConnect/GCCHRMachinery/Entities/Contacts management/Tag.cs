@@ -29,7 +29,7 @@ namespace GCCHRMachinery.Entities
             }
             set
             {
-                tagName = value.Trim();
+                tagName = value.Trim().ToLower();
             }
         }
         /// <summary>
