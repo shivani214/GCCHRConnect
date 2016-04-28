@@ -23,19 +23,9 @@ namespace GCCHRConnect.ContactsManagement
         DataSet importedExcel;
         const string VIEWSTATE_DATASET = "ExctractedRecords";
         List<string> columns;
-        //DataRow rowContact;
-        private DataSet AllContactsList
-        {
-            get
-            {
-                return importedExcel;
-            }
-        }
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            //Literal activeStepName = (Literal)Wizard1.FindControl("HeaderContainer").FindControl("ActiveStepName");
-            //activeStepName.Text = Wizard1.ActiveStep.Name;
             if (!Page.IsPostBack)
             {
                 Wizard1.ActiveStepIndex = 0;
@@ -47,6 +37,47 @@ namespace GCCHRConnect.ContactsManagement
                     importedExcel = (DataSet)ViewState["ImportedExcel"];
                 }
             }
+        }
+
+        protected void SaveFile_Click(object sender, EventArgs e)
+        {
+            //Uploading file
+
+            string fileName = FileUpload1.PostedFile.FileName;
+            LocationOfSavedFile.Value = savePath(fileName);
+
+            try
+            {
+                FileUpload1.SaveAs(LocationOfSavedFile.Value);
+            }
+            catch (IOException x) when (x.Message.Contains("being used by another process"))
+            {
+                //todo release busy file or save by another name
+                throw;
+            }
+
+            if (File.Exists(LocationOfSavedFile.Value))
+            {
+                bool requiredColumnsExist;
+                using (ExcelBridge.ExcelFile xl = new ExcelBridge.ExcelFile(LocationOfSavedFile.Value))
+                {
+                    string[] requiredColumns = new string[2] { "Title", "First name" };
+                    requiredColumnsExist = xl.HeadersExist(requiredColumns);
+                }
+                if (!requiredColumnsExist)
+                {
+                    ErrorMessage.Text = "Required columns <strong>Title</strong> and/or <strong>First name</strong> missing";
+                    ErrorAlert.Visible = true;
+                    //todo clear FileUpload1
+                }
+                else
+                {
+                    //ErrorAlert.Visible = false;
+                    Wizard1.ActiveStepIndex++;
+                    UploadedFileName.Text = fileName;
+                }
+            }
+            //Import.Visible = true;
         }
 
         /// <summary>
@@ -93,65 +124,23 @@ namespace GCCHRConnect.ContactsManagement
             Transform.Visible = true;
         }
 
-        private bool allTablesHaveConsistentColumns(ref Dictionary<string, bool> colConsistency)
-        {
-            bool check = true;
-            foreach (KeyValuePair<string, bool> table in colConsistency)
-            {
-                if (table.Value == false)
-                {
-                    check = table.Value;
-                }
-            }
-            return check;
-        }
-
-
-        protected void SaveFile_Click(object sender, EventArgs e)
-        {
-            //Uploading file
-
-            string fileName = FileUpload1.PostedFile.FileName;
-            LocationOfSavedFile.Value = savePath(fileName);
-
-            try
-            {
-                FileUpload1.SaveAs(LocationOfSavedFile.Value);
-            }
-            catch (IOException x) when (x.Message.Contains("being used by another process"))
-            {
-                //todo release busy file or save by another name
-                throw;
-            }
-
-            if (File.Exists(LocationOfSavedFile.Value))
-            {
-                bool requiredColumnsExist;
-                using (ExcelBridge.ExcelFile xl = new ExcelBridge.ExcelFile(LocationOfSavedFile.Value))
-                {
-                    string[] requiredColumns = new string[2] { "Title", "First name" };
-                    requiredColumnsExist = xl.HeadersExist(requiredColumns);
-                }
-                if (!requiredColumnsExist)
-                {
-                    ErrorMessage.Text = "Required columns <strong>Title</strong> and/or <strong>First name</strong> missing";
-                    ErrorAlert.Visible = true;
-                    //todo clear FileUpload1
-                }
-                else
-                {
-                    //ErrorAlert.Visible = false;
-                    Wizard1.ActiveStepIndex++;
-                    UploadedFileName.Text = fileName;
-                }
-            }
-            //Import.Visible = true;
-        }
-
         private void AddDatasetToViewstate()
         {
             ViewState.Add(VIEWSTATE_DATASET, importedExcel);
         }
+
+        //private bool allTablesHaveConsistentColumns(ref Dictionary<string, bool> colConsistency)
+        //{
+        //    bool check = true;
+        //    foreach (KeyValuePair<string, bool> table in colConsistency)
+        //    {
+        //        if (table.Value == false)
+        //        {
+        //            check = table.Value;
+        //        }
+        //    }
+        //    return check;
+        //}
 
         protected void Transform_Click(object sender, EventArgs e)
         {
@@ -340,12 +329,6 @@ namespace GCCHRConnect.ContactsManagement
                 TransformedContacts.DataBind();
                 Wizard1.ActiveStepIndex++;
             }
-
-            //#region Debugging
-            //tempGridView.DataSource = importedExcel.Tables[0];
-            //tempGridView.DataBind();
-            //#endregion
-
         }
 
         protected void Wizard1_CancelButtonClick(object sender, EventArgs e)
