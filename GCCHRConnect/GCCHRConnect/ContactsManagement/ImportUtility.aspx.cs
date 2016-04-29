@@ -21,7 +21,8 @@ namespace GCCHRConnect.ContactsManagement
     public partial class ImportUtility : Page
     {
         DataSet importedExcel;
-        const string VIEWSTATE_DATASET = "ExctractedRecords";
+        const string VIEWSTATE_DATASET = "ExtractedRecords";
+        const string VIEWSTATE_CONTACTS_LIST = "TransformedContacts";
         List<string> columns;
 
         protected void Page_Load(object sender, EventArgs e)
@@ -108,6 +109,7 @@ namespace GCCHRConnect.ContactsManagement
                 //Stopwatch watch = Stopwatch.StartNew();
                 //watch.Start();
                 importedExcel = xl.Import();
+                //todo Import causes few errors which probably cannot be handled and only be logged. So log them when logging functionality is developed.
                 //watch.Stop();
             }
             DataSetHelper datasetOperations = new DataSetHelper(ref importedExcel);
@@ -121,7 +123,13 @@ namespace GCCHRConnect.ContactsManagement
             Extract.Visible = false;
             ExtractionSuccess.Visible = true;
             ExtractResult.Visible = true;
-            Transform.Visible = true;
+            //Transform.Visible = true;
+            ProceedToTransform.Visible = true;
+        }
+
+        protected void ProceedToTransform_Click(object sender,EventArgs e)
+        {
+            Wizard1.ActiveStepIndex++;
         }
 
         private void AddDatasetToViewstate()
@@ -177,7 +185,7 @@ namespace GCCHRConnect.ContactsManagement
                     {
                         try
                         {
-                            serialNumber = (int)row[columnName];
+                            serialNumber =int.Parse((string) row[columnName]);
                         }
                         catch (Exception)
                         {
@@ -318,6 +326,7 @@ namespace GCCHRConnect.ContactsManagement
                 }
             }
             ValidationError.Visible = invalidContactsEncountered;
+            pnlSaveToDatabase.Visible = !invalidContactsEncountered;
             if (invalidContactsEncountered)
             {
                 ValidationSummary.DataSource = contactsValidationSummary;
@@ -325,12 +334,31 @@ namespace GCCHRConnect.ContactsManagement
             }
             else
             {
+                ViewState[VIEWSTATE_CONTACTS_LIST] = allContacts;
                 TransformedContacts.DataSource = allContacts;
                 TransformedContacts.DataBind();
-                Wizard1.ActiveStepIndex++;
+                //Wizard1.ActiveStepIndex++;
             }
         }
 
+        protected void SaveToDatabase_Click(object sender,EventArgs e)
+        {
+            //List<Contact> allContacts = (List<Contact>)ViewState[VIEWSTATE_CONTACTS_LIST];
+            //ViewState[VIEWSTATE_CONTACTS_LIST] = ViewState[VIEWSTATE_CONTACTS_LIST];
+            Wizard1.ActiveStepIndex++;
+        }
+        protected void InsertInDatabase_Tick(object sender,EventArgs e)
+        {
+            InsertInDatabase.Enabled = false;
+            List<Contact> allContacts = (List<Contact>)ViewState[VIEWSTATE_CONTACTS_LIST];
+            ContactService contactManager = new ContactService();
+            long insertedCount=0;
+            foreach (Contact importedContact in allContacts)
+            {
+                contactManager.CreateContact(importedContact);
+                insertedCount++;
+            }
+        }
         protected void Wizard1_CancelButtonClick(object sender, EventArgs e)
         {
             //todo Where should the user be taken to on cancelling import process

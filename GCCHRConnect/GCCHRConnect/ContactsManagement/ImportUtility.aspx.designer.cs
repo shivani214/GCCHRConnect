@@ -283,31 +283,13 @@ namespace GCCHRConnect.ContactsManagement {
         protected global::System.Web.UI.WebControls.GridView SummaryRecordCount;
         
         /// <summary>
-        /// Transform control.
+        /// ProceedToTransform control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button Transform;
-        
-        /// <summary>
-        /// ValidationError control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel ValidationError;
-        
-        /// <summary>
-        /// ValidationSummary control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView ValidationSummary;
+        protected global::System.Web.UI.WebControls.Button ProceedToTransform;
         
         /// <summary>
         /// WizardStep4 control.
@@ -328,6 +310,51 @@ namespace GCCHRConnect.ContactsManagement {
         protected global::System.Web.UI.WebControls.Literal Step4TagLine;
         
         /// <summary>
+        /// Transform control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button Transform;
+        
+        /// <summary>
+        /// pnlSaveToDatabase control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel pnlSaveToDatabase;
+        
+        /// <summary>
+        /// SaveToDatabase control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button SaveToDatabase;
+        
+        /// <summary>
+        /// ValidationError control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel ValidationError;
+        
+        /// <summary>
+        /// ValidationSummary control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.GridView ValidationSummary;
+        
+        /// <summary>
         /// TransformedContacts control.
         /// </summary>
         /// <remarks>
@@ -346,12 +373,48 @@ namespace GCCHRConnect.ContactsManagement {
         protected global::System.Web.UI.WebControls.GridView tempGridView;
         
         /// <summary>
-        /// Save control.
+        /// WizardStep5 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button Save;
+        protected global::System.Web.UI.WebControls.WizardStep WizardStep5;
+        
+        /// <summary>
+        /// Step5TagLine control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Literal Step5TagLine;
+        
+        /// <summary>
+        /// UpdatePanel1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.UpdatePanel UpdatePanel1;
+        
+        /// <summary>
+        /// lblTime control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblTime;
+        
+        /// <summary>
+        /// InsertInDatabase control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.Timer InsertInDatabase;
     }
 }
