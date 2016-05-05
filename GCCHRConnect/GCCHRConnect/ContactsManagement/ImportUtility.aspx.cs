@@ -22,7 +22,7 @@ namespace GCCHRConnect.ContactsManagement
     {
         DataSet importedExcel;
         const string VIEWSTATE_DATASET = "ExtractedRecords";
-        const string VIEWSTATE_CONTACTS_LIST = "TransformedContacts";
+        const string SESSION_CONTACTS_LIST = "TransformedContacts";
         List<string> columns;
 
         protected void Page_Load(object sender, EventArgs e)
@@ -334,7 +334,7 @@ namespace GCCHRConnect.ContactsManagement
             }
             else
             {
-                ViewState[VIEWSTATE_CONTACTS_LIST] = allContacts;
+                Session[SESSION_CONTACTS_LIST] = allContacts;
                 TransformedContacts.DataSource = allContacts;
                 TransformedContacts.DataBind();
                 //Wizard1.ActiveStepIndex++;
@@ -350,7 +350,7 @@ namespace GCCHRConnect.ContactsManagement
         protected void InsertInDatabase_Tick(object sender,EventArgs e)
         {
             InsertInDatabase.Enabled = false;
-            List<Contact> allContacts = (List<Contact>)ViewState[VIEWSTATE_CONTACTS_LIST];
+            List<Contact> allContacts = (List<Contact>)Session[SESSION_CONTACTS_LIST];
             ContactService contactManager = new ContactService();
             long insertedCount=0;
             foreach (Contact importedContact in allContacts)
