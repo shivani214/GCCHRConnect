@@ -14,10 +14,9 @@ namespace GCCHRMachinery.BusinessLogicLayer
         /// <summary>
         /// Looks for each tag from <paramref name="tagsToCheckAndUpdate"/> and if any is missing in master list <see cref="Tag"/>, it is inserted there.
         /// </summary>
-        public void UpdateMissingTags(HashSet<string> tagsToCheckAndUpdate)
+        public void UpdateMissingTags(List<string> tagsToCheckAndUpdate)
         {
-            IEnumerable<string> allTagsFromMaster = GetAllTagNamesOnly();
-            List<string> tagsMasterList = allTagsFromMaster.ToList();
+            List<string> tagsMasterList = GetAllTagNamesOnly().ToList();
             foreach (string tagToCheck in tagsToCheckAndUpdate)
             {
                 if (!tagsMasterList.Contains(tagToCheck))
@@ -60,7 +59,6 @@ namespace GCCHRMachinery.BusinessLogicLayer
         public string CreateTag(Tag newTag)
         {
             Validate(newTag.TagName);
-            newTag.TagName.Trim();
             TagDB dbOp = new TagDB();
             dbOp.Create(newTag);
             dbOp = null;
@@ -93,6 +91,10 @@ namespace GCCHRMachinery.BusinessLogicLayer
             }
         }
 
+        /// <summary>
+        /// Gets only the names of all tags
+        /// </summary>
+        /// <returns></returns>
         public IEnumerable<string> GetAllTagNamesOnly()
         {
             TagDB db = new TagDB();
