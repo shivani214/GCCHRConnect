@@ -416,5 +416,23 @@ namespace GCCHRConnect.ContactsManagement {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.Timer InsertInDatabase;
+        
+        /// <summary>
+        /// SavedSuccessfully control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel SavedSuccessfully;
+        
+        /// <summary>
+        /// ContactsCount control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Literal ContactsCount;
     }
 }

@@ -351,6 +351,8 @@ namespace GCCHRConnect.ContactsManagement
         {
             InsertInDatabase.Enabled = false;
             List<Contact> allContacts = (List<Contact>)Session[SESSION_CONTACTS_LIST];
+            Session.Remove(SESSION_CONTACTS_LIST);
+
             ContactService contactManager = new ContactService();
             long insertedCount=0;
             foreach (Contact importedContact in allContacts)
@@ -358,11 +360,8 @@ namespace GCCHRConnect.ContactsManagement
                 contactManager.CreateContact(importedContact);
                 insertedCount++;
             }
-        }
-        protected void Wizard1_CancelButtonClick(object sender, EventArgs e)
-        {
-            //todo Where should the user be taken to on cancelling import process
-            Response.Redirect("#");
+            ContactsCount.Text = allContacts.Count.ToString();
+            SavedSuccessfully.Visible = true;
         }
     }
 }

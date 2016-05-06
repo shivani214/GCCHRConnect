@@ -25,7 +25,9 @@
         </div>
         <div id="container_ImportUtility" class="container">
 
-            <asp:Wizard ID="Wizard1" runat="server" DisplayCancelButton="True" ActiveStepIndex="0" OnCancelButtonClick="Wizard1_CancelButtonClick">
+            <asp:Wizard ID="Wizard1" runat="server" DisplayCancelButton="True" ActiveStepIndex="0"
+                CancelDestinationPageUrl="~/ContactsManagement/ContactList.aspx"
+                FinishDestinationPageUrl="~/ContactsManagement/ContactList.aspx">
                 <LayoutTemplate>
                     <div id="steps" class=" panel btn-group btn-group-justified">
                         <asp:PlaceHolder ID="sideBarPlaceHolder" runat="server" />
@@ -59,8 +61,6 @@
                         </SelectedItemTemplate>
                     </asp:ListView>
                 </SideBarTemplate>
-                <SideBarStyle></SideBarStyle>
-                <SideBarButtonStyle></SideBarButtonStyle>
 
                 <StepStyle CssClass="col-lg-10 panel-body"></StepStyle>
 
@@ -78,8 +78,14 @@
                             <asp:Button runat="server" CausesValidation="False" CommandName="Cancel" Text="Cancel" CssClass="btn btn-danger" ID="CancelButton"></asp:Button>
                         </div>
                     </div>
-
                 </StepNavigationTemplate>
+                <FinishNavigationTemplate>
+                    <div class="panel-body well well-sm">
+                        <div class="pull-right">
+                            <asp:Button runat="server" CausesValidation="False" CommandName="MoveComplete" Text="Finish" CssClass="btn btn-success" ID="FinishButton"></asp:Button>
+                        </div>
+                    </div>
+                </FinishNavigationTemplate>
 
                 <WizardSteps>
                     <asp:WizardStep ID="WizardStep1" runat="server" Title="Guidelines">
@@ -448,26 +454,31 @@
                         <asp:GridView ID="tempGridView" runat="server"></asp:GridView>
                     </asp:WizardStep>
 
-                    <asp:WizardStep ID="WizardStep5" Title="Save">
-                            <div class="page-header">
-                                <h3 class="text-primary">
-                                    <asp:Literal ID="Step5TagLine" runat="server" Text="Save contacts to database" /></h3>
-                            </div>
+                    <asp:WizardStep ID="WizardStep5" Title="Save" AllowReturn="False" StepType="Finish">
+                        <div class="page-header">
+                            <h3 class="text-primary">
+                                <asp:Literal ID="Step5TagLine" runat="server" Text="Save contacts to database" /></h3>
+                        </div>
 
-                            <asp:UpdatePanel ID="UpdatePanel1" runat="server">
-                                <ContentTemplate>
-                                    <asp:Label ID="lblTime" runat="server" />
-                                    <asp:Timer ID="InsertInDatabase" runat="server" OnTick="InsertInDatabase_Tick" Interval="1000" />
-                                    <asp:UpdateProgress runat="server">
-                                        <ProgressTemplate>
-                                            <div class="progress progress-striped active">
-  <div class="progress-bar progress-bar-success" style="width: 100%;"></div>
-</div>
-                                        </ProgressTemplate>
-                                    </asp:UpdateProgress>
-                                </ContentTemplate>
-                                
-                            </asp:UpdatePanel>
+                        <asp:UpdatePanel ID="UpdatePanel1" runat="server">
+                            <ContentTemplate>
+                                <asp:Label ID="lblTime" runat="server" />
+                                <asp:Timer ID="InsertInDatabase" runat="server" OnTick="InsertInDatabase_Tick" Interval="100" />
+                                <asp:UpdateProgress runat="server">
+                                    <ProgressTemplate>
+                                        <div class="progress progress-striped active">
+                                            <div class="progress-bar progress-bar-success" style="width: 100%;"></div>
+                                        </div>
+                                    </ProgressTemplate>
+                                </asp:UpdateProgress>
+                                <asp:Panel ID="SavedSuccessfully" runat="server" Visible="false">
+                                    <h2 class=" text-success">Congratulations!! <small><asp:Literal ID="ContactsCount" Text="" runat="server" />
+                                        contacts saved successfully</small></h2>
+                                </asp:Panel>
+                            </ContentTemplate>
+
+                        </asp:UpdatePanel>
+
                     </asp:WizardStep>
                 </WizardSteps>
 
