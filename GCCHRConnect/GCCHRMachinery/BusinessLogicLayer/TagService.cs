@@ -91,6 +91,10 @@ namespace GCCHRMachinery.BusinessLogicLayer
             }
         }
 
+        /// <summary>
+        /// Gets only the names of all tags
+        /// </summary>
+        /// <returns></returns>
         public IEnumerable<string> GetAllTagNamesOnly()
         {
             TagDB db = new TagDB();

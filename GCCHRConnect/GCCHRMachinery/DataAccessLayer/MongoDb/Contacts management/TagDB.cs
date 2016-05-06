@@ -18,6 +18,10 @@ namespace GCCHRMachinery.DataAccessLayer.MongoDb
 
         }
 
+        /// <summary>
+        /// Gets only the tag names of all tags from the tags master list
+        /// </summary>
+        /// <returns></returns>
         public IEnumerable<string> GetAllTagNames()
         {
             var projectionBuilder = Builders<Entities.Tag>.Projection;
