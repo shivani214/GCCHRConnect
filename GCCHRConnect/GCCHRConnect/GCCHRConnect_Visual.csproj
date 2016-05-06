@@ -43,6 +43,14 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AjaxControlToolkit, Version=16.1.0.0, Culture=neutral, PublicKeyToken=28f01b0e84b6d53e, processorArchitecture=MSIL">
+      <HintPath>..\packages\AjaxControlToolkit.16.1.0.0\lib\net40\AjaxControlToolkit.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="ExcelBridge, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\ExternalSources\ExcelBridge.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.AI.Agent.Intercept, Version=1.2.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.ApplicationInsights.Agent.Intercept.1.2.1\lib\net45\Microsoft.AI.Agent.Intercept.dll</HintPath>
       <Private>True</Private>
@@ -100,6 +108,7 @@
   <ItemGroup>
     <Content Include="ContactsManagement\ContactList.aspx" />
     <Content Include="ContactsManagement\CreateContact.aspx" />
+    <Content Include="ContactsManagement\ImportUtility.aspx" />
     <Content Include="ContactsManagement\test.aspx" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
@@ -108,6 +117,9 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="icons\cross.png" />
+    <Content Include="icons\tick.png" />
+    <Content Include="icons\uploading.gif" />
     <Content Include="packages.config" />
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -152,6 +164,13 @@
     </Compile>
     <Compile Include="ContactsManagement\CreateContact.aspx.designer.cs">
       <DependentUpon>CreateContact.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ContactsManagement\ImportUtility.aspx.cs">
+      <DependentUpon>ImportUtility.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ContactsManagement\ImportUtility.aspx.designer.cs">
+      <DependentUpon>ImportUtility.aspx</DependentUpon>
     </Compile>
     <Compile Include="ContactsManagement\test.aspx.cs">
       <DependentUpon>test.aspx</DependentUpon>

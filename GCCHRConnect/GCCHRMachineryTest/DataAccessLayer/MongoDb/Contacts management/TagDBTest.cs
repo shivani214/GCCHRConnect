@@ -31,5 +31,18 @@ namespace GCCHRMachineryTest.DataAccessLayer.MongoDb.Contacts_management
             }
 
         }
+
+        [TestMethod]
+        public void GetAllTagNames()
+        {
+            TagDB dbOp = new TagDB();
+            IEnumerable<string> allTagNames = dbOp.GetAllTagNames();
+            foreach (string tag in allTagNames)
+            {
+                System.Diagnostics.Debug.WriteLine(tag.ToString());
+            }
+        }
+
+
     }
 }
