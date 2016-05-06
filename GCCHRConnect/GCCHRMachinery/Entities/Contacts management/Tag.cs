@@ -18,10 +18,10 @@ namespace GCCHRMachinery.Entities
         public const string TableOrCollectionName = "Tag";
 
         #endregion
-        [Unique]
         /// <summary>
         /// The name of the Tag. Try to avoid acronyms.
         /// </summary>
+        [Unique]
         public string TagName
         {
             get
