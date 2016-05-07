@@ -61,6 +61,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Attributes\UniqueAttribute.cs" />
     <Compile Include="BusinessLogicLayer\ContactService.cs" />
     <Compile Include="BusinessLogicLayer\TagService.cs" />
     <Compile Include="DataAccessLayer\MongoDb\Contacts management\ContactDB.cs" />

@@ -2,6 +2,8 @@
 using System.Linq;
 using GCCHRMachinery.Entities;
 using MongoDB.Driver;
+using System;
+using System.Reflection;
 
 namespace GCCHRMachinery.DataAccessLayer.MongoDb
 {
@@ -58,6 +60,23 @@ namespace GCCHRMachinery.DataAccessLayer.MongoDb
         /// <returns>The id of the inserted document</returns>
         public string Create(TEntity document)
         {
+            //Check if TEntity has Unique attribute
+            Type tEntityType = document.GetType();
+
+            PropertyInfo[] tEntityProperties = tEntityType.GetProperties();
+            foreach (PropertyInfo property in tEntityProperties)
+            {
+                Attributes.UniqueAttribute uniqueAttribute = property.GetCustomAttribute<Attributes.UniqueAttribute>();
+                if (uniqueAttribute != null)
+                {
+                    //If it does, create unique index
+                    IndexKeysDefinitionBuilder<TEntity> uniqueKeyDefinitionBuilder = Builders<TEntity>.IndexKeys;
+                    IndexKeysDefinition<TEntity> uniqueKeyDefinition = uniqueKeyDefinitionBuilder.Ascending(property.Name);
+                    CreateIndexOptions optionUnique = new CreateIndexOptions();
+                    optionUnique.Unique = true;
+                    connector.Collection.Indexes.CreateOne(uniqueKeyDefinition, optionUnique);
+                }
+            }
             connector.Collection.InsertOne(document);
             return document.Id;
         }
@@ -98,7 +117,7 @@ namespace GCCHRMachinery.DataAccessLayer.MongoDb
             var filterBuild = Builders<TEntity>.Filter;
             var filter = filterBuild.Eq(c => c.Id, id);
             connector.Collection.DeleteOne(filter);
-            
+
         }
     }
 

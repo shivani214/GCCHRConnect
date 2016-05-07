@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using GCCHRMachinery.Attributes;
 
 namespace GCCHRMachinery.Entities
 {
@@ -17,10 +18,10 @@ namespace GCCHRMachinery.Entities
         public const string TableOrCollectionName = "Tag";
 
         #endregion
-
         /// <summary>
         /// The name of the Tag. Try to avoid acronyms.
         /// </summary>
+        [Unique]
         public string TagName
         {
             get

@@ -19,7 +19,7 @@ namespace GCCHRMachinery.BusinessLogicLayer
             List<string> tagsMasterList = GetAllTagNamesOnly().ToList();
             foreach (string tagToCheck in tagsToCheckAndUpdate)
             {
-                if (!tagsMasterList.Contains(tagToCheck))
+                if (!tagsMasterList.Contains(tagToCheck.ToLower()))
                 {
                     Tag newTag = new Tag();
                     newTag.TagName = tagToCheck;
