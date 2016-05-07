@@ -1,18 +1,28 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using GCCHRMachinery.Entities;
+using GCCHRMachinery.BusinessLogicLayer;
+using System.Text.RegularExpressions;
 using System.Collections.Generic;
-using GCCHRMachinery.DataAccessLayer.MongoDb;
 
-namespace GCCHRMachineryTest.DataAccessLayer.MongoDb
+namespace GCCHRMachineryTest.BusinessLogicLayer
 {
     [TestClass]
-    public class ContactPersonOrganizationDB_Test
+    public class ContactServiceTest
     {
         [TestMethod]
-        public void CreateContactTest()
+        public void Validate()
         {
-            ContactPersonOrganization contactToCreate = new ContactPersonOrganization();
+            string phone = "05222635375";
+            string result = Regex.Match(phone, @"^\+?[0-9]+$").ToString();
+            bool match = Regex.IsMatch(phone, @"^\+?[0-9]+$");
+            Assert.IsTrue(match);
+        }
+
+        [TestMethod]
+        public void CreateContact()
+        {
+            Contact contactToCreate = new Contact();
             //contactToCreate.Id = "Try#7";
             contactToCreate.Name = new UniversalEntities.PersonName();
             //UniversalEntities.PersonName name;
@@ -29,7 +39,7 @@ namespace GCCHRMachineryTest.DataAccessLayer.MongoDb
             address1.City = "Lucknow";
             address1.PinCode = "226021";
             address1.State = "UP";
-            address1.Country= "Country";
+            address1.Country = "Country";
             contactToCreate.Addresses.Add(address1);
 
             UniversalEntities.Address address2 = new UniversalEntities.Address();
@@ -56,18 +66,14 @@ namespace GCCHRMachineryTest.DataAccessLayer.MongoDb
             contactToCreate.Emails.Add("gaurang_gupta@hotmail.com");
             contactToCreate.Emails.Add("gaurang_gupta@yahoo.com");
 
-            string idOfNewContact = ContactPersonOrganizationDB.CreateContact(contactToCreate);
-            System.Diagnostics.Debug.Write("<<<<<<<<<<<<<<<<<");
-            System.Diagnostics.Debug.WriteLine(idOfNewContact);
-        }
+            contactToCreate.Tags = new List<string>();
+            contactToCreate.Tags.Add("Self");
+            contactToCreate.Tags.Add("Doctor");
+            contactToCreate.Tags.Add("Doctor");
 
-        [TestMethod]
-        public void GetContact()
-        {
-            ContactPersonOrganization contact;
-            contact = ContactPersonOrganizationDB.GetContact("569b64cf49894904107c2680");
-            System.Diagnostics.Debug.Write("<<<<<<<<<<<<<<<<<");
-            System.Diagnostics.Debug.WriteLine(contact.Name.Title + " " + contact.Name.First);
+            ContactService contactManager = new ContactService();
+            contactManager.CreateContact(contactToCreate);
+            Assert.IsNotNull(contactToCreate.Id);
         }
     }
 }
